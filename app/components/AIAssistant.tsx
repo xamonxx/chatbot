@@ -500,7 +500,7 @@ export default function AIAssistant() {
     // === RENDER ===
     return (
         // Container Utama: h-full untuk mengisi parent
-        <div className="relative h-full w-full flex flex-col bg-white dark:bg-slate-900 overflow-hidden md:rounded-2xl md:border md:border-slate-200 md:dark:border-slate-700">
+        <div className="relative h-full w-full flex flex-col bg-slate-900 overflow-hidden md:rounded-2xl md:border md:border-slate-700">
 
             {/* Mode Selection Removed - Moved to + Menu */}
 
@@ -509,7 +509,7 @@ export default function AIAssistant() {
 
                 {/* MODE: CHAT */}
                 {aiMode === 'chat' && (
-                    <div className="flex flex-col h-full w-full relative bg-gradient-to-br from-slate-800 to-slate-950">
+                    <div className="absolute inset-0 flex flex-col bg-gradient-to-br from-slate-800 to-slate-950">
 
                         {/* === WALLPAPER EFFECT DEWA === */}
                         {/* Pattern Plus Signs Putih (Premium Dark Look) */}
@@ -520,8 +520,8 @@ export default function AIAssistant() {
                             }}
                         />
 
-                        {/* Messages Area - Internal scroll with bottom padding for input bar */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-5 scroll-smooth relative z-10 pb-40 overscroll-contain chat-scrollbar">
+                        {/* Messages Area - Scrollable dengan padding untuk input */}
+                        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-5 scroll-smooth relative z-10 pb-48 overscroll-contain touch-pan-y chat-scrollbar">
 
                             {/* Welcome Screen - Gemini Style */}
                             {chatHistory.length === 0 && (
