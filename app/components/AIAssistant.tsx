@@ -16,7 +16,7 @@ import {
     ArrowRightLeft, CheckCircle2, AlertTriangle,
     Zap, TrendingUp, ArrowRight, PieChart, ArrowLeft, Plus
 } from 'lucide-react';
-import { pricingData, getAllMaterials, formatCurrency } from '../lib/pricing-data';
+import { pricingData, getAllMaterials, formatCurrency, categories, pricingMeta, importantNotes, deliveryFees } from '../lib/pricing-data';
 
 // =====================================================
 // INTERFACES
@@ -294,17 +294,47 @@ export default function AIAssistant() {
     const [showMenu, setShowMenu] = useState(false);
 
     const chatEndRef = useRef<HTMLDivElement>(null);
-    const apiKey = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY || '';
+    const apiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY || '';
 
     // === EFFECTS ===
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [chatHistory]);
 
+    // === GENERATE PRICING CONTEXT (Semua kategori harga) ===
+    const generatePricingContext = () => {
+        let context = `\n=== DATA HARGA LENGKAP HOME PUTRA INTERIOR ===\n`;
+        context += `Region: ${pricingMeta.region} | Update: ${pricingMeta.period}\n\n`;
+
+        categories.forEach(cat => {
+            context += `📦 ${cat.name}:\n`;
+            cat.items.slice(0, 10).forEach(item => { // Limit 10 item per kategori
+                context += `  - ${item.name}`;
+                if (item.variant) context += ` (${item.variant})`;
+                context += `: Rp ${item.price.toLocaleString('id-ID')}/${item.unit}`;
+                context += `\n`;
+            });
+            if (cat.items.length > 10) context += `  ... dan ${cat.items.length - 10} item lainnya\n`;
+            context += `\n`;
+        });
+
+        context += `=== BIAYA CHARGE ===\n`;
+        deliveryFees.forEach(fee => {
+            context += `- ${fee.condition} (${fee.area}): Charge Rp ${fee.fee.toLocaleString('id-ID')}\n`;
+        });
+
+        context += `\n=== CATATAN ===\n`;
+        importantNotes.slice(0, 4).forEach((note, i) => {
+            context += `${i + 1}. ${note}\n`;
+        });
+
+        return context;
+    };
+
     // === API CALL (GROQ EDITION) ===
     const callAI = async (prompt: string): Promise<string> => {
         if (!apiKey) {
-            return '⚠️ API Key belum dikonfigurasi. Silakan tambahkan NEXT_PUBLIC_OPENROUTER_API_KEY di file .env.local';
+            return '⚠️ API Key belum dikonfigurasi. Silakan tambahkan NEXT_PUBLIC_GROQ_API_KEY di file .env.local';
         }
 
         // Daftar model GROQ (Super Cepat):
@@ -373,25 +403,27 @@ export default function AIAssistant() {
         setIsLoading(true);
         setRetryCount(0);
 
+        // Generate pricing context dari semua kategori
+        const pricingContext = generatePricingContext();
+
         const systemPrompt = `
-            PERAN: Kamu adalah "Sarah", Konsultan Interior CS dari Home Putra Interior Bandung yang ramah dan membantu.
-            
-            GAYA BICARA:
-            - Gunakan Bahasa Indonesia yang natural, luwes, dan percakapan sehari-hari.
-            - Posisikan diri sebagai teman yang ahli interior.
-            - HINDARI simbol-simbol rumit (seperti **, ##, [], dll). Gunakan teks biasa yang rapi.
-            - Gunakan emoji secukupnya untuk kesan ramah (😊, 🙏, ✨).
-            - Jika menyebut harga, gunakan format "Rp X juta" atau "Rp X.XXX.XXX".
-            
-            KONTEKS DATA HARGA: ${JSON.stringify(pricingData)}
-            
-            ATURAN PENTING:
-            1. Jika user tanya harga, jawab dengan santai: "Untuk Kitchen Set Aluminium harganya Rp 3,5 juta per meter ya Kak..."
-            2. Selalu cek status biaya charge (Min Order):
-               - Dalam Kota: Order < 15 Juta kena charge 500rb.
-               - Luar Kota: Order < 20 Juta kena charge 1 Juta.
-            3. Jika hitungan user kena charge, berikan saran cerdas: "Sayang banget lho Kak kalau kena charge, mending tambah WPC Panel dikit lagi..."
-            4. Jangan berikan jawaban terlalu panjang. To the point tapi manis.
+PERAN: Kamu adalah "Sarah", Konsultan Interior ahli dari Home Putra Interior Bandung.
+
+GAYA BICARA:
+- Bahasa Indonesia santai dan natural
+- Panggil customer "Kak"
+- HINDARI simbol Markdown (**, ##, []) gunakan teks biasa
+- Emoji secukupnya (😊, 🙏, ✨)
+- Format harga: "Rp X,X juta" atau "Rp X.XXX.XXX"
+
+${pricingContext}
+
+ATURAN:
+1. Jika user tanya harga, CARI di data harga di atas dan jawab percaya diri
+2. Contoh: "Untuk Kitchenset Aluminium Minimalis harganya Rp 3,5 juta per meter ya Kak 😊"
+3. Jika item tidak ada: "Item itu belum ada di pricelist Kak, bisa konsultasi ke sales ya"
+4. Cek biaya charge: Dalam Kota <15jt = 500rb, Luar Kota <20jt = 1jt
+5. Jawaban SINGKAT, maksimal 3-4 paragraf
         `;
 
         const reply = await callAI(systemPrompt + '\n\nPertanyaan Customer: ' + userMessage);
