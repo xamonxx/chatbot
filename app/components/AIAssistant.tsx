@@ -757,7 +757,7 @@ export default function AIAssistant() {
                                         onChange={(e) => setCompareData({ ...compareData, item1: e.target.value })}
                                         options={[
                                             { value: '', label: 'Pilih material...' },
-                                            ...materials.map(m => ({ value: m.item, label: m.item }))
+                                            ...materials.map(m => ({ value: m, label: m }))
                                         ]}
                                     />
                                     <SelectField
@@ -766,7 +766,7 @@ export default function AIAssistant() {
                                         onChange={(e) => setCompareData({ ...compareData, item2: e.target.value })}
                                         options={[
                                             { value: '', label: 'Pilih material...' },
-                                            ...materials.map(m => ({ value: m.item, label: m.item }))
+                                            ...materials.map(m => ({ value: m, label: m }))
                                         ]}
                                     />
                                 </div>

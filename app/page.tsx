@@ -19,7 +19,7 @@ import TabNavigation from './components/TabNavigation';
 import PriceTable from './components/PriceTable';
 import RulesPanel from './components/RulesPanel';
 import AIAssistant from './components/AIAssistant';
-import { pricingData } from './lib/pricing-data';
+// pricingData sekarang diakses langsung di komponen masing-masing
 
 // Konstanta Layout - Single Source of Truth
 const HEADER_HEIGHT = 56; // px
@@ -100,17 +100,17 @@ export default function Home() {
             <div key={activeTab} className="animate-fade-in-up">
               {activeTab === 'kitchen' && (
                 <div className="p-8">
-                  <PriceTable items={pricingData.kitchen} type="kitchen" />
+                  <PriceTable />
                 </div>
               )}
               {activeTab === 'wallpanel' && (
                 <div className="p-8">
-                  <PriceTable items={pricingData.wallpanel} type="wallpanel" />
+                  <PriceTable />
                 </div>
               )}
               {activeTab === 'rules' && (
                 <div className="p-8">
-                  <RulesPanel rules={pricingData.rules} />
+                  <RulesPanel />
                 </div>
               )}
               {activeTab === 'guide' && (
@@ -154,7 +154,7 @@ export default function Home() {
                   <h2 className="text-xl font-bold text-white">Kitchen Set</h2>
                   <p className="text-slate-400 text-sm">Daftar harga pemasangan terbaru</p>
                 </div>
-                <PriceTable items={pricingData.kitchen} type="kitchen" />
+                <PriceTable />
               </>
             )}
             {activeTab === 'wallpanel' && (
@@ -163,7 +163,7 @@ export default function Home() {
                   <h2 className="text-xl font-bold text-white">Wallpanel</h2>
                   <p className="text-slate-400 text-sm">Dekorasi dinding aesthetic</p>
                 </div>
-                <PriceTable items={pricingData.wallpanel} type="wallpanel" />
+                <PriceTable />
               </>
             )}
             {activeTab === 'rules' && (
@@ -172,7 +172,7 @@ export default function Home() {
                   <h2 className="text-xl font-bold text-white">Ketentuan</h2>
                   <p className="text-slate-400 text-sm">Syarat & ketentuan layanan</p>
                 </div>
-                <RulesPanel rules={pricingData.rules} />
+                <RulesPanel />
               </>
             )}
             {activeTab === 'guide' && (

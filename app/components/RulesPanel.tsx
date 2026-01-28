@@ -8,14 +8,12 @@
 
 'use client';
 
-import { RuleItem, formatCurrency } from '../lib/pricing-data';
+import { RuleItem, formatCurrency, rules, importantNotes, deliveryFees } from '../lib/pricing-data';
 import {
     AlertCircle, CheckCircle, Lightbulb, Info, Wallet, TrendingUp, Shield, FileText, MapPin, Truck
 } from 'lucide-react';
 
-interface RulesPanelProps {
-    rules: RuleItem[];
-}
+// Tidak perlu props lagi - data diambil langsung dari pricing-data.ts
 
 /**
  * Card untuk setiap rule
@@ -122,7 +120,7 @@ function RuleCard({ rule, index }: { rule: RuleItem; index: number }) {
 /**
  * Main Component
  */
-export default function RulesPanel({ rules }: RulesPanelProps) {
+export default function RulesPanel() {
     return (
         <div className="space-y-6">
 
