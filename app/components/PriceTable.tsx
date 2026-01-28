@@ -1,133 +1,139 @@
 /**
  * =====================================================
- * PRICE-TABLE.TSX - KOMPONEN TABEL HARGA MODERN
+ * PRICE-TABLE.TSX - KOMPONEN TABEL HARGA LENGKAP
  * =====================================================
- * Redesign: Card-based, Modern, Dark Mode Only
+ * Menampilkan semua kategori produk dengan UI modern
+ * Dark Mode Only
  * =====================================================
  */
 
 'use client';
 
-import { PriceItem, formatCurrency, calculateDifference } from '../lib/pricing-data';
+import { useState } from 'react';
 import {
-    TrendingUp, TrendingDown, Minus, Info, Sparkles,
-    CheckCircle, MapPin, Truck, Tag, ChefHat, LayoutDashboard
+    categories, pricingMeta, importantNotes, formatCurrency,
+    type Category, type PriceItem
+} from '../lib/pricing-data';
+import {
+    ChefHat, LayoutDashboard, Sofa, BedDouble, Warehouse,
+    Wrench, Sparkles, ChevronDown, ChevronUp, Search,
+    Info, CheckCircle, MapPin, Calendar, Building2,
+    Grid3X3, Hammer, Palette, BoxIcon
 } from 'lucide-react';
 
-interface PriceTableProps {
-    items: PriceItem[];
-    type: 'kitchen' | 'wallpanel';
-}
-
-/**
- * Badge untuk menampilkan selisih harga
- */
-function DifferenceBadge({ priceIn, priceOut }: { priceIn: number; priceOut: number }) {
-    const result = calculateDifference(priceIn, priceOut);
-
-    if (result.isSame || result.diff === 0) {
-        return (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold border border-emerald-500/30">
-                <Minus size={12} />
-                Harga Sama
-            </span>
-        );
-    }
-
-    if (result.diff > 0) {
-        return (
-            <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/30">
-                <TrendingUp size={12} />
-                +{result.percent}%
-            </span>
-        );
-    }
-
-    return (
-        <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold border border-blue-500/30">
-            <TrendingDown size={12} />
-            {result.percent}%
-        </span>
-    );
-}
+// Icon mapping untuk setiap kategori
+const categoryIcons: Record<number, React.ElementType> = {
+    1: ChefHat,      // Aluminium
+    2: BoxIcon,      // PVC Board
+    3: Palette,      // Cat Duco
+    4: Grid3X3,      // Multipleks
+    5: BoxIcon,      // Blockboard
+    6: Hammer,       // Industrial
+    7: Sofa,         // Mini Bar
+    8: Warehouse,    // Wardrobe
+    9: Sparkles,     // Meja Rias
+    10: BedDouble,   // Kamar Tidur
+    11: BedDouble,   // Dipan Tingkat
+    12: Sofa,        // Livingroom
+    13: Warehouse,   // Bawah Tangga
+    14: LayoutDashboard, // Add-on
+    15: Wrench,      // Aksesoris
+    16: Wrench,      // Upgrade
+    17: Hammer       // Pekerjaan Sipil
+};
 
 /**
  * Card Item untuk setiap produk
  */
-function PriceCard({ item, index }: { item: PriceItem; index: number }) {
-    const result = calculateDifference(item.priceIn, item.priceOut);
+function PriceCard({ item }: { item: PriceItem }) {
+    return (
+        <div className="group bg-slate-800/40 hover:bg-slate-800/70 rounded-xl p-4 border border-slate-700/50 hover:border-amber-500/30 transition-all duration-300">
+            <div className="flex justify-between items-start gap-2 mb-2">
+                <div className="flex-1">
+                    <h4 className="font-semibold text-white group-hover:text-amber-400 transition-colors text-sm">
+                        {item.name}
+                    </h4>
+                    {item.variant && (
+                        <span className="text-xs text-amber-400/80">{item.variant}</span>
+                    )}
+                </div>
+                <div className="text-right shrink-0">
+                    <div className="text-lg font-bold text-amber-400">
+                        {formatCurrency(item.price)}
+                    </div>
+                    <div className="text-[10px] text-slate-500">/{item.unit}</div>
+                </div>
+            </div>
+
+            {(item.finishing || item.specs) && (
+                <div className="mt-2 pt-2 border-t border-slate-700/50">
+                    {item.finishing && (
+                        <p className="text-xs text-slate-400">
+                            <span className="text-slate-500">Finishing:</span> {item.finishing}
+                        </p>
+                    )}
+                    {item.specs && (
+                        <p className="text-xs text-slate-400 mt-1">
+                            <span className="text-slate-500">Specs:</span> {item.specs}
+                        </p>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+}
+
+/**
+ * Expandable Category Section
+ */
+function CategorySection({ category, defaultOpen = false }: { category: Category; defaultOpen?: boolean }) {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
+    const Icon = categoryIcons[category.id] || ChefHat;
 
     return (
-        <div
-            className="group relative bg-slate-800/50 hover:bg-slate-800 rounded-2xl border border-slate-700/50 hover:border-amber-500/30 transition-all duration-300 overflow-hidden"
-            style={{ animationDelay: `${index * 50}ms` }}
-        >
-            {/* Gradient accent on hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-            <div className="relative p-5">
-                {/* Header: Item Name & Badge */}
-                <div className="flex items-start justify-between gap-3 mb-4">
-                    <div className="flex-1">
-                        <h3 className="font-bold text-lg text-white group-hover:text-amber-400 transition-colors">
-                            {item.item}
-                        </h3>
-                        <p className="text-sm text-slate-400 mt-1 leading-relaxed">
-                            {item.spec}
-                        </p>
+        <div className="bg-slate-800/30 rounded-2xl border border-slate-700/50 overflow-hidden">
+            {/* Header - Clickable */}
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full flex items-center justify-between p-4 hover:bg-slate-800/50 transition-colors"
+            >
+                <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg">
+                        <Icon size={20} className="text-white" />
                     </div>
-                    <DifferenceBadge priceIn={item.priceIn} priceOut={item.priceOut} />
-                </div>
-
-                {/* Price Grid */}
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                    {/* Dalam Kota */}
-                    <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50">
-                        <div className="flex items-center gap-2 text-slate-400 text-xs font-medium mb-2">
-                            <MapPin size={12} className="text-emerald-400" />
-                            Dalam Kota
-                        </div>
-                        <div className="text-xl font-bold text-white">
-                            {formatCurrency(item.priceIn)}
-                        </div>
-                        <div className="text-xs text-slate-500 mt-1">
-                            per {item.unit}
-                        </div>
-                    </div>
-
-                    {/* Luar Kota */}
-                    <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50">
-                        <div className="flex items-center gap-2 text-slate-400 text-xs font-medium mb-2">
-                            <Truck size={12} className="text-amber-400" />
-                            Luar Kota
-                        </div>
-                        <div className="text-xl font-bold text-white">
-                            {formatCurrency(item.priceOut)}
-                        </div>
-                        <div className="text-xs text-slate-500 mt-1">
-                            per {item.unit}
-                        </div>
+                    <div className="text-left">
+                        <h3 className="font-bold text-white">{category.name}</h3>
+                        <p className="text-xs text-slate-400">{category.items.length} item</p>
                     </div>
                 </div>
+                <div className="flex items-center gap-3">
+                    <span className="text-xs text-amber-400 bg-amber-500/10 px-2 py-1 rounded-full">
+                        Mulai {formatCurrency(Math.min(...category.items.map(i => i.price)))}
+                    </span>
+                    {isOpen ? (
+                        <ChevronUp size={20} className="text-slate-400" />
+                    ) : (
+                        <ChevronDown size={20} className="text-slate-400" />
+                    )}
+                </div>
+            </button>
 
-                {/* Selisih Info */}
-                {!result.isSame && result.diff !== 0 && (
-                    <div className="flex items-center gap-2 text-xs text-slate-400 bg-slate-900/30 rounded-lg px-3 py-2">
-                        <Info size={12} className="text-amber-400" />
-                        <span>
-                            Selisih <span className="text-amber-400 font-semibold">{formatCurrency(Math.abs(result.diff))}</span> antara dalam & luar kota
-                        </span>
+            {/* Content - Expandable */}
+            {isOpen && (
+                <div className="p-4 pt-0 border-t border-slate-700/50">
+                    {category.note && (
+                        <div className="mb-4 p-3 bg-amber-500/10 rounded-xl border border-amber-500/20 flex gap-2 items-start">
+                            <Info size={14} className="shrink-0 text-amber-400 mt-0.5" />
+                            <p className="text-sm text-amber-200/80">{category.note}</p>
+                        </div>
+                    )}
+                    <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                        {category.items.map((item) => (
+                            <PriceCard key={item.id} item={item} />
+                        ))}
                     </div>
-                )}
-
-                {/* Note jika ada */}
-                {item.note && (
-                    <div className="mt-3 p-3 bg-amber-500/10 rounded-xl border border-amber-500/20 flex gap-2 items-start">
-                        <Tag size={14} className="shrink-0 text-amber-400 mt-0.5" />
-                        <span className="text-sm text-amber-200/80">{item.note}</span>
-                    </div>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 }
@@ -135,152 +141,144 @@ function PriceCard({ item, index }: { item: PriceItem; index: number }) {
 /**
  * Main Component
  */
-export default function PriceTable({ items, type }: PriceTableProps) {
-    const isKitchen = type === 'kitchen';
-    const Icon = isKitchen ? ChefHat : LayoutDashboard;
+export default function PriceTable() {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+
+    // Filter categories based on search and selection
+    const filteredCategories = categories.filter(cat => {
+        if (selectedCategory !== null && cat.id !== selectedCategory) return false;
+        if (!searchTerm) return true;
+
+        const term = searchTerm.toLowerCase();
+        return (
+            cat.name.toLowerCase().includes(term) ||
+            cat.items.some(item =>
+                item.name.toLowerCase().includes(term) ||
+                item.variant?.toLowerCase().includes(term)
+            )
+        );
+    });
 
     return (
         <div className="space-y-6">
 
-            {/* Section Header */}
-            <div className="flex items-center gap-4 pb-4 border-b border-slate-700/50">
-                <div className={`p-3 rounded-2xl ${isKitchen
-                    ? 'bg-gradient-to-br from-amber-500 to-orange-600'
-                    : 'bg-gradient-to-br from-orange-500 to-rose-600'
-                    } shadow-lg`}>
-                    <Icon size={24} className="text-white" />
-                </div>
-                <div>
-                    <h2 className="text-xl font-bold text-white">
-                        {isKitchen ? 'Kitchen Set' : 'Wallpanel & Decor'}
-                    </h2>
-                    <p className="text-sm text-slate-400">
-                        {items.length} item • Harga per unit sudah termasuk pemasangan
-                    </p>
-                </div>
-            </div>
-
-            {/* Legend */}
-            <div className="flex flex-wrap gap-4 p-4 bg-slate-800/30 rounded-xl border border-slate-700/30">
-                <div className="flex items-center gap-2 text-sm">
-                    <div className="flex items-center gap-1.5 text-emerald-400">
-                        <MapPin size={14} />
-                        <span className="font-medium">Dalam Kota</span>
+            {/* ===== HEADER INFO ===== */}
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 border border-slate-700/50">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div>
+                        <h2 className="text-2xl font-bold text-white mb-2">
+                            📋 Daftar Harga Lengkap
+                        </h2>
+                        <p className="text-slate-400 text-sm">
+                            {pricingMeta.companyName}
+                        </p>
                     </div>
-                    <span className="text-slate-500">= Bandung, Cimahi, Soreang</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                    <div className="flex items-center gap-1.5 text-amber-400">
-                        <Truck size={14} />
-                        <span className="font-medium">Luar Kota</span>
+                    <div className="flex flex-wrap gap-3">
+                        <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-medium">
+                            <MapPin size={12} />
+                            {pricingMeta.region}
+                        </span>
+                        <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-500/20 text-blue-400 rounded-full text-xs font-medium">
+                            <Calendar size={12} />
+                            Update: {pricingMeta.period}
+                        </span>
                     </div>
-                    <span className="text-slate-500">= Jabodetabek, Jatim, Pantura</span>
                 </div>
-            </div>
 
-            {/* Price Cards Grid */}
-            <div className="grid gap-4 md:grid-cols-2">
-                {items.map((item, idx) => (
-                    <PriceCard key={idx} item={item} index={idx} />
-                ))}
-            </div>
-
-            {/* Analysis Box */}
-            <div className={`relative overflow-hidden rounded-2xl border ${isKitchen
-                ? 'bg-gradient-to-br from-amber-900/30 to-orange-900/20 border-amber-700/50'
-                : 'bg-gradient-to-br from-orange-900/30 to-rose-900/20 border-orange-700/50'
-                }`}>
-                {/* Background pattern */}
-                <div className="absolute inset-0 opacity-5" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-                }} />
-
-                <div className="relative p-6">
-                    <div className="flex items-start gap-4">
-                        <div className={`shrink-0 p-3 rounded-2xl ${isKitchen
-                            ? 'bg-gradient-to-br from-amber-500 to-orange-500'
-                            : 'bg-gradient-to-br from-orange-500 to-rose-500'
-                            } shadow-xl`}>
-                            <Sparkles size={24} className="text-white" />
+                {/* Quick Stats */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+                    <div className="bg-slate-800/50 rounded-xl p-3 text-center">
+                        <div className="text-2xl font-bold text-amber-400">{categories.length}</div>
+                        <div className="text-xs text-slate-400">Kategori</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded-xl p-3 text-center">
+                        <div className="text-2xl font-bold text-amber-400">
+                            {categories.reduce((sum, cat) => sum + cat.items.length, 0)}
                         </div>
-
-                        <div className="flex-1">
-                            <h4 className={`font-bold text-xl ${isKitchen ? 'text-amber-400' : 'text-orange-400'
-                                }`}>
-                                💡 Insight & Tips
-                            </h4>
-
-                            <div className="mt-4 space-y-4">
-                                {isKitchen ? (
-                                    <>
-                                        <div className="flex gap-3 items-start">
-                                            <CheckCircle size={18} className="shrink-0 text-emerald-400 mt-0.5" />
-                                            <p className="text-slate-300">
-                                                <strong className="text-amber-400">Harga Aluminium stabil</strong> di Rp 3.5jt/m
-                                                baik dalam maupun luar kota — pilihan terbaik untuk budget!
-                                            </p>
-                                        </div>
-
-                                        <div className="p-4 bg-slate-800/50 rounded-xl border border-amber-500/20">
-                                            <div className="flex items-center gap-2 text-amber-400 font-bold mb-2">
-                                                <Sparkles size={16} />
-                                                🎁 Bonus Gratis Included
-                                            </div>
-                                            <ul className="grid grid-cols-2 gap-2 text-sm text-slate-300">
-                                                <li className="flex items-center gap-2">
-                                                    <CheckCircle size={12} className="text-emerald-400" />
-                                                    Rak Piring Stainless
-                                                </li>
-                                                <li className="flex items-center gap-2">
-                                                    <CheckCircle size={12} className="text-emerald-400" />
-                                                    Rak Sendok
-                                                </li>
-                                                <li className="flex items-center gap-2">
-                                                    <CheckCircle size={12} className="text-emerald-400" />
-                                                    Rak Bumbu
-                                                </li>
-                                                <li className="flex items-center gap-2">
-                                                    <CheckCircle size={12} className="text-emerald-400" />
-                                                    LED Strip
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="flex gap-3 items-start">
-                                            <Info size={18} className="shrink-0 text-orange-400 mt-0.5" />
-                                            <p className="text-slate-300">
-                                                <strong className="text-orange-400">Wallpanel Klasik</strong> memiliki selisih terbesar
-                                                (~12%) antara dalam dan luar kota.
-                                            </p>
-                                        </div>
-
-                                        <div className="p-4 bg-slate-800/50 rounded-xl border border-orange-500/20">
-                                            <div className="flex items-center gap-2 text-orange-400 font-bold mb-2">
-                                                <Tag size={16} />
-                                                💰 Tips Hemat Budget
-                                            </div>
-                                            <p className="text-sm text-slate-300">
-                                                Untuk budget terbatas, <span className="text-amber-400 font-bold">WPC Panel</span> adalah
-                                                pilihan terbaik dengan harga mulai Rp 550rb/m² — hasil tetap premium!
-                                            </p>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                        </div>
+                        <div className="text-xs text-slate-400">Total Produk</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded-xl p-3 text-center">
+                        <div className="text-2xl font-bold text-emerald-400">GRATIS</div>
+                        <div className="text-xs text-slate-400">Survey & Desain 3D</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded-xl p-3 text-center">
+                        <div className="text-2xl font-bold text-blue-400">Rp 2jt</div>
+                        <div className="text-xs text-slate-400">Mulai dari</div>
                     </div>
                 </div>
             </div>
 
-            {/* CTA Footer */}
-            <div className="text-center p-6 bg-gradient-to-r from-slate-800/50 to-slate-800/30 rounded-2xl border border-slate-700/50">
-                <p className="text-slate-400 text-sm mb-2">
-                    Butuh konsultasi lebih lanjut?
+            {/* ===== SEARCH & FILTER ===== */}
+            <div className="flex flex-col md:flex-row gap-3">
+                {/* Search */}
+                <div className="relative flex-1">
+                    <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                        type="text"
+                        placeholder="Cari produk... (cth: kitchen, wardrobe, wallpanel)"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700/50 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-500/50 transition-colors"
+                    />
+                </div>
+
+                {/* Category Filter */}
+                <select
+                    value={selectedCategory ?? ''}
+                    onChange={(e) => setSelectedCategory(e.target.value ? Number(e.target.value) : null)}
+                    className="px-4 py-3 bg-slate-800/50 border border-slate-700/50 rounded-xl text-white focus:outline-none focus:border-amber-500/50 transition-colors"
+                >
+                    <option value="">Semua Kategori</option>
+                    {categories.map(cat => (
+                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                    ))}
+                </select>
+            </div>
+
+            {/* ===== CATEGORIES LIST ===== */}
+            <div className="space-y-4">
+                {filteredCategories.length === 0 ? (
+                    <div className="text-center py-12 text-slate-400">
+                        <Search size={48} className="mx-auto mb-4 opacity-50" />
+                        <p>Tidak ada produk yang ditemukan</p>
+                        <p className="text-sm mt-2">Coba kata kunci lain</p>
+                    </div>
+                ) : (
+                    filteredCategories.map((category, idx) => (
+                        <CategorySection
+                            key={category.id}
+                            category={category}
+                            defaultOpen={idx === 0 && !searchTerm}
+                        />
+                    ))
+                )}
+            </div>
+
+            {/* ===== NOTES ===== */}
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 border border-slate-700/50">
+                <h3 className="font-bold text-white flex items-center gap-2 mb-4">
+                    <Info size={18} className="text-amber-400" />
+                    Catatan Penting
+                </h3>
+                <ul className="space-y-2">
+                    {importantNotes.map((note, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-slate-300">
+                            <CheckCircle size={14} className="shrink-0 text-emerald-400 mt-0.5" />
+                            <span>{note}</span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            {/* ===== CTA ===== */}
+            <div className="text-center p-6 bg-gradient-to-r from-amber-900/20 to-orange-900/20 rounded-2xl border border-amber-700/30">
+                <Building2 size={32} className="mx-auto mb-3 text-amber-400" />
+                <p className="text-white font-medium mb-2">
+                    Butuh estimasi harga custom?
                 </p>
-                <p className="text-white font-medium">
-                    Gunakan <span className="text-amber-400 font-bold">AI Chat</span> untuk estimasi harga custom! 🚀
+                <p className="text-slate-400 text-sm">
+                    Gunakan <span className="text-amber-400 font-bold">AI Chat</span> untuk konsultasi & perhitungan otomatis! 🚀
                 </p>
             </div>
         </div>
