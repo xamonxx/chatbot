@@ -565,7 +565,7 @@ export default function AIAssistant() {
                         </div>
 
                         {/* Input Area - Absolute positioned at bottom with mobile keyboard spacing */}
-                        <div className="absolute bottom-0 left-0 right-0 z-30 p-4 pt-6 pb-6 md:pb-4 flex flex-col gap-3">
+                        <div className="absolute bottom-0 left-0 right-0 z-30 p-4 pt-6 pb-10 md:pb-4 flex flex-col gap-3">
 
                             {/* Gradient Fade Background - Extended untuk cover quick prompts */}
                             <div className="absolute inset-x-0 bottom-0 top-[-80px] bg-gradient-to-t from-slate-900 via-slate-900/98 to-transparent -z-10 pointer-events-none" />
