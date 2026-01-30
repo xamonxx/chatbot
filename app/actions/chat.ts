@@ -75,7 +75,7 @@ REFERENSI TAMBAHAN (Jika tidak ada di RAG):
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: 'llama3-70b-8192', // Switched to stable model
+                model: 'llama-3.3-70b-versatile', // UPDATED: Using the latest supported model
                 messages: messages,
                 temperature: 0.7,
                 max_tokens: 1000
