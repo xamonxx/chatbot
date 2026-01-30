@@ -17,6 +17,7 @@ import {
     Zap, TrendingUp, ArrowRight, PieChart, ArrowLeft, Plus
 } from 'lucide-react';
 import { pricingData, getAllMaterials, formatCurrency, categories, pricingMeta, importantNotes, deliveryFees } from '../lib/pricing-data';
+import { chatWithAI } from '../actions/chat';
 
 // =====================================================
 // INTERFACES
@@ -105,17 +106,18 @@ function ChatBubble({ message }: { message: ChatMessage }) {
     return (
         <div className={`flex w-full mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
             <div className={`
-                flex max-w-[85%] rounded-2xl px-5 py-3.5 shadow-sm md:shadow-md relative group
+                relative px-5 py-3.5 rounded-2xl shadow-sm md:shadow-md group transition-all duration-300
+                max-w-[85%] sm:max-w-[75%] md:max-w-[65%] lg:max-w-[55%]
                 ${isUser
                     ? 'bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-tr-sm'
                     : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-sm border border-slate-100 dark:border-slate-700'
                 }
             `}>
-                <p className={`text-base md:text-sm leading-relaxed whitespace-pre-wrap ${isUser ? 'font-medium' : ''}`}>
+                <p className={`text-sm md:text-base leading-relaxed whitespace-pre-wrap ${isUser ? 'font-medium' : ''}`}>
                     {message.text}
                 </p>
 
-                {/* Time Indicator (Mock) -> Bisa di dynamic nanti */}
+                {/* Time Indicator (Mock) */}
                 <span className={`text-[10px] absolute bottom-1 ${isUser ? 'right-2 text-amber-100' : 'right-3 text-slate-400'} opacity-0 group-hover:opacity-100 transition-opacity`}>
                     Just now
                 </span>
@@ -331,65 +333,30 @@ export default function AIAssistant() {
         return context;
     };
 
-    // === API CALL (GROQ EDITION) ===
+    // === API CALL (SERVER ACTION WITH RAG) ===
+    // === API CALL (SERVER ACTION WITH RAG) ===
     const callAI = async (prompt: string): Promise<string> => {
-        if (!apiKey) {
-            return '⚠️ API Key belum dikonfigurasi. Silakan tambahkan NEXT_PUBLIC_GROQ_API_KEY di file .env.local';
-        }
+        try {
+            // Transform chat history for context
+            const history = chatHistory.map(msg => ({
+                role: msg.role,
+                text: msg.text
+            }));
 
-        // Daftar model GROQ (Super Cepat):
-        const models = [
-            'llama-3.3-70b-versatile',  // Tier 1: Paling Pintar & Versatile
-            'llama-3.1-8b-instant',     // Tier 2: Super Cepat (Instant)
-            'mixtral-8x7b-32768',       // Tier 3: Stabil & Context Besar
-            'gemma2-9b-it'              // Tier 4: Google Model
-        ];
+            // Call Server Action
+            const response = await chatWithAI(prompt, history);
 
-        let lastError = '';
-
-        for (const model of models) {
-            try {
-                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
-                    },
-                    body: JSON.stringify({
-                        model: model,
-                        messages: [{ role: 'user', content: prompt }],
-                        temperature: 0.7,
-                        max_tokens: 1500
-                    }),
-                });
-
-                if (!response.ok) {
-                    const errorJson = await response.json().catch(() => ({}));
-                    const errorMessage = errorJson.error?.message || response.statusText;
-
-                    if (response.status === 404) {
-                        console.warn(`[Groq] Model ${model} not found. Skipping...`);
-                        continue;
-                    }
-
-                    console.warn(`[Groq Fail] ${model}: ${response.status} - ${errorMessage}`);
-                    lastError = `${response.status} - ${errorMessage}`;
-                    setRetryCount(prev => prev + 1);
-                    continue;
-                }
-
-                const data = await response.json();
-                const result = data.choices?.[0]?.message?.content;
-
-                if (result) return result;
-
-            } catch (error) {
-                console.error(`[Groq Error] Connection to ${model}:`, error);
-                lastError = error instanceof Error ? error.message : 'Network Error';
+            if (response.error) {
+                console.error("AI Error:", response.error);
+                return "Maaf, terjadi kesalahan saat menghubungi AI: " + response.error;
             }
-        }
 
-        return `❌ Gagal terhubung ke Groq AI.\nDetail Error: ${lastError}\n\nPastikan API Key Groq Anda valid dan kuota mencukupi. 🙏`;
+            return response.result || "Maaf, saya tidak mengerti.";
+
+        } catch (error) {
+            console.error("Call AI Error:", error);
+            return "Maaf, koneksi terputus. Silakan coba lagi.";
+        }
     };
 
     // === HANDLERS ===
@@ -403,35 +370,9 @@ export default function AIAssistant() {
         setIsLoading(true);
         setRetryCount(0);
 
-        // Generate pricing context dari semua kategori
-        const pricingContext = generatePricingContext();
+        // We just send the user message. The Server Action handles RAG and System Prompt.
+        const reply = await callAI(userMessage);
 
-        const systemPrompt = `
-PERAN: Kamu adalah "Sarah", Konsultan Interior dari Home Putra Interior Bandung.
-
-GAYA BICARA UTAMA:
-- SINGKAT dan TO THE POINT (maks 2-3 kalimat per poin)
-- Bahasa Indonesia santai, panggil "Kak"
-- Tetap HANGAT, SOPAN, dan RAMAH 😊
-- HINDARI penjelasan bertele-tele atau paragraf panjang
-- HINDARI simbol Markdown (**, ##, [])
-- Format harga: "Rp X,X juta" atau "Rp X.XXX.XXX"
-
-${pricingContext}
-
-ATURAN JAWABAN:
-1. Langsung jawab inti pertanyaan, tidak perlu basa-basi panjang
-2. Jika tanya harga → Sebutkan harga + unit + 1 kalimat tips (jika perlu)
-3. Jika item tidak ada → "Wah, item itu belum ada di list Kak. Coba tanya sales ya 🙏"
-4. Gunakan 1-2 emoji saja untuk kesan ramah
-5. JANGAN buat list/poin lebih dari 3 item
-
-CONTOH JAWABAN IDEAL:
-User: "Berapa harga kitchen set aluminium?"
-Sarah: "Kitchen Set Aluminium Minimalis Rp 3,5 juta/meter Kak. Ini anti rayap dan awet banget! 😊 Mau tahu varian lainnya?"
-        `;
-
-        const reply = await callAI(systemPrompt + '\n\nPertanyaan Customer: ' + userMessage);
         setChatHistory(prev => [...prev, { role: 'model', text: reply }]);
         setIsLoading(false);
     };

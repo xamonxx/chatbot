@@ -1,213 +1,141 @@
-# 🏠 Dashboard Analisis Harga Interior
+# 🏠 Home Putra Interior AI
 
-> **Aplikasi analisis harga interior dengan AI Assistant berbasis Gemini AI**
-
-PT. Menuju Keindahan Indonesia
-
-![Next.js](https://img.shields.io/badge/Next.js-16-black)
-![Tailwind](https://img.shields.io/badge/Tailwind-4-38bdf8)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6)
-![Gemini AI](https://img.shields.io/badge/Gemini-AI-4285f4)
+> **Aplikasi Cerdas Analisis Harga Interior dengan RAG (Retrieval-Augmented Generation)**
+>
+> 🚀 **Teknologi**: Next.js 16 • TiDB Cloud (Vector DB) • Google Gemini/Xenova AI • Tailwind CSS v4
 
 ---
 
-## 📋 Deskripsi
+## 📖 Tentang Aplikasi
 
-Dashboard modern untuk analisis dan perbandingan harga produk interior. Dilengkapi dengan **4 fitur AI canggih** yang membantu konsultan dan klien dalam:
+Aplikasi ini adalah dashboard modern untuk PT. Menuju Keindahan Indonesia (Home Putra Interior) yang berfungsi untuk menghitung estimasi harga, konsultasi desain, dan manajemen katalog harga.
 
-- Membandingkan harga antara wilayah dalam kota vs luar kota
-- Menghitung estimasi budget proyek
-- Mendapatkan saran optimasi untuk menghindari charge
-- Membuat proposal penawaran otomatis
+### 🔥 Apa itu RAG? (Fitur Unggulan)
+Aplikasi ini menggunakan teknologi **RAG (Retrieval-Augmented Generation)**.
+Berbeda dengan Chatbot biasa yang sering "halusinasi" (mengarang jawaban), aplikasi ini:
+1.  **Mencari Data Dulu**: Saat user bertanya, sistem mencari data produk yang relevan di database **TiDB Vector**.
+2.  **Menjawab dengan Fakta**: Data tersebut dikirim ke AI sebagai referensi.
+3.  **Akurasi Tinggi**: AI menjawab pertanyaan hanya berdasarkan data harga asli perusahaan.
 
 ---
 
 ## ✨ Fitur Utama
 
-### 📊 Tabel Harga Interaktif
-- **Kitchen Set** - Aluminium & Multipleks dengan perbandingan harga
-- **Wallpanel & Decor** - Minimalis, Semi Klasik, Klasik, WPC Panel
-- **Aturan & Syarat** - Hidden cost dan tips hemat
-
-### 🤖 AI Smart Assistant (4 Mode)
-
-| Mode | Fungsi |
-|------|--------|
-| 💬 **Chat Consultant** | Chatbot untuk konsultasi harga & material |
-| 📱 **Smart Calculator** | Kalkulator proyek dengan saran optimasi |
-| ⚖️ **Material Battle** | Perbandingan head-to-head 2 material |
-| 📄 **Proposal Generator** | Pembuat proposal WhatsApp otomatis |
+1.  **🧠 AI Consultant (RAG Power)**
+    *   Tanya jawab harga & spesifikasi produk (Data Real-time).
+    *   Estimasi budget proyek otomatis.
+    *   Konsultasi desain & material.
+2.  **📊 Tabel Harga Digital**
+    *   Katalog Kitchen Set, Wallpanel, Wardrobe.
+    *   Pencarian cepat.
+3.  **⚡ Perbandingan Material**
+    *   Battle fitur antar bahan (misal: PVC vs Multipleks).
+4.  **📝 Proposal Generator**
+    *   Buat draft penawaran WhatsApp otomatis dalam hitungan detik.
 
 ---
 
-## 🚀 Instalasi
+## 🛠️ Teknologi & Arsitektur
 
-### Prasyarat
-- Node.js 18+ (disarankan v22)
-- NPM atau Yarn
-- API Key Google Gemini
+*   **Frontend**: Next.js 16 (App Router), React 19, Tailwind CSS 4.
+*   **Database**: **TiDB Serverless** (MySQL-Compatible + Vector Search).
+*   **AI Embedding**:
+    *   **Xenova/transformers** (Lokal): Untuk mengubah teks produk menjadi vektor matematika (GRATIS, Tanpa Limit).
+*   **LLM (Otak AI)**:
+    *   **Groq API (Llama 3)**: Untuk memproses jawaban bahasa alami yang super cepat.
 
-### Langkah Instalasi
+---
 
-```bash
-# 1. Clone repository (atau download)
-cd c:\laragon\www\chatbot
+## 🚀 Cara Menjalankan Aplikasi (Panduan Lengkap)
 
-# 2. Install dependencies
-npm install
+Karena di komputer ini (Laravel/Laragon environment) path `npm` belum ter-set global, gunakan cara berikut:
 
-# 3. Setup environment
-# Copy .env.example ke .env.local
-cp .env.example .env.local
+### ➤ Cara Termudah (Paling Direkomendasikan)
+Cukup klik kanan file `RUN_APP.ps1` dan pilih **Run with PowerShell**, atau ketik di terminal:
 
-# 4. Edit .env.local dan masukkan API Key Gemini
-# NEXT_PUBLIC_GEMINI_API_KEY=your_api_key_here
+```powershell
+./RUN_APP.ps1
+```
 
-# 5. Jalankan development server
+Script ini otomatis akan:
+1.  Mengatur Path Node.js.
+2.  Menawarkan update database (jika perlu).
+3.  Menjalankan server di `http://localhost:3000`.
+
+---
+
+### ➤ Cara Manual (Langkah demi Langkah)
+
+Jika ingin menjalankan manual lewat terminal VS Code:
+
+#### 1. Setup Environment
+Pastikan file `.env.local` sudah berisi konfigurasi:
+```env
+# TiDB Database (Vector)
+TIDB_HOST=gateway01.ap-southeast-1.prod.aws.tidbcloud.com
+TIDB_USER=xxxxx.root
+TIDB_PASSWORD=xxxxx
+TIDB_DATABASE=DB_listHarga
+
+# API Keys
+NEXT_PUBLIC_GEMINI_API_KEY=xxxxx
+NEXT_PUBLIC_GROQ_API_KEY=xxxxx
+```
+
+#### 2. Update Database (Running RAG)
+Jalankan perintah ini SATU KALI saja saat ada perubahan harga/produk di `pricing-data.ts`.
+Ini akan mengubah data teks menjadi vektor agar bisa dicari AI.
+
+```powershell
+# Gunakan path lengkap Node.js Laragon
+$env:Path += ";C:\laragon\bin\nodejs\node-v22"
+npx tsx scripts/setup-rag.ts
+```
+
+*Tunggu sampai muncul pesan: ✅ Successfully inserted ... items into TiDB!*
+
+#### 3. Jalankan Server
+```powershell
+# Gunakan path lengkap Node.js Laragon
+$env:Path += ";C:\laragon\bin\nodejs\node-v22"
 npm run dev
 ```
 
-### Mendapatkan API Key Gemini
-
-1. Buka [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Login dengan akun Google
-3. Klik "Create API Key"
-4. Copy API key ke file `.env.local`
+Buka **http://localhost:3000** di browser.
 
 ---
 
-## 📁 Struktur Folder
+## 📁 Struktur Folder Penting
 
 ```
 chatbot/
 ├── app/
-│   ├── components/         # Komponen React
-│   │   ├── AIAssistant.tsx     # Komponen AI dengan 4 mode
-│   │   ├── Header.tsx          # Header dashboard
-│   │   ├── PriceTable.tsx      # Tabel harga
-│   │   ├── RulesPanel.tsx      # Panel aturan
-│   │   └── TabNavigation.tsx   # Navigasi tab
+│   ├── actions/            # Server Actions (Backend Logic)
+│   │   └── chat.ts         # Logic RAG: Cari di TiDB -> Tanya AI
 │   ├── lib/
-│   │   └── pricing-data.ts     # Data harga & helper functions
-│   ├── globals.css             # CSS global dengan animasi
-│   ├── layout.tsx              # Layout root
-│   └── page.tsx                # Halaman utama
-├── public/                 # File statis
-├── .env.local              # Environment variables (lokal)
-├── .env.example            # Template environment
-├── package.json            # Dependencies
-└── README.md               # Dokumentasi ini
+│   │   ├── pricing-data.ts # Master Data Harga (sumber kebenaran)
+│   │   ├── rag.ts          # Fungsi pencarian Vektor
+│   │   └── tidb.ts         # Koneksi Database
+│   └── components/         # UI Frontend (Chatbot, Tabel, dll)
+├── scripts/
+│   └── setup-rag.ts        # Script "Magic" pengisi Database Vector
+├── RUN_APP.ps1             # Helper Script menjalakan aplikasi
+└── README.md               # File ini
 ```
-
----
-
-## 🎨 Teknologi
-
-| Teknologi | Versi | Fungsi |
-|-----------|-------|--------|
-| **Next.js** | 16.1.5 | Framework React dengan App Router |
-| **React** | 19.2.3 | Library UI |
-| **TypeScript** | 5 | Type safety |
-| **Tailwind CSS** | 4 | Utility-first styling |
-| **Lucide React** | Latest | Icon library |
-| **Gemini AI** | 2.0 Flash | AI Assistant |
-
----
-
-## 📝 Script NPM
-
-```bash
-# Development mode dengan hot reload
-npm run dev
-
-# Build untuk production
-npm run build
-
-# Jalankan production build
-npm start
-
-# Linting
-npm run lint
-```
-
----
-
-## 🔧 Konfigurasi
-
-### Environment Variables
-
-| Variable | Deskripsi | Required |
-|----------|-----------|----------|
-| `NEXT_PUBLIC_GEMINI_API_KEY` | API Key Google Gemini | ✅ Ya |
-
-### Tailwind CSS
-
-Project menggunakan Tailwind CSS v4 dengan konfigurasi:
-- Custom animations (fade-in, float, pulse-glow)
-- Glass morphism effect
-- Custom scrollbar
-- Dark mode support (prefers-color-scheme)
-
----
-
-## 📊 Data Harga
-
-Data harga disimpan di `app/lib/pricing-data.ts` dan dapat dimodifikasi sesuai kebutuhan:
-
-```typescript
-// Contoh struktur data
-export const pricingData = {
-  kitchen: [
-    {
-      item: "Kitchen Set Aluminium",
-      spec: "Bahan ACP 4mm...",
-      priceIn: 3500000,   // Dalam kota
-      priceOut: 3500000,  // Luar kota
-      unit: "/m¹",
-      note: "Catatan..."
-    }
-  ],
-  // ...
-};
-```
-
----
-
-## 🤝 Kontribusi
-
-1. Fork repository
-2. Buat branch fitur (`git checkout -b feature/AmazingFeature`)
-3. Commit perubahan (`git commit -m 'Add AmazingFeature'`)
-4. Push ke branch (`git push origin feature/AmazingFeature`)
-5. Buka Pull Request
-
----
-
-## 📄 Lisensi
-
-© 2024/2025 PT. Menuju Keindahan Indonesia. All rights reserved.
 
 ---
 
 ## 🆘 Troubleshooting
 
-### Error: API Key tidak valid
-- Pastikan API key sudah dimasukkan di `.env.local`
-- Restart development server setelah mengubah `.env.local`
+**Q: Terminal bilang `npm` not recognized?**
+A: Gunakan `RUN_APP.ps1` atau tambahkan path manual seperti di atas.
 
-### Error: Module not found
-```bash
-# Hapus node_modules dan install ulang
-rm -rf node_modules
-npm install
-```
+**Q: AI menjawab "Maaf item belum ada"?**
+A: Pastikan sudah menjalankan `npx tsx scripts/setup-rag.ts` agar data masuk ke database.
 
-### Port 3000 sudah digunakan
-```bash
-# Jalankan di port lain
-npm run dev -- -p 3001
-```
+**Q: Error `Too Many Requests` saat setup database?**
+A: Kita sudah ganti ke **Xenova (Local Embedding)**, jadi error ini tidak akan muncul lagi! Pastikan script yang dijalankan versi terbaru.
 
 ---
 
-**Made with ❤️ and powered by Gemini AI**
+**© 2026 Home Putra Interior AI Project**

@@ -1,0 +1,48 @@
+{
+    "pengecatan": [
+        {
+            "item": "Jasa Pengecatan (Tenaga Saja)",
+            "price": 90000,
+            "unit": "m²"
+        },
+        {
+            "item": "Jasa Pengecatan Borongan (Termasuk Cat)",
+            "price": 125000,
+            "unit": "m²"
+        }
+    ],
+    "instalasi": [
+        {
+            "item": "Titik Air (Pindah/Baru)",
+            "price": 450000,
+            "unit": "titik"
+        },
+        {
+            "item": "Titik Listrik (Pindah/Baru)",
+            "price": 650000,
+            "unit": "titik"
+        }
+    ],
+    "top_table_dan_dinding": [
+        {
+            "item": "Pasang Backsplash Keramik Bevel",
+            "price": 1050000,
+            "unit": "m¹"
+        },
+        {
+            "item": "Pasang Backsplash Mozaic",
+            "price": 1500000,
+            "unit": "m¹"
+        },
+        {
+            "item": "Cor Meja Beton (Finish Acian)",
+            "price": 1900000,
+            "unit": "m¹"
+        },
+        {
+            "item": "Cor Meja Beton (Finish Keramik)",
+            "price": 2400000,
+            "unit": "m¹"
+        }
+    ]
+}

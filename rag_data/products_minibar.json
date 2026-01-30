@@ -1,0 +1,38 @@
+[
+    {
+        "id": "MB-AL-001",
+        "name": "Minibar Alumunium Minimalis (Visible Frame)",
+        "material": "Aluminium",
+        "price_dalam_kota": 4850000,
+        "price_luar_kota": 4850000,
+        "unit": "meter lari (/m¹)",
+        "rag_context": "Minibar Aluminium Minimalis. Harga Rp 4.850.000/m. Model visible frame."
+    },
+    {
+        "id": "MB-AL-002",
+        "name": "Minibar Alumunium Luxury (Frameless)",
+        "material": "Aluminium",
+        "price_dalam_kota": 5500000,
+        "price_luar_kota": 5500000,
+        "unit": "meter lari (/m¹)",
+        "rag_context": "Minibar Aluminium Luxury Frameless. Harga Rp 5.500.000/m. Tampilan mewah tanpa frame."
+    },
+    {
+        "id": "MB-KB-001",
+        "name": "Minibar Blockboard Minimalis (Kayu)",
+        "material": "Blockboard",
+        "price_dalam_kota": 2100000,
+        "price_luar_kota": 2300000,
+        "unit": "meter lari (/m¹)",
+        "rag_context": "Minibar Blockboard Minimalis. Harga mulai Rp 2.100.000/m. Bahan kayu lapis HPL."
+    },
+    {
+        "id": "MB-MP-001",
+        "name": "Minibar Multipleks Minimalis (Kayu)",
+        "material": "Multipleks",
+        "price_dalam_kota": 2500000,
+        "price_luar_kota": 2500000,
+        "unit": "meter lari (/m¹)",
+        "rag_context": "Minibar Multipleks Minimalis. Harga Rp 2.500.000/m. Bahan plywood solid lapis HPL."
+    }
+]

@@ -1,0 +1,60 @@
+{
+    "shipping_policy": [
+        {
+            "id": "SHIP-001",
+            "region": "Dalam Kota (Bandung & Sekitarnya)",
+            "condition": "Project Value < Rp 15.000.000",
+            "fee": 500000,
+            "currency": "IDR",
+            "description": "Biaya ongkos kirim dan akomodasi pemasangan untuk proyek kecil di dalam kota."
+        },
+        {
+            "id": "SHIP-002",
+            "region": "Dalam Kota (Bandung & Sekitarnya)",
+            "condition": "Project Value >= Rp 15.000.000",
+            "fee": 0,
+            "currency": "IDR",
+            "description": "Gratis ongkos kirim (Free Ongkir) untuk proyek standar/besar di dalam kota."
+        },
+        {
+            "id": "SHIP-003",
+            "region": "Luar Kota (Jabodetabek, Pantura, Jatim, Jateng)",
+            "condition": "Project Value < Rp 20.000.000",
+            "fee": 1000000,
+            "currency": "IDR",
+            "description": "Biaya charge luar kota untuk proyek di bawah minimum order."
+        },
+        {
+            "id": "SHIP-004",
+            "region": "Luar Kota (Jabodetabek, Pantura, Jatim, Jateng)",
+            "condition": "Project Value >= Rp 20.000.000",
+            "fee": 0,
+            "currency": "IDR",
+            "description": "Gratis ongkos kirim (Free Ongkir) untuk proyek standar/besar di luar kota."
+        },
+        {
+            "id": "SHIP-005",
+            "category": "Kanopi & Pagar",
+            "region": "Dalam Kota",
+            "fee": 500000,
+            "description": "Flat rate ongkir untuk produk Kanopi/Pagar di dalam kota."
+        },
+        {
+            "id": "SHIP-006",
+            "category": "Kanopi & Pagar",
+            "region": "Luar Kota",
+            "fee": 1500000,
+            "description": "Flat rate ongkir untuk produk Kanopi/Pagar di luar kota."
+        }
+    ],
+    "faq_rules": [
+        {
+            "question": "Apakah ada biaya survey?",
+            "answer": "Gratis Survey dan Konsultasi Desain 3D untuk area yang terjangkau, namun biasanya survey dilakukan setelah ada estimasi harga awal yang disetujui."
+        },
+        {
+            "question": "Bagaimana sistem pembayaran?",
+            "answer": "Biasanya DP 50% saat deal, sisanya pelunasan setelah instalasi selesai (atau sesuai termin di SPK)."
+        }
+    ]
+}

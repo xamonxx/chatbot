@@ -1,0 +1,38 @@
+{
+    "comparison_matrix": {
+        "kitchen_set": [
+            {
+                "tier": "Budget / Hemat",
+                "material": "Blockboard",
+                "price_range": "Rp 2,0 - 2,3 Juta /m",
+                "durability": "Medium (5-8 tahun)",
+                "pros": "Harga paling murah, finishing HPL rapi",
+                "cons": "Kurang tahan air & rayap dibanding yang lain"
+            },
+            {
+                "tier": "Standard / Best Seller",
+                "material": "Multipleks (Plywood)",
+                "price_range": "Rp 2,5 - 2,7 Juta /m",
+                "durability": "High (10-15 tahun)",
+                "pros": "Lebih padat dari blockboard, sekrup lebih gigit, standar furniture custom",
+                "cons": "Tetap risiko rayap jika lingkungan lembab ekstrim"
+            },
+            {
+                "tier": "Premium / Anti Rayap",
+                "material": "PVC Board",
+                "price_range": "Rp 4,0 - 4,5 Juta /m",
+                "durability": "Very High (>20 tahun)",
+                "pros": "100% Anti air & rayap, bahan solid seperti plastik keras",
+                "cons": "Harga relatif tinggi"
+            },
+            {
+                "tier": "Luxury / Industrial",
+                "material": "Aluminium",
+                "price_range": "Rp 3,5 - 5,5 Juta /m",
+                "durability": "Lifetime (Seumur Hidup)",
+                "pros": "Tahan api, air, rayap, look modern/industrial",
+                "cons": "Pilihan warna frame terbatas, tidak bisa se-custom kayu bentuknya"
+            }
+        ]
+    }
+}

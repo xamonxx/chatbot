@@ -1,0 +1,29 @@
+[
+    {
+        "id": "LBT-AL-001",
+        "name": "Lemari Bawah Tangga Aluminium",
+        "material": "Aluminium",
+        "price_dalam_kota": 6000000,
+        "price_luar_kota": 6000000,
+        "unit": "meter lari (/m¹)",
+        "rag_context": "Lemari Bawah Tangga Aluminium. Harga Rp 6.000.000/m. Memanfaatkan ruang miring bawah tangga dengan material anti rayap."
+    },
+    {
+        "id": "LBT-WD-001",
+        "name": "Lemari Bawah Tangga Blockboard",
+        "material": "Blockboard",
+        "price_dalam_kota": 2300000,
+        "price_luar_kota": 2400000,
+        "unit": "meter lari (/m¹)",
+        "rag_context": "Lemari Bawah Tangga Blockboard HPL. Harga Rp 2.300.000/m."
+    },
+    {
+        "id": "LBT-WD-002",
+        "name": "Lemari Bawah Tangga Multipleks",
+        "material": "Multipleks",
+        "price_dalam_kota": 2500000,
+        "price_luar_kota": 2600000,
+        "unit": "meter lari (/m¹)",
+        "rag_context": "Lemari Bawah Tangga Multipleks HPL. Harga Rp 2.500.000/m."
+    }
+]

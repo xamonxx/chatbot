@@ -1,0 +1,578 @@
+{
+  "metadata": {
+    "company_name": "PT. MENUJU KEINDAHAN INDONESIA",
+    "document_title": "Master Price List & Catalog (Integrated)",
+    "label": "DATA HARGA GABUNGAN (DALAM & LUAR KOTA)",
+    "period": "Mei 2025",
+    "currency": "IDR",
+    "last_updated": "2026-01-30",
+    "data_source_note": "Harga 'Luar Kota' mengacu pada brosur gambar. Harga 'Dalam Kota' mengacu pada file JSON user (jika berbeda)."
+  },
+  "catalog": {
+    "kitchen_set": {
+      "alumunium": [
+        {
+          "id": "KS-AL-001",
+          "category": "Kitchen Set Alumunium",
+          "type": "Minimalis (Grade A Non Kayu)",
+          "pricing": {
+            "luar_kota": 3500000,
+            "dalam_kota": 3500000
+          },
+          "unit": "meter_lari",
+          "specs": "Alumunium ACP 4mm, Finishing ACP Luar",
+          "features_detail": [
+            "1. Alumunium ACP 4mm",
+            "2. Finishing ACP Bagian Luar",
+            "3. Rel Gas (Optional)",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "6. Rak Piring Atas/Bawah Stainless",
+            "7. Rak Bumbu",
+            "8. Lampu LED Strip / Downlight",
+            "9. Rak Sendok"
+          ]
+        },
+        {
+          "id": "KS-AL-002",
+          "category": "Kitchen Set Alumunium",
+          "type": "Premium (Visible Frame)",
+          "pricing": {
+            "luar_kota": 4500000,
+            "dalam_kota": 4500000
+          },
+          "unit": "meter_lari",
+          "specs": "Alumunium ACP 4mm, Finishing ACP Luar, Rak Piring Stainless",
+          "features_detail": [
+            "1. Alumunium ACP 4mm",
+            "2. Finishing ACP Bagian Luar",
+            "3. Rel Gas (Optional)",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "6. Rak Piring Atas/Bawah Stainless",
+            "7. Rak Bumbu",
+            "8. Lampu LED Strip / Downlight",
+            "9. Rak Sendok"
+          ]
+        },
+        {
+          "id": "KS-AL-003",
+          "category": "Kitchen Set Alumunium",
+          "type": "Semi Klasik (Visible Frame Mix PVC)",
+          "pricing": {
+            "luar_kota": 5000000,
+            "dalam_kota": 5000000
+          },
+          "unit": "meter_lari",
+          "specs": "Alumunium, Finishing ACP, Pintu PVC",
+          "features_detail": [
+            "1. Alumunium ACP 4mm",
+            "2. Finishing ACP Bagian Luar",
+            "3. REL PANACI",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "6. Rak Piring Atas/Bawah Stainless",
+            "7. Rak Bumbu",
+            "8. Lampu LED Strip / Downlight",
+            "9. Rak Sendok",
+            "10. Handle Bulat",
+            "11. Rell Gas & Ventilasi",
+            "12. Pintu Menggunakan PVC"
+          ]
+        },
+        {
+          "id": "KS-AL-004",
+          "category": "Kitchen Set Alumunium",
+          "type": "Luxury (Frameless)",
+          "pricing": {
+            "luar_kota": 5500000,
+            "dalam_kota": 5500000
+          },
+          "unit": "meter_lari",
+          "specs": "Alumunium ACP 4mm Luar Dalam",
+          "features_detail": [
+            "1. Alumunium ACP 4mm Luar Dalam",
+            "2. Finishing ACP Bagian Luar",
+            "3. REL PANACI",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "6. Rak Piring Atas/Bawah Stainless",
+            "7. Rak Bumbu",
+            "8. Lampu LED Strip / Downlight",
+            "9. Rak Sendok",
+            "10. Handle Bulat",
+            "11. Rell Gas & Ventilasi",
+            "12. Pintu Menggunakan PVC"
+          ]
+        }
+      ],
+      "pvc_board": [
+        {
+          "id": "KS-PVC-001",
+          "category": "Kitchen Set PVC Board",
+          "type": "Minimalis (Grade A Non Kayu)",
+          "pricing": {
+            "luar_kota": 4100000,
+            "dalam_kota": 4000000
+          },
+          "unit": "meter_lari",
+          "specs": "PVC Board 18mm, HPL Luar, Melamin PVC Dalam",
+          "features_detail": [
+            "1. PVC Board 18mm",
+            "2. Finishing HPL bagian luar",
+            "3. Lapisan Dalam Melamin PVC",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "6. Rak Piring Atas/Bawah",
+            "7. Rak Bumbu",
+            "8. Lampu LED Strip / Downlight",
+            "9. Rak Sendok",
+            "11. Rell Gas & Ventilasi"
+          ],
+          "note": "Finishing HPL Luar & Dalam tambah Rp 700.000/m"
+        },
+        {
+          "id": "KS-PVC-002",
+          "category": "Kitchen Set PVC Board",
+          "type": "Semi Klasik (Grade A Non Kayu)",
+          "pricing": {
+            "luar_kota": 4500000,
+            "dalam_kota": 4500000
+          },
+          "unit": "meter_lari",
+          "specs": "PVC Board 18mm, HPL Luar, Melamin PVC Dalam",
+          "features_detail": [
+            "1. PVC Board 18mm",
+            "2. Finishing HPL bagian luar",
+            "3. Lapisan Dalam Melamin PVC",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "6. Rak Piring Atas/Bawah",
+            "7. Rak Bumbu",
+            "8. Lampu LED Strip / Downlight",
+            "9. Rak Sendok",
+            "10. Handle Bulat",
+            "11. Rell Gas & Ventilasi"
+          ]
+        },
+        {
+          "id": "KS-PVC-003",
+          "category": "Kitchen Set PVC Board",
+          "type": "Klasik (Grade A Non Kayu)",
+          "pricing": {
+            "luar_kota": 4800000,
+            "dalam_kota": 4800000
+          },
+          "unit": "meter_lari",
+          "specs": "PVC Board 18mm, HPL Luar, Melamin PVC Dalam",
+          "features_detail": [
+            "1. PVC Board 18mm",
+            "2. Finishing HPL bagian luar",
+            "3. Lapisan Dalam Melamin PVC",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "6. Rak Piring Atas/Bawah",
+            "7. Rak Bumbu",
+            "8. Lampu LED Strip / Downlight",
+            "9. Rak Sendok",
+            "10. Handle Bulat",
+            "11. Rell Gas & Ventilasi"
+          ]
+        }
+      ],
+      "multipleks_duco": [
+        {
+          "id": "KS-DUCO-001",
+          "category": "Kitchen Set Multipleks Duco",
+          "type": "Minimalis",
+          "pricing": {
+            "luar_kota": 4000000,
+            "dalam_kota": 4500000
+          },
+          "unit": "meter_lari",
+          "specs": "Multipleks 18mm, Cat Duco Luar, Melaminto Dalam",
+          "features_detail": [
+            "1. Multipleks 18mm",
+            "2. Finishing HPL Bagian Luar (Duco)",
+            "3. Finishing Melaminto Bagian Dalam",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "6. Rak Piring Atas/Bawah",
+            "7. Rak Bumbu",
+            "8. Lampu LED Strip / Downlight",
+            "9. Rak Sendok"
+          ],
+          "note": "Terdapat perbedaan harga: Brosur Luar Kota mencantumkan 4.0jt, JSON Dalam Kota mencantumkan 4.5jt"
+        },
+        {
+          "id": "KS-DUCO-002",
+          "category": "Kitchen Set Multipleks Duco",
+          "type": "Semi Klasik",
+          "pricing": {
+            "luar_kota": 4600000,
+            "dalam_kota": 4700000
+          },
+          "unit": "meter_lari",
+          "specs": "Multipleks 18mm, Cat Duco Luar, Melaminto Dalam"
+        },
+        {
+          "id": "KS-DUCO-003",
+          "category": "Kitchen Set Multipleks Duco",
+          "type": "Klasik",
+          "pricing": {
+            "luar_kota": 4800000,
+            "dalam_kota": 5500000
+          },
+          "unit": "meter_lari",
+          "specs": "Multipleks 18mm, Cat Duco Luar, Melaminto Dalam"
+        }
+      ],
+      "multipleks_hpl_grade_b": [
+        {
+          "id": "KS-MPX-001",
+          "category": "Kitchen Set Multipleks HPL",
+          "type": "Minimalis",
+          "pricing": {
+            "luar_kota": 2600000,
+            "dalam_kota": 2500000
+          },
+          "unit": "meter_lari",
+          "specs": "Multipleks 18mm, HPL Luar, Melaminto Dalam",
+          "features_detail": [
+            "1. Multipleks 18mm",
+            "2. Finishing HPL bagian luar",
+            "3. Finishing Melaminto bagian dalam",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "6. Rak Piring Atas/Bawah",
+            "7. Rak Bumbu",
+            "8. Lampu LED Strip / Downlight",
+            "9. Rak Sendok"
+          ]
+        },
+        {
+          "id": "KS-MPX-002",
+          "category": "Kitchen Set Multipleks HPL",
+          "type": "Semi Klasik",
+          "pricing": {
+            "luar_kota": 2800000,
+            "dalam_kota": 2700000
+          },
+          "unit": "meter_lari",
+          "specs": "Multipleks 18mm, HPL Luar, Melaminto Dalam"
+        },
+        {
+          "id": "KS-MPX-003",
+          "category": "Kitchen Set Multipleks HPL",
+          "type": "Klasik",
+          "pricing": {
+            "luar_kota": 3300000,
+            "dalam_kota": 3200000
+          },
+          "unit": "meter_lari",
+          "specs": "Multipleks 18mm, HPL Luar, Melaminto Dalam"
+        }
+      ],
+      "blockboard_grade_c": [
+        {
+          "id": "KS-BB-001",
+          "category": "Kitchen Set Blockboard",
+          "type": "Minimalis",
+          "pricing": {
+            "luar_kota": 2300000,
+            "dalam_kota": 2000000
+          },
+          "unit": "meter_lari",
+          "specs": "Blockboard 18mm, HPL Luar, Melaminto Dalam",
+          "features_detail": [
+            "1. Blockboard 18mm",
+            "2. Finishing HPL bagian luar",
+            "3. Finishing Melaminto bagian dalam",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion",
+            "6. Rak Piring Atas/Bawah",
+            "7. Rak Bumbu",
+            "8. Lampu LED Strip / Downlight",
+            "9. Rak Sendok"
+          ]
+        },
+        {
+          "id": "KS-BB-002",
+          "category": "Kitchen Set Blockboard",
+          "type": "Semi Klasik",
+          "pricing": {
+            "luar_kota": 2600000,
+            "dalam_kota": 2500000
+          },
+          "unit": "meter_lari",
+          "specs": "Blockboard 18mm, HPL Luar, Melaminto Dalam"
+        },
+        {
+          "id": "KS-BB-003",
+          "category": "Kitchen Set Blockboard",
+          "type": "Klasik",
+          "pricing": {
+            "luar_kota": 3000000,
+            "dalam_kota": 2900000
+          },
+          "unit": "meter_lari",
+          "specs": "Blockboard 18mm, HPL Luar, Melaminto Dalam"
+        }
+      ],
+      "industrial": [
+        {
+          "id": "KS-IND-001",
+          "category": "Kitchen Set Industrial",
+          "type": "Blockboard HPL (Kabinet Saja)",
+          "pricing": {
+            "luar_kota": 2300000,
+            "dalam_kota": 2000000
+          },
+          "unit": "meter_lari",
+          "note": "Belum termasuk rangka besi"
+        },
+        {
+          "id": "KS-IND-002",
+          "category": "Kitchen Set Industrial",
+          "type": "Multipleks HPL (Kabinet Saja)",
+          "pricing": {
+            "luar_kota": 2700000,
+            "dalam_kota": 2300000
+          },
+          "unit": "meter_lari",
+          "note": "Belum termasuk rangka besi"
+        },
+        {
+          "id": "KS-IND-003",
+          "category": "Kitchen Set Industrial",
+          "type": "Multipleks Duco (Kabinet Saja)",
+          "pricing": {
+            "luar_kota": 4500000,
+            "dalam_kota": 4500000
+          },
+          "unit": "meter_lari",
+          "note": "Belum termasuk rangka besi"
+        },
+        {
+          "id": "KS-IND-BESI-1",
+          "category": "Komponen Besi",
+          "type": "Rangka Besi Saja (Hollow)",
+          "pricing": {
+            "luar_kota": 2100000,
+            "dalam_kota": 1800000
+          },
+          "unit": "meter_lari"
+        },
+        {
+          "id": "KS-IND-BESI-2",
+          "category": "Komponen Besi",
+          "type": "Rangka Besi + Wire Mesh",
+          "pricing": {
+            "luar_kota": 2300000,
+            "dalam_kota": 2000000
+          },
+          "unit": "meter_lari"
+        }
+      ]
+    },
+    "minibar": {
+      "alumunium": [
+        {
+          "id": "MB-AL-001",
+          "category": "Minibar Alumunium",
+          "type": "Minimalis (Visible Frame)",
+          "pricing": {
+            "luar_kota": 4850000,
+            "dalam_kota": 4850000
+          },
+          "unit": "meter_lari",
+          "specs": "Alumunium ACP 4mm, Finishing ACP Bagian Luar",
+          "features_detail": [
+            "1. Alumunium ACP 4mm",
+            "2. Finishing ACP Bagian Luar",
+            "3. Rak Bumbu",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "8. Lampu LED Strip / Downlight"
+          ]
+        },
+        {
+          "id": "MB-AL-002",
+          "category": "Minibar Alumunium",
+          "type": "Luxury (Frameless)",
+          "pricing": {
+            "luar_kota": 5500000,
+            "dalam_kota": 5500000
+          },
+          "unit": "meter_lari",
+          "specs": "Alumunium ACP 4mm, Finishing ACP Luar Dalam",
+          "features_detail": [
+            "1. Alumunium ACP 4mm",
+            "2. Finishing ACP Bagian Luar Dalam",
+            "3. Rak Bumbu",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless",
+            "8. Lampu LED Strip / Downlight"
+          ]
+        }
+      ],
+      "kayu_based": {
+        "minimalis": [
+          { "material": "Blockboard", "pricing": { "luar_kota": 2300000, "dalam_kota": 2100000 }, "unit": "meter_lari" },
+          { "material": "Multipleks", "pricing": { "luar_kota": 2500000, "dalam_kota": 2500000 }, "unit": "meter_lari" }
+        ],
+        "semi_klasik": [
+          { "material": "Blockboard", "pricing": { "luar_kota": 2700000, "dalam_kota": 2500000 }, "unit": "meter_lari" },
+          { "material": "Multipleks", "pricing": { "luar_kota": 2700000, "dalam_kota": 2700000 }, "unit": "meter_lari" }
+        ],
+        "klasik": [
+          { "material": "Blockboard", "pricing": { "luar_kota": 2700000, "dalam_kota": 2500000 }, "unit": "meter_lari" },
+          { "material": "Multipleks", "pricing": { "luar_kota": 2700000, "dalam_kota": 2700000 }, "unit": "meter_lari" }
+        ]
+      },
+      "components": [
+        { "item": "Topi Bar Blockboard", "pricing": { "luar_kota": 1350000, "dalam_kota": 1250000 }, "unit": "meter_lari" },
+        { "item": "Topi Bar Multipleks", "pricing": { "luar_kota": 1450000, "dalam_kota": 1450000 }, "unit": "meter_lari" },
+        { "item": "Rak Terbuka Blockboard", "pricing": { "luar_kota": 2100000, "dalam_kota": 2000000 }, "unit": "meter_lari" },
+        { "item": "Rak Terbuka Multipleks", "pricing": { "luar_kota": 2300000, "dalam_kota": 2300000 }, "unit": "meter_lari" },
+        { "item": "Box Elektronik Blockboard", "pricing": { "luar_kota": 2300000, "dalam_kota": 2100000 }, "unit": "meter_lari" },
+        { "item": "Box Elektronik Multipleks", "pricing": { "luar_kota": 2600000, "dalam_kota": 2500000 }, "unit": "meter_lari" }
+      ]
+    },
+    "wardrobe": {
+      "alumunium": [
+        {
+          "id": "WR-AL-001",
+          "category": "Wardrobe Alumunium",
+          "type": "Premium (Visible Frame)",
+          "pricing": {
+            "luar_kota": 5000000,
+            "dalam_kota": 5000000
+          },
+          "unit": "meter_lari",
+          "features_detail": [
+            "1. Alumunium ACP 4mm",
+            "2. Finishing ACP Bagian Luar & Dalam",
+            "3. Lampu LED Strip / Downlight",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless"
+          ]
+        },
+        {
+          "id": "WR-AL-002",
+          "category": "Wardrobe Alumunium",
+          "type": "Luxury (Frameless)",
+          "pricing": {
+            "luar_kota": 6000000,
+            "dalam_kota": 6000000
+          },
+          "unit": "meter_lari",
+          "features_detail": [
+            "1. Alumunium ACP 4mm",
+            "2. Finishing ACP Bagian Luar & Dalam",
+            "3. Lampu LED Strip / Downlight",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless"
+          ],
+          "note": "Harga Kaca Menyesuaikan"
+        }
+      ],
+      "blockboard": [
+        { "type": "Minimalis", "pricing": { "luar_kota": 2400000, "dalam_kota": 2300000 }, "unit": "m2" },
+        { "type": "Semi Klasik", "pricing": { "luar_kota": 2800000, "dalam_kota": 2700000 }, "unit": "m2" },
+        { "type": "Klasik", "pricing": { "luar_kota": 3050000, "dalam_kota": 2950000 }, "unit": "m2" }
+      ],
+      "multipleks": [
+        { "type": "Minimalis", "pricing": { "luar_kota": 2600000, "dalam_kota": 2500000 }, "unit": "m2" },
+        { "type": "Semi Klasik", "pricing": { "luar_kota": 2850000, "dalam_kota": 2750000 }, "unit": "m2" },
+        { "type": "Klasik", "pricing": { "luar_kota": 3100000, "dalam_kota": 3000000 }, "unit": "m2" }
+      ],
+      "duco": [
+        { "type": "Minimalis", "pricing": { "luar_kota": 4800000, "dalam_kota": 4800000 }, "unit": "m2" },
+        { "type": "Semi Klasik", "pricing": { "luar_kota": 5300000, "dalam_kota": 5300000 }, "unit": "m2" },
+        { "type": "Klasik", "pricing": { "luar_kota": 6300000, "dalam_kota": 6300000 }, "unit": "m2" }
+      ]
+    },
+    "under_stairs": {
+      "alumunium": [
+        {
+          "id": "LBT-AL-001",
+          "category": "Bawah Tangga Alumunium",
+          "type": "Premium (Visible Frame)",
+          "pricing": { "luar_kota": 6000000, "dalam_kota": 6000000 },
+          "unit": "meter_lari",
+          "features_detail": [
+            "1. Alumunium ACP 4mm",
+            "2. Finishing ACP Bagian Luar & Dalam",
+            "3. Lampu LED Strip / Downlight",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless"
+          ],
+          "specs": "Alumunium ACP 4mm, Finishing ACP Luar Dalam"
+        },
+        {
+          "id": "LBT-AL-002",
+          "category": "Bawah Tangga Alumunium",
+          "type": "Premium (Frameless)",
+          "pricing": { "luar_kota": 6000000, "dalam_kota": 6000000 },
+          "unit": "meter_lari",
+          "features_detail": [
+            "1. Alumunium ACP 4mm",
+            "2. Finishing ACP Bagian Luar & Dalam",
+            "3. Lampu LED Strip / Downlight",
+            "4. Rell Double Track",
+            "5. Engsel Slow Motion Full Stainless"
+          ],
+          "specs": "Alumunium ACP 4mm, Finishing ACP Luar Dalam"
+        }
+      ],
+      "wood_based": [
+        { "type": "Blockboard Minimalis", "pricing": { "luar_kota": 2400000, "dalam_kota": 2300000 }, "unit": "meter_lari" },
+        { "type": "Multipleks Minimalis", "pricing": { "luar_kota": 2600000, "dalam_kota": 2500000 }, "unit": "meter_lari" }
+      ]
+    },
+    "civil_works": {
+      "pengecatan": {
+        "jasa_saja": { "luar_kota": 90000, "dalam_kota": 90000 },
+        "jasa_borong": { "luar_kota": 125000, "dalam_kota": 125000 }
+      },
+      "titik": {
+        "air": { "luar_kota": 450000, "dalam_kota": 450000 },
+        "listrik": { "luar_kota": 650000, "dalam_kota": 650000 }
+      },
+      "backsplash": {
+        "bevel_biasa": { "luar_kota": 1050000, "dalam_kota": 1050000 },
+        "mozaic": { "luar_kota": 1500000, "dalam_kota": 1500000 }
+      },
+      "coran": {
+        "finish_acian": { "luar_kota": 1900000, "dalam_kota": 1900000 },
+        "finish_keramik": { "luar_kota": 2400000, "dalam_kota": 2400000 }
+      }
+    }
+  },
+  "operational_policies": {
+    "shipping": [
+      {
+        "region": "Dalam Kota (Bandung & Sekitarnya)",
+        "rules": [
+          "Project < Rp 15.000.000 dikenakan biaya Ongkir Rp 500.000",
+          "Project >= Rp 15.000.000 Free Ongkir (Asumsi)"
+        ]
+      },
+      {
+        "region": "Luar Kota (Jabodetabek, Pantura, Jatim, Jateng)",
+        "rules": [
+          "Project < Rp 20.000.000 dikenakan biaya Ongkir Rp 1.000.000",
+          "Project >= Rp 20.000.000 Free Ongkir (Asumsi)"
+        ]
+      },
+      {
+        "category": "Kanopi & Pagar",
+        "rules": [
+          "Dalam Kota: Ongkir Rp 500.000",
+          "Luar Kota: Ongkir Rp 1.500.000"
+        ]
+      }
+    ]
+  }
+}

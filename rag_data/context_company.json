@@ -1,0 +1,51 @@
+{
+    "company_profile": {
+        "name": "PT. MENUJU KEINDAHAN INDONESIA",
+        "brand_name": "Home Putra Interior",
+        "description": "Perusahaan interior design & build profesional yang melayani pembuatan furniture custom (Kitchen Set, Wardrobe, dll) untuk area Dalam Kota (Bandung & sekitarnya) dan Luar Kota (Jabodetabek, Pantura, Jawa)",
+        "documents": [
+            {
+                "title": "Master Price List & Catalog",
+                "version": "Mei 2025",
+                "last_updated": "2026-01-30"
+            }
+        ]
+    },
+    "service_areas": {
+        "dalam_kota": {
+            "name": "Bandung & Jawa Barat",
+            "coverage": [
+                "Bandung",
+                "Cimahi",
+                "Kab. Bandung",
+                "Sumedang",
+                "Garut (sebagian)"
+            ],
+            "note": "Harga dasar berlaku di area ini"
+        },
+        "luar_kota": {
+            "name": "Jabodetabek & Lintas Provinsi",
+            "coverage": [
+                "Jakarta",
+                "Bogor",
+                "Depok",
+                "Tangerang",
+                "Bekasi",
+                "Pantura",
+                "Jawa Tengah",
+                "Jawa Timur"
+            ],
+            "note": "Berlaku penyesuaian harga atau charge ongkir sesuai ketentuan"
+        }
+    },
+    "rag_metadata": {
+        "keywords": [
+            "profil perusahaan",
+            "area layanan",
+            "lokasi",
+            "tentang kami",
+            "pt menuju keindahan indonesia"
+        ],
+        "priority": "high"
+    }
+}

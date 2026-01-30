@@ -1,0 +1,48 @@
+[
+    {
+        "id": "WR-AL-001",
+        "name": "Wardrobe / Lemari Pakaian Alumunium Premium",
+        "material": "Aluminium",
+        "price_dalam_kota": 5000000,
+        "price_luar_kota": 5000000,
+        "unit": "meter persegi (m²)",
+        "rag_context": "Lemari Pakaian Aluminium Premium. Harga Rp 5.000.000/m2. Anti rayap seumur hidup. Cocok untuk kamar lembab."
+    },
+    {
+        "id": "WR-AL-002",
+        "name": "Wardrobe / Lemari Pakaian Alumunium Luxury",
+        "material": "Aluminium",
+        "price_dalam_kota": 6000000,
+        "price_luar_kota": 6000000,
+        "unit": "meter persegi (m²)",
+        "note": "Harga kaca menyesuaikan model",
+        "rag_context": "Lemari Pakaian Aluminium Luxury Frameless. Harga Rp 6.000.000/m2. Model pintu kaca/cermin full bisa."
+    },
+    {
+        "id": "WR-BB-001",
+        "name": "Wardrobe Blockboard Minimalis",
+        "material": "Blockboard",
+        "price_dalam_kota": 2300000,
+        "price_luar_kota": 2400000,
+        "unit": "meter persegi (m²)",
+        "rag_context": "Lemari Pakaian Blockboard HPL. Harga Rp 2.300.000/m2. Solusi lemari custom ekonomis."
+    },
+    {
+        "id": "WR-MP-001",
+        "name": "Wardrobe Multipleks Minimalis",
+        "material": "Multipleks",
+        "price_dalam_kota": 2500000,
+        "price_luar_kota": 2600000,
+        "unit": "meter persegi (m²)",
+        "rag_context": "Lemari Pakaian Multipleks HPL. Harga Rp 2.500.000/m2. Standard kualitas furniture custom."
+    },
+    {
+        "id": "WR-DC-001",
+        "name": "Wardrobe Cat Duco Minimalis",
+        "material": "Multipleks Finish Duco",
+        "price_dalam_kota": 4800000,
+        "price_luar_kota": 4800000,
+        "unit": "meter persegi (m²)",
+        "rag_context": "Lemari Pakaian Cat Duco. Harga Rp 4.800.000/m2. Finishing semprot mewah, warna solid matte/glossy."
+    }
+]

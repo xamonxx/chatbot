@@ -1,0 +1,134 @@
+[
+    {
+        "id": "KS-AL-001",
+        "name": "Kitchen Set Alumunium Minimalis (Grade A)",
+        "material": "Aluminium",
+        "variant": "Minimalis Non Kayu",
+        "price_dalam_kota": 3500000,
+        "price_luar_kota": 3500000,
+        "unit": "meter lari (/m¹)",
+        "features": [
+            "Anti Rayap & Anti Air (Full Aluminium)",
+            "ACP 4mm Finishing Bagian Luar",
+            "Rel Double Track",
+            "Engsel Slow Motion Stainless",
+            "Termasuk Rak Piring & Rak Sendok"
+        ],
+        "rag_context": "Kitchen Set Aluminium Minimalis Grade A. Harga Dalam Kota: Rp 3.500.000/m. Harga Luar Kota: Rp 3.500.000/m. Solusi anti rayap harga terjangkau. Spesifikasi ACP 4mm."
+    },
+    {
+        "id": "KS-AL-002",
+        "name": "Kitchen Set Alumunium Premium (Visible Frame)",
+        "material": "Aluminium",
+        "variant": "Premium Visible Frame",
+        "price_dalam_kota": 4500000,
+        "price_luar_kota": 4500000,
+        "unit": "meter lari (/m¹)",
+        "features": [
+            "Frame Aluminium Terlihat (Estetik Industrial/Modern)",
+            "ACP 4mm High Quality",
+            "Full Accessories Stainless",
+            "Rak Piring Atas Bawah",
+            "Lampu LED Strip"
+        ],
+        "rag_context": "Kitchen Set Aluminium Premium model Visible Frame. Harga Dalam Kota: Rp 4.500.000/m. Harga Luar Kota: Rp 4.500.000/m. Tampilan lebih kokoh dengan frame yang terekspos rapi."
+    },
+    {
+        "id": "KS-AL-003",
+        "name": "Kitchen Set Alumunium Semi Klasik (Mix PVC)",
+        "material": "Aluminium Mix PVC",
+        "variant": "Semi Klasik",
+        "price_dalam_kota": 5000000,
+        "price_luar_kota": 5000000,
+        "unit": "meter lari (/m¹)",
+        "features": [
+            "Pintu PVC Profil Klasik",
+            "Body Full Aluminium ACP",
+            "Handle Bulat Antik/Klasik",
+            "Rel Panaci Khusus",
+            "Kombinasi ketahanan aluminium dengan look klasik"
+        ],
+        "rag_context": "Kitchen Set Aluminium Semi Klasik. Harga Dalam Kota: Rp 5.000.000/m. Harga Luar Kota: Rp 5.000.000/m. Menggunakan pintu PVC berprofil untuk nuansa klasik tapi body tetap aluminium anti rayap."
+    },
+    {
+        "id": "KS-AL-004",
+        "name": "Kitchen Set Alumunium Luxury (Frameless)",
+        "material": "Aluminium",
+        "variant": "Luxury Frameless",
+        "price_dalam_kota": 5500000,
+        "price_luar_kota": 5500000,
+        "unit": "meter lari (/m¹)",
+        "features": [
+            "Tampilan Bersih Tanpa Frame (Frameless)",
+            "ACP Luar & Dalam (Double Layer)",
+            "Sangat Mewah & Premium",
+            "Full Accessories Slow Motion",
+            "Rak Piring Stainless Grade Tertinggi"
+        ],
+        "rag_context": "Kitchen Set Aluminium Luxury Frameless. Harga Dalam Kota: Rp 5.500.000/m. Harga Luar Kota: Rp 5.500.000/m. Varian tertinggi aluminium, tampilan sangat rapi (frameless) dan mewah."
+    },
+    {
+        "id": "KS-PVC-001",
+        "name": "Kitchen Set PVC Board Minimalis",
+        "material": "PVC Board",
+        "variant": "Minimalis Grade A",
+        "price_dalam_kota": 4000000,
+        "price_luar_kota": 4100000,
+        "unit": "meter lari (/m¹)",
+        "features": [
+            "Bahan PVC Board 18mm (Plastik Keras Padat)",
+            "100% Anti Air & Rayap",
+            "Finishing HPL Luar, Melamin PVC Dalam",
+            "Lebih rapi dari aluminium karena solid surface"
+        ],
+        "rag_context": "Kitchen Set PVC Board Minimalis. Harga Dalam Kota: Rp 4.000.000/m. Harga Luar Kota: Rp 4.100.000/m. Solusi anti rayap yang tampilannya mirip kayu HPL. Bahan PVC Board 18mm solid."
+    },
+    {
+        "id": "KS-DUCO-001",
+        "name": "Kitchen Set Multipleks Duco Minimalis",
+        "material": "Multipleks / Plywood",
+        "variant": "Cat Duco Minimalis",
+        "price_dalam_kota": 4500000,
+        "price_luar_kota": 4000000,
+        "unit": "meter lari (/m¹)",
+        "features": [
+            "Finishing Cat Duco (Semprot)",
+            "Tampilan Mulus Tanpa Sambungan HPL",
+            "Warna Bisa Custom Sesuai Keinginan",
+            "Bahan Dasar Multipleks 18mm"
+        ],
+        "rag_context": "Kitchen Set Cat Duco Minimalis. Harga Dalam Kota: Rp 4.500.000/m. Harga Luar Kota: Rp 4.000.000/m. Finishing cat semprot mewah, tidak ada sambungan hitam (nat) seperti HPL."
+    },
+    {
+        "id": "KS-MPX-001",
+        "name": "Kitchen Set Multipleks HPL (Grade B)",
+        "material": "Multipleks / Plywood",
+        "variant": "HPL Minimalis",
+        "price_dalam_kota": 2500000,
+        "price_luar_kota": 2600000,
+        "unit": "meter lari (/m¹)",
+        "features": [
+            "Pilihan Paling Populer & Ekonomis",
+            "Bahan Multipleks 18mm (Bukan MDF/Particle Board)",
+            "Finishing HPL Taco/Setara",
+            "Lengkap Rak Piring & Sendok"
+        ],
+        "rag_context": "Kitchen Set Multipleks HPL (Best Seller). Harga Dalam Kota: Rp 2.500.000/m. Harga Luar Kota: Rp 2.600.000/m. Pilihan standar perumahan, awet selama tidak kena air berlebih/rayap."
+    },
+    {
+        "id": "KS-BB-001",
+        "name": "Kitchen Set Blockboard HPL (Grade C)",
+        "material": "Blockboard",
+        "variant": "HPL Minimalis",
+        "price_dalam_kota": 2000000,
+        "price_luar_kota": 2300000,
+        "unit": "meter lari (/m¹)",
+        "features": [
+            "Solusi Paling Hemat Budget",
+            "Bahan Blockboard 18mm",
+            "Finishing HPL",
+            "Cocok untuk kontrakan/kost atau budget terbatas"
+        ],
+        "rag_context": "Kitchen Set Blockboard HPL. Harga Dalam Kota: Rp 2.000.000/m. Harga Luar Kota: Rp 2.300.000/m. Paket hemat. Bahan blockboard (kayu potongan yang dipadatkan)."
+    }
+]
