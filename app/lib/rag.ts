@@ -2,7 +2,8 @@
 import { dbRequest } from "./tidb";
 import { pipeline } from '@xenova/transformers';
 
-const extractor = pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+// Lazy load extractor to prevent startup crashes
+let extractor: any = null;
 
 export interface RagResult {
     content: string;
@@ -12,7 +13,13 @@ export interface RagResult {
 
 export async function searchPricing(query: string, limit: number = 3): Promise<string> {
     try {
-        const extractorFn = await extractor;
+        if (!extractor) {
+            // Initialize pipeline only when needed
+            console.log("Initializing Xenova pipeline...");
+            extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+        }
+
+        const extractorFn = extractor;
         const result = await extractorFn(query, { pooling: 'mean', normalize: true });
         const embedding = Array.from(result.data);
         const embeddingString = `[${embedding.join(',')}]`;
@@ -56,6 +63,7 @@ export async function searchPricing(query: string, limit: number = 3): Promise<s
 
     } catch (error) {
         console.error("Error searching pricing RAG:", error);
+        // Fallback: Return empty string instead of crashing, allowing Chat logic to proceed with general knowledge
         return "";
     }
 }

@@ -303,35 +303,7 @@ export default function AIAssistant() {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [chatHistory]);
 
-    // === GENERATE PRICING CONTEXT (Semua kategori harga) ===
-    const generatePricingContext = () => {
-        let context = `\n=== DATA HARGA LENGKAP HOME PUTRA INTERIOR ===\n`;
-        context += `Region: ${pricingMeta.region} | Update: ${pricingMeta.period}\n\n`;
 
-        categories.forEach(cat => {
-            context += `📦 ${cat.name}:\n`;
-            cat.items.slice(0, 10).forEach(item => { // Limit 10 item per kategori
-                context += `  - ${item.name}`;
-                if (item.variant) context += ` (${item.variant})`;
-                context += `: Rp ${item.price.toLocaleString('id-ID')}/${item.unit}`;
-                context += `\n`;
-            });
-            if (cat.items.length > 10) context += `  ... dan ${cat.items.length - 10} item lainnya\n`;
-            context += `\n`;
-        });
-
-        context += `=== BIAYA CHARGE ===\n`;
-        deliveryFees.forEach(fee => {
-            context += `- ${fee.condition} (${fee.area}): Charge Rp ${fee.fee.toLocaleString('id-ID')}\n`;
-        });
-
-        context += `\n=== CATATAN ===\n`;
-        importantNotes.slice(0, 4).forEach((note, i) => {
-            context += `${i + 1}. ${note}\n`;
-        });
-
-        return context;
-    };
 
     // === API CALL (SERVER ACTION WITH RAG) ===
     // === API CALL (SERVER ACTION WITH RAG) ===
