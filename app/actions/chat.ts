@@ -1,27 +1,22 @@
 'use server';
 
 import { searchPricing } from '../lib/rag';
-import { pricingData, pricingMeta, importantNotes, deliveryFees, categories } from '../lib/pricing-data';
 import fs from 'fs';
 import path from 'path';
 
-// Fallback if RAG fails or for initial context
-const generateBaseContext = () => {
-    let context = `\n=== DATA HARGA LENGKAP HOME PUTRA INTERIOR ===\n`;
-    context += `Region: ${pricingMeta.region} | Update: ${pricingMeta.period}\n\n`;
-
-    // Add only critical summary to save tokens if RAG is used, 
-    // but here we might still want some base knowledge.
-    // Let's rely mainly on RAG for specific items.
-
-    context += `=== INFORMASI UMUM ===\n`;
-    context += `1. Gratis Survey & Desain 3D.\n`;
-    context += `2. Garansi 12 Bulan.\n`;
-
-    return context;
-};
-
+/**
+ * Server Action Utama untuk Chat AI
+ * Fungsi ini menangani logika otak Chatbot:
+ * 1. Menerima pesan user.
+ * 2. Mencari data relevan di database (RAG).
+ * 3. Membaca aturan kepribadian AI (System Prompt).
+ * 4. Mengirimkan semuanya ke Groq AI untuk dijawab.
+ * 
+ * @param userMessage - Pesan dari pengguna
+ * @param history - Riwayat percakapan sebelumnya
+ */
 export async function chatWithAI(userMessage: string, history: { role: string, text: string }[] = []) {
+    // Ambil API Key (mendukung format server-side atau client-side env)
     const apiKey = process.env.GROQ_API_KEY || process.env.NEXT_PUBLIC_GROQ_API_KEY;
 
     if (!apiKey) {
@@ -29,34 +24,35 @@ export async function chatWithAI(userMessage: string, history: { role: string, t
     }
 
     try {
-        // 1. RAG Retrieval
-        // Cari data relevan dari TiDB berdasarkan pertanyaan user
+        // === LANGKAH 1: RAG (Pencarian Data) ===
+        // Mencari 5 potongan informasi termirip dari database TiDB
         const ragContext = await searchPricing(userMessage, 5);
 
-        // 2. Load System Prompt from File
-        // This ensures the AI follows the centralized behavior rules
+        // === LANGKAH 2: MEMUAT ATURAN AI (Persona) ===
+        // Membaca file teks yang berisi gaya bicara dan aturan standar
         const rulesPath = path.join(process.cwd(), 'rag_data', 'ai_behavior_rules.txt');
         let baseRules = "";
         try {
             baseRules = fs.readFileSync(rulesPath, 'utf-8');
         } catch (e) {
-            console.error("Could not load rule file", e);
-            baseRules = "PERAN: Kamu adalah Sales Interior profesional. Jawab sopan dan berdasarkan data.";
+            console.error("Gagal membaca file rules:", e);
+            baseRules = "PERAN: Kamu adalah Sales Interior profesional.";
         }
 
+        // Menyusun Instruksi Lengkap untuk AI
         const systemPrompt = `
 ${baseRules}
 
 KONTEKS DATABASE (PENTING: Gunakan informasi ini sebagai acuan utama):
 ${ragContext ? ragContext : 'Tidak ada data spesifik dari database, gunakan pengetahuan umum interior standard.'}
 
-REFERENSI TAMBAHAN (Jika tidak ada di RAG):
+REFERENSI TAMBAHAN:
 - Garansi 12 Bulan
 - Gratis Survey & Desain 3D (Area Bandung)
 `;
 
-        // 3. Call Groq API
-        // Maintain simple history (last 5 messages) to save tokens
+        // === LANGKAH 3: MENYIAPKAN PESAN ===
+        // Mengambil 5 pesan terakhir agar hemat token tapi tetap nyambung
         const recentHistory = history.slice(-5).map(msg => ({
             role: msg.role === 'model' ? 'assistant' : 'user',
             content: msg.text
@@ -68,6 +64,7 @@ REFERENSI TAMBAHAN (Jika tidak ada di RAG):
             { role: 'user', content: userMessage }
         ];
 
+        // === LANGKAH 4: REQUEST KE GROQ CLOUD ===
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -75,7 +72,7 @@ REFERENSI TAMBAHAN (Jika tidak ada di RAG):
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: 'llama-3.3-70b-versatile', // UPDATED: Using the latest supported model
+                model: 'llama-3.3-70b-versatile', // Model Terbaru & Stabil
                 messages: messages,
                 temperature: 0.7,
                 max_tokens: 1000
@@ -92,7 +89,7 @@ REFERENSI TAMBAHAN (Jika tidak ada di RAG):
 
     } catch (error: any) {
         console.error('AI Chat Error:', error);
-        // Expose specific error for debugging
+        // Kembalikan pesan error yang jelas untuk debugging
         return { error: `Sistem Error: ${error.message}` };
     }
 }
