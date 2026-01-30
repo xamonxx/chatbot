@@ -75,7 +75,7 @@ REFERENSI TAMBAHAN (Jika tidak ada di RAG):
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: 'llama-3.3-70b-versatile', // Use the smart model
+                model: 'llama3-70b-8192', // Switched to stable model
                 messages: messages,
                 temperature: 0.7,
                 max_tokens: 1000
@@ -83,7 +83,8 @@ REFERENSI TAMBAHAN (Jika tidak ada di RAG):
         });
 
         if (!response.ok) {
-            throw new Error(`Groq API Error: ${response.statusText}`);
+            const errorText = await response.text();
+            throw new Error(`Groq API Error (${response.status}): ${errorText}`);
         }
 
         const data = await response.json();
@@ -91,6 +92,7 @@ REFERENSI TAMBAHAN (Jika tidak ada di RAG):
 
     } catch (error: any) {
         console.error('AI Chat Error:', error);
-        return { error: 'Terjadi kesalahan pada sistem AI. Silakan coba lagi nanti.' };
+        // Expose specific error for debugging
+        return { error: `Sistem Error: ${error.message}` };
     }
 }
