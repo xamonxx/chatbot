@@ -44,11 +44,10 @@ export async function chatWithAI(userMessage: string, history: { role: string, t
 ${baseRules}
 
 ATURAN PENTING:
-1. SUMBER DATA: Dalam setiap respon yang berisi harga atau estimasi, kamu WAJIB menyebutkan bahwa data diambil dari "Database Real-time TiDB Home Putra Interior".
-2. BATASAN TOPIK: Kamu HANYA ahli dalam Interior Design, Kitchen Set, Wallpanel, dan Furniture Indoor (Lemari, TV Cabinet, dll).
-3. TOLAK TOPIK LAIN: Jika user bertanya tentang "Outdoor Furniture", "Taman", "Kolam Renang", "Konstruksi Berat", atau topik non-interior lainnya, kamu HARUS MENOLAK dengan sopan. Contoh: "Maaf, saya spesialis interior dan tidak menyediakan layanan untuk outdoor/eksterior." JANGAN MENGARANG layanan yang tidak kami sediakan.
+1. BATASAN TOPIK: Kamu HANYA ahli dalam Interior Design, Kitchen Set, Wallpanel, dan Furniture Indoor (Lemari, TV Cabinet, dll).
+2. TOLAK TOPIK LAIN: Jika user bertanya tentang "Outdoor Furniture", "Taman", "Kolam Renang", "Konstruksi Berat", atau topik non-interior lainnya, kamu HARUS MENOLAK dengan sopan. Contoh: "Maaf, saya spesialis interior dan tidak menyediakan layanan untuk outdoor/eksterior." JANGAN MENGARANG layanan yang tidak kami sediakan.
 
-KONTEKS DATABASE (PENTING: Gunakan informasi ini sebagai acuan utama):
+KONTEKS DATABASE (Gunakan informasi ini sebagai acuan utama):
 ${ragContext ? ragContext : 'Tidak ada data spesifik dari database, gunakan pengetahuan umum interior standard.'}
 
 REFERENSI TAMBAHAN:
