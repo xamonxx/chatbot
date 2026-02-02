@@ -40,10 +40,10 @@ export async function searchPricing(query: string, limit: number = 3): Promise<s
       SELECT content, metadata, VEC_COSINE_DISTANCE(embedding, '${embeddingString}') as distance
       FROM pricing_embeddings
       ORDER BY distance ASC
-      LIMIT ?
+      LIMIT ${limit}
     `;
 
-        const rows = await dbRequest<RagResult[]>(sql, [limit]);
+        const rows = await dbRequest<RagResult[]>(sql);
 
         // Jika tidak ada data yang cocok, kembalikan string kosong
         if (!rows || rows.length === 0) {
