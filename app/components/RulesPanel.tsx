@@ -224,6 +224,35 @@ export default function RulesPanel() {
                 </div>
             </div>
 
+            {/* FAQ Section */}
+            <div className="bg-slate-800/30 rounded-2xl border border-slate-700/50 p-6">
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2.5 rounded-xl bg-blue-500/10">
+                        <Info size={24} className="text-blue-400" />
+                    </div>
+                    <h3 className="font-bold text-xl text-white">Pertanyaan Umum (FAQ)</h3>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                    <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                        <h4 className="font-bold text-slate-200 text-sm mb-2">Apakah survey lokasi gratis?</h4>
+                        <p className="text-sm text-slate-400">Ya, GRATIS biaya survey dan konsultasi desain 3D untuk wilayah Bandung dan sekitarnya (Dalam Kota).</p>
+                    </div>
+                    <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                        <h4 className="font-bold text-slate-200 text-sm mb-2">Berapa lama proses produksi?</h4>
+                        <p className="text-sm text-slate-400">Estimasi pengerjaan standar adalah 14-21 hari kerja, tergantung kompleksitas desain dan antrian produksi.</p>
+                    </div>
+                    <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                        <h4 className="font-bold text-slate-200 text-sm mb-2">Apakah bisa custom model?</h4>
+                        <p className="text-sm text-slate-400">Tentu! Semua produk kami custom-made. Anda bisa request model, warna, dan material sesuai keinginan.</p>
+                    </div>
+                    <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                        <h4 className="font-bold text-slate-200 text-sm mb-2">Bagaimana sistem pembayarannya?</h4>
+                        <p className="text-sm text-slate-400">DP 50% saat deal, 40% progres terpasang, dan 10% pelunasan setelah selesai (Retensi garansi).</p>
+                    </div>
+                </div>
+            </div>
+
             {/* CTA Footer */}
             <div className="text-center p-6 bg-gradient-to-r from-slate-800/50 to-slate-800/30 rounded-2xl border border-slate-700/50">
                 <p className="text-slate-400 text-sm mb-2">

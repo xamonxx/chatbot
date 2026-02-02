@@ -1,0 +1,260 @@
+[
+  {
+    "id": "TC001",
+    "title": "AI Chat Assistant - Valid Query Returns Data-Backed Response",
+    "description": "Verify that when a user submits a valid interior design or pricing query, the AI chat assistant returns a response that references real-time data from the TiDB vector database, ensuring no hallucinations.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open the Home Putra Interior AI web interface and navigate to the AI Chat Assistant section."
+      },
+      {
+        "type": "action",
+        "description": "Input a valid natural language query regarding interior design options or pricing, for example: 'What is the price for a basic kitchen set with wood finish?'"
+      },
+      {
+        "type": "action",
+        "description": "Submit the query and wait for the AI response."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the AI response contains specific data points that match current pricing from the TiDB database."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure the AI response is coherent, relevant, and references facts rather than generic or hallucinated information."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "AI Chat Assistant - Handling Unknown or Unanswerable Queries",
+    "description": "Verify that when a user submits a query that cannot be answered with available data, the AI chat assistant gracefully informs the user without hallucinations or misleading information.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open the AI Chat Assistant interface."
+      },
+      {
+        "type": "action",
+        "description": "Submit a question outside the scope of the system, for example: 'Do you offer outdoor furniture consultation?'"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the AI responds politely that the requested information is not available based on current data."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that no fabricated answers or hallucinations are present."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Product Pricing Catalog - Display Accuracy and Up-to-Date Data",
+    "description": "Verify that the pricing catalog lists Kitchen Sets, Wallpanels, and Wardrobes with accurate, up-to-date prices and specifications according to the latest data in 'pricing-data.ts'.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the Product Pricing Catalog page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that all products (Kitchen Sets, Wallpanels, Wardrobes) are displayed with correct names, specifications, and prices."
+      },
+      {
+        "type": "assertion",
+        "description": "Cross-check displayed prices against the current entries in 'pricing-data.ts' for consistency."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Product Pricing Catalog - Search and Filter Functionality",
+    "description": "Verify that the search and filter controls on the pricing catalog work correctly to allow users to find specific products or categories.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Access the Product Pricing Catalog page."
+      },
+      {
+        "type": "action",
+        "description": "Use the search input to look for a Kitchen Set called 'Modern Oak'."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that relevant products matching the search term are displayed."
+      },
+      {
+        "type": "action",
+        "description": "Apply a filter for product category 'Wardrobes'."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that only Wardrobe items are visible after filtering."
+      },
+      {
+        "type": "action",
+        "description": "Combine search and filter to refine product list."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the displayed list matches combined criteria."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Proposal Generator - Generate and Copy Quotation",
+    "description": "Verify that the Proposal Generator converts a consultation chat into a properly formatted quotation that can be copied with one click.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Conduct a consultation chat session in the AI Chat Assistant with multiple design and pricing questions."
+      },
+      {
+        "type": "action",
+        "description": "Use the Proposal Generator feature to create a quotation from the chat context."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the generated proposal includes accurate pricing and product details matching the chat conversation."
+      },
+      {
+        "type": "action",
+        "description": "Click the copy button to copy the generated proposal text."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the copied text matches the displayed proposal content."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Material Battle Module - Material Comparison Accuracy",
+    "description": "Verify that the Material Battle module correctly displays and compares technical aspects of different interior materials.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the Material Battle module."
+      },
+      {
+        "type": "action",
+        "description": "Select two different interior materials for comparison."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that all relevant technical criteria (e.g., durability, cost, finish) are displayed accurately for both materials."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the comparison clearly highlights differences and helps users make informed decisions."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Rules & Guidelines Panel - Display and Content Verification",
+    "description": "Verify Rules & Guidelines panel displays policies, shipping information, and FAQs clearly and correctly.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Rules & Guidelines panel."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure the panel lists operational rules, shipping policies, and FAQs."
+      },
+      {
+        "type": "assertion",
+        "description": "Check content readability and correctness against the source documentation."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "RAG Data Ingestion - Embedding Generation and Database Sync",
+    "description": "Verify admin script 'setup-rag.ts' processes pricing-data.ts, generates embeddings with Xenova Transformers, and correctly updates the TiDB vector database without errors.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run the admin script 'setup-rag.ts' with sample pricing and product data."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that embeddings are generated for all entries without error."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that TiDB vector database is updated with new embeddings."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that no exceptions or failures occur during ingestion."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "AI Chat Assistant - Response Performance Under Load",
+    "description": "Validate that the AI Chat Assistant responds to typical user queries within acceptable performance thresholds under load conditions.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate multiple concurrent users querying the AI Chat Assistant with valid design and pricing questions."
+      },
+      {
+        "type": "assertion",
+        "description": "Measure response times and ensure average response time is below defined threshold (e.g., 3 seconds)."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm responses remain accurate and data-backed under load."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Proposal Generator - Handles Empty or Invalid Chat Context",
+    "description": "Verify that the Proposal Generator handles attempts to generate proposals from empty or invalid chat sessions gracefully with appropriate user feedback.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open Proposal Generator without any prior chat conversation or after clearing chat history."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to generate a proposal."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the system shows an appropriate message indicating insufficient data to generate a proposal."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm no system crashes or unhandled exceptions occur."
+      }
+    ]
+  }
+]

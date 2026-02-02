@@ -138,4 +138,19 @@ A: Kita sudah ganti ke **Xenova (Local Embedding)**, jadi error ini tidak akan m
 
 ---
 
+## 🔧 Admin API Endpoints (For Testing)
+
+The following API endpoints are available for development and testing purposes:
+
+### RAG Data Ingestion
+To run the RAG setup script via HTTP (useful for automated testing):
+
+```
+GET /api/admin/run-script?name=setup-rag
+```
+
+**Note:** This endpoint is only available in development mode or when `ENABLE_ADMIN_SCRIPTS=true` is set in environment.
+
+---
+
 **© 2026 Home Putra Interior AI Project**

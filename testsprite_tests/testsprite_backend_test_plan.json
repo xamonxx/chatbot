@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "ai chat assistant data retrieval accuracy",
+    "description": "Verify that the AI Chat Assistant retrieves accurate and up-to-date data from the TiDB vector database using RAG technology, ensuring responses are data-backed and free from hallucinations."
+  },
+  {
+    "id": "TC002",
+    "title": "rag data ingestion and embedding generation",
+    "description": "Test the RAG data ingestion script to ensure it correctly processes JSON/TXT data, generates embeddings using Xenova Transformers.js, and successfully updates the TiDB vector database without errors."
+  },
+  {
+    "id": "TC003",
+    "title": "product pricing catalog display correctness",
+    "description": "Validate that the Product Pricing Catalog displays accurate and current pricing information and specifications for Kitchen Sets and Wallpanels, with proper search and filter functionality."
+  },
+  {
+    "id": "TC004",
+    "title": "proposal generator output formatting",
+    "description": "Check that the Proposal Generator correctly converts consultation chat content into neatly formatted quotations that match the chat context and can be copied with one click."
+  },
+  {
+    "id": "TC005",
+    "title": "material battle module comparison accuracy",
+    "description": "Ensure the Material Battle module accurately compares different interior materials on key technical aspects, reflecting true differences for user decision-making."
+  },
+  {
+    "id": "TC006",
+    "title": "rules and guidelines panel content display",
+    "description": "Verify that the Rules & Guidelines Panel correctly displays all operational policies, shipping information, and FAQs for user reference."
+  },
+  {
+    "id": "TC007",
+    "title": "chat assistant response performance",
+    "description": "Measure the response time of the AI Chat Assistant to ensure user interactions with the chatbot are within acceptable performance thresholds."
+  },
+  {
+    "id": "TC008",
+    "title": "admin pricing data update workflow",
+    "description": "Test the admin workflow for updating pricing data in pricing-data.ts and running the embedding generation script setup-rag.ts to confirm the TiDB vector database is updated correctly."
+  },
+  {
+    "id": "TC009",
+    "title": "search and filter functionality in pricing catalog",
+    "description": "Validate that the search and filter features in the Product Pricing Catalog work correctly, allowing users to find specific Kitchen Sets, Wallpanels, and Wardrobes efficiently."
+  },
+  {
+    "id": "TC010",
+    "title": "proposal copy functionality",
+    "description": "Verify that the one-click copy functionality in the Proposal Generator works correctly, allowing users to copy generated quotations without errors."
+  }
+]

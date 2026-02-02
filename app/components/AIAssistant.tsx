@@ -26,6 +26,7 @@ import { chatWithAI } from '../actions/chat';
 interface ChatMessage {
     role: 'user' | 'model';
     text: string;
+    latency?: number;
 }
 
 interface CalcData {
@@ -98,33 +99,7 @@ function ModeTab({
     );
 }
 
-/**
- * Chat Bubble - Bubble pesan dengan styling modern
- */
-function ChatBubble({ message }: { message: ChatMessage }) {
-    const isUser = message.role === 'user';
-    return (
-        <div className={`flex w-full mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
-            <div className={`
-                relative px-5 py-3.5 rounded-2xl shadow-sm md:shadow-md group transition-all duration-300
-                max-w-[85%] sm:max-w-[75%] md:max-w-[65%] lg:max-w-[55%]
-                ${isUser
-                    ? 'bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-tr-sm'
-                    : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-sm border border-slate-100 dark:border-slate-700'
-                }
-            `}>
-                <p className={`text-sm md:text-base leading-relaxed whitespace-pre-wrap ${isUser ? 'font-medium' : ''}`}>
-                    {message.text}
-                </p>
 
-                {/* Time Indicator (Mock) */}
-                <span className={`text-[10px] absolute bottom-1 ${isUser ? 'right-2 text-amber-100' : 'right-3 text-slate-400'} opacity-0 group-hover:opacity-100 transition-opacity`}>
-                    Just now
-                </span>
-            </div>
-        </div>
-    );
-}
 
 // Komponen Loading Bubble
 function LoadingBubble({ retryCount }: { retryCount: number }) {
@@ -144,6 +119,62 @@ function LoadingBubble({ retryCount }: { retryCount: number }) {
                         Mencoba alternatif server ({retryCount})...
                     </p>
                 )}
+            </div>
+        </div>
+    );
+}
+
+/**
+ * Chat Bubble - Bubble pesan dengan styling modern
+ */
+function ChatBubble({ message }: { message: ChatMessage }) {
+    const isUser = message.role === 'user';
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(message.text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    return (
+        <div className={`flex w-full mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
+            <div className={`
+                relative px-5 py-3.5 rounded-2xl shadow-sm md:shadow-md group transition-all duration-300
+                max-w-[85%] sm:max-w-[75%] md:max-w-[65%] lg:max-w-[55%]
+                ${isUser
+                    ? 'bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-tr-sm'
+                    : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-sm border border-slate-100 dark:border-slate-700'
+                }
+            `}>
+                <p className={`text-sm md:text-base leading-relaxed whitespace-pre-wrap ${isUser ? 'font-medium' : ''}`}>
+                    {message.text}
+                </p>
+
+                {/* Footer Info */}
+                <div className={`flex items-center gap-2 mt-2 ${isUser ? 'justify-end text-amber-100' : 'justify-between text-slate-400'}`}>
+
+                    {!isUser && (
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={handleCopy}
+                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700"
+                                title="Copy text"
+                            >
+                                {copied ? <CheckCircle2 size={12} className="text-emerald-500" /> : <Copy size={12} />}
+                            </button>
+                            {message.latency && (
+                                <span className="text-[10px] opacity-70">
+                                    {message.latency}ms
+                                </span>
+                            )}
+                        </div>
+                    )}
+
+                    <span className="text-[10px] opacity-70">
+                        Just now
+                    </span>
+                </div>
             </div>
         </div>
     );
@@ -342,10 +373,13 @@ export default function AIAssistant() {
         setIsLoading(true);
         setRetryCount(0);
 
+        const startTime = Date.now();
         // We just send the user message. The Server Action handles RAG and System Prompt.
         const reply = await callAI(userMessage);
+        const endTime = Date.now();
+        const latency = endTime - startTime;
 
-        setChatHistory(prev => [...prev, { role: 'model', text: reply }]);
+        setChatHistory(prev => [...prev, { role: 'model', text: reply, latency }]);
         setIsLoading(false);
     };
 
@@ -388,24 +422,41 @@ export default function AIAssistant() {
     const handleGenerateProposal = async () => {
         setIsLoading(true);
         setRetryCount(0);
+
+        // Define clear variables for the prompt
+        const clientName = calcData.clientName || 'Bapak/Ibu';
+        const lokasi = calcData.region === 'dalam' ? 'Dalam Kota (Bandung/Jatim)' : 'Luar Kota (Jabodetabek/Pantura)';
+        const kitchenLength = calcData.kitchenLength;
+        const wallpanelType = calcData.wallpanelType;
+        const wallpanelArea = calcData.wallpanelArea;
+
         const prompt = `
-            Buatkan draft pesan WhatsApp (Copywriting) yang sopan, rapi, dan menarik untuk dikirim ke klien.
-            Jangan gunakan format Markdown tebal/miring. Gunakan format text biasa.
+            TUGAS: Buatkan draft pesan WhatsApp (Copywriting) yang sopan, rapi, dan menarik untuk dikirim ke klien.
             
-            UNTUK KLIEN: ${calcData.clientName || 'Bapak/Ibu'}
-            DETAIL:
-            - Lokasi: ${calcData.region === 'dalam' ? 'Dalam Kota' : 'Luar Kota'}
-            - Kitchen Set: ${calcData.kitchenLength}m
-            - Wallpanel ${calcData.wallpanelType}: ${calcData.wallpanelArea}m²
+            ATURAN KETAT:
+            1. Jangan gunakan format Markdown tebal/miring. Gunakan format text biasa.
+            2. WAJIB mencantumkan SEMUA dimensi/ukuran yang diberikan klien di bawah ini.
+            3. JANGAN MENGARANG atau mengubah ukuran. Gunakan PERSIS seperti data di bawah.
             
-            DATA HARGA: ${JSON.stringify(pricingData)}
+            === DATA KLIEN (WAJIB DICANTUMKAN PERSIS) ===
+            - Nama Klien: ${clientName}
+            - Lokasi Proyek: ${lokasi}
+            - Kitchen Set: ${kitchenLength} meter
+            - Wallpanel ${wallpanelType}: ${wallpanelArea} m²
             
-            GUIDE:
-            - Buka dengan salam hangat.
-            - Rincian harga yang jelas.
-            - Total akhir.
-            - Closing statement yang mengajak diskusi.
-            - Gunakan emoji WhatsApp yang pas.
+            === DATA HARGA REFERENSI ===
+            ${JSON.stringify(pricingData)}
+            
+            === FORMAT OUTPUT ===
+            1. Salam hangat dengan nama klien
+            2. Konfirmasi ulang spesifikasi proyek (WAJIB sebutkan: Kitchen ${kitchenLength}m, Wallpanel ${wallpanelArea}m²)
+            3. Rincian harga per item dengan kalkulasi yang jelas
+            4. Total estimasi akhir
+            5. Closing statement yang mengajak diskusi
+            6. Gunakan emoji WhatsApp yang pas (🏠 🍳 📐 💰)
+            
+            CONTOH OUTPUT YANG BENAR:
+            "Assalamualaikum ${clientName} 🏠\n\nTerima kasih atas minatnya di Home Putra Interior!\n\nBerdasarkan permintaan Kakak untuk proyek di ${lokasi}, berikut estimasi biayanya:\n\n📐 Kitchen Set: ${kitchenLength} meter x Rp X.XXX.XXX = Rp XX.XXX.XXX\n📐 Wallpanel ${wallpanelType}: ${wallpanelArea} m² x Rp X.XXX.XXX = Rp XX.XXX.XXX\n\n💰 Total Estimasi: Rp XX.XXX.XXX"
         `;
         const result = await callAI(prompt);
         setProposalResult(result);
@@ -523,6 +574,22 @@ export default function AIAssistant() {
                             {/* QUICK PROMPTS (MELAYANG DI ATAS INPUT) */}
                             <div className="flex gap-2 overflow-x-auto py-2 no-scrollbar px-1">
                                 <QuickPromptButton
+                                    onClick={() => setAiMode('proposal')}
+                                    label="Proposal"
+                                    icon={<FileText size={13} />}
+                                />
+                                <QuickPromptButton
+                                    onClick={() => setAiMode('calculator')}
+                                    label="Calculator"
+                                    icon={<Calculator size={13} />}
+                                />
+                                <QuickPromptButton
+                                    onClick={() => setAiMode('comparison')}
+                                    label="Battle"
+                                    icon={<Scale size={13} />}
+                                />
+                                <div className="w-px h-6 bg-slate-600/50 mx-1 shrink-0 self-center"></div>
+                                <QuickPromptButton
                                     onClick={() => setChatInput("Berapa estimasi harga kitchen set leter L ukuran 3x2 meter?")}
                                     label="Kitchen Leter L"
                                     icon={<Zap size={13} />}
@@ -582,15 +649,22 @@ export default function AIAssistant() {
                                 </button>
 
                                 <input
+                                    id="chat-input"
+                                    data-testid="chat-input"
+                                    aria-label="Chat message input"
                                     type="text"
                                     value={chatInput}
                                     onChange={(e) => setChatInput(e.target.value)}
                                     placeholder="Tanyakan apa saja..."
                                     className="flex-1 bg-transparent border-none text-base text-slate-800 dark:text-white placeholder:text-slate-400 focus:ring-0 focus:outline-none min-h-[44px]"
                                     disabled={isLoading}
+                                    autoComplete="off"
                                 />
 
                                 <button
+                                    id="send-button"
+                                    data-testid="send-button"
+                                    aria-label="Send message"
                                     type="submit"
                                     disabled={isLoading || !chatInput.trim()}
                                     className={`
@@ -722,6 +796,8 @@ export default function AIAssistant() {
                                 </div>
 
                                 <button
+                                    id="compare-button"
+                                    data-testid="compare-button"
                                     onClick={handleCompare}
                                     disabled={isLoading || !compareData.item1 || !compareData.item2}
                                     className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold shadow-lg shadow-blue-500/30 hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 transition-all flex items-center justify-center gap-2"
@@ -732,11 +808,13 @@ export default function AIAssistant() {
                             </div>
 
                             {compareResult && (
-                                <ResultCard
-                                    title="Hasil Perbandingan"
-                                    content={compareResult}
-                                    icon={<Scale size={18} className="text-white" />}
-                                />
+                                <div id="comparison-results" data-testid="comparison-results">
+                                    <ResultCard
+                                        title="Hasil Perbandingan"
+                                        content={compareResult}
+                                        icon={<Scale size={18} className="text-white" />}
+                                    />
+                                </div>
                             )}
                         </div>
                     )
@@ -800,13 +878,15 @@ export default function AIAssistant() {
                             </div>
 
                             {proposalResult && (
-                                <ResultCard
-                                    title="Proposal WhatsApp"
-                                    content={proposalResult}
-                                    icon={<FileText size={18} className="text-white" />}
-                                    onCopy={() => copyToClipboard(proposalResult)}
-                                    copied={copied}
-                                />
+                                <div id="proposal-results" data-testid="proposal-results">
+                                    <ResultCard
+                                        title="Proposal WhatsApp"
+                                        content={proposalResult}
+                                        icon={<FileText size={18} className="text-white" />}
+                                        onCopy={() => copyToClipboard(proposalResult)}
+                                        copied={copied}
+                                    />
+                                </div>
                             )}
                         </div>
                     )
