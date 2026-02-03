@@ -67,7 +67,7 @@ async function handleRunScript(req: NextRequest) {
     // Execute using tsx
     const command = `npx tsx "${scriptPath}"`;
 
-    return new Promise((resolve) => {
+    return new Promise<Response>((resolve) => {
         exec(command, { timeout: 120000 }, (error, stdout, stderr) => {
             if (error) {
                 console.error(`exec error: ${error}`);

@@ -65,7 +65,8 @@ export interface RuleItem {
 /**
  * Format angka ke format mata uang Rupiah
  */
-export function formatCurrency(value: number): string {
+export function formatCurrency(value: number | undefined | null): string {
+    if (value === undefined || value === null) return 'Rp 0';
     if (value >= 1000000) {
         const juta = value / 1000000;
         return `Rp ${juta % 1 === 0 ? juta : juta.toFixed(1)}jt`;
@@ -550,6 +551,11 @@ export const pricingData = {
         priceOut: item.price,
         unit: `/${item.unit}`,
         note: item.variant || ""
+    })),
+    civilWorks: categories[16].items.map(item => ({
+        item: item.name,
+        price: item.price,
+        unit: `/${item.unit}`
     })),
     rules: rules
 };

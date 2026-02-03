@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ConstructAI - Project Manager's Command Center</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#ffb204",
+                        "background-light": "#ffffff",
+                        "background-dark": "#09090b",
+                        "surface-light": "#f3f4f6",
+                        "surface-dark": "#18181b",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#27272a",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+<style type="text/tailwindcss">
+        .bg-grid-pattern {
+            background-size: 20px 20px;
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+        }
+        .dark .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        :root {
+            --primary-color: #ffb204;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 h-screen w-full flex overflow-hidden font-sans transition-colors duration-300">
+<aside class="w-64 bg-zinc-950 flex-shrink-0 flex flex-col border-r border-zinc-800 z-30">
+<div class="h-16 flex items-center px-6 border-b border-zinc-800">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-zinc-900 font-bold">
+<span class="material-symbols-outlined text-xl">architecture</span>
+</div>
+<span class="text-white font-display font-bold text-lg tracking-tight">ConstructAI</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-6 px-4 space-y-8 no-scrollbar">
+<div>
+<h3 class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 px-2">Workspace</h3>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-primary bg-zinc-900 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+<span class="text-sm font-medium">Assistant</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">floor</span>
+<span class="text-sm font-medium">Floor Plans</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<span class="text-sm font-medium">Materials</span>
+</a>
+</nav>
+</div>
+<div>
+<div class="flex items-center justify-between mb-3 px-2">
+<h3 class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Active Projects</h3>
+<button class="text-zinc-500 hover:text-primary">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-white bg-zinc-900 border-l-2 border-primary rounded-r-lg transition-colors" href="#">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-sm font-medium truncate">Modern Loft Reno</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-lg transition-colors" href="#">
+<span class="w-2 h-2 rounded-full bg-zinc-600"></span>
+<span class="text-sm font-medium truncate">Downtown Office</span>
+</a>
+</nav>
+</div>
+</div>
+<div class="p-4 border-t border-zinc-900 bg-zinc-950">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-900 cursor-pointer transition-colors">
+<img alt="User" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8BQFX7yJT28LnDFGtwez_-pFzwSevqQEEzvd6QFzCXcSPhFkyb15Up9lpGqqGtKiCVJ2FTfbvm1--9TFEuryKZtNXtVawwY1MzHJ8Mt4VtFlZD0r-aVH80S05gearbYwK_i-r0JYhbY82GogHtOBbRRgK4uBnnTO5F33mhhyhtu_QQsTaMWpC4gEz4IRdsQIYhYzTk-uS4F2iLbJ6gwN-aqvZxsQw_P44ZAbDuCfzP4yC7YIGzs1KW3whITUptS6UhWtrEckYSauU"/>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-white truncate">Alex Designer</p>
+<p class="text-[10px] text-zinc-500 uppercase font-bold tracking-tighter">Pro Plan</p>
+</div>
+<span class="material-symbols-outlined text-zinc-500 text-lg">settings</span>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col relative bg-white dark:bg-zinc-950 border-r border-border-light dark:border-border-dark">
+<header class="h-16 flex items-center justify-between px-6 border-b border-border-light dark:border-border-dark bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm z-10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-zinc-400 md:hidden">menu</span>
+<div>
+<h1 class="text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+                        Project Assistant
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+</h1>
+<p class="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">Live Session</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-500 transition-colors">
+<span class="material-symbols-outlined text-xl">search</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-6 space-y-6 bg-grid-pattern no-scrollbar pb-32">
+<div class="flex items-center justify-center">
+<span class="bg-zinc-100 dark:bg-zinc-900 text-zinc-500 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-border-light dark:border-border-dark">Today</span>
+</div>
+<div class="flex gap-4 max-w-2xl">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center text-primary shadow-lg ring-1 ring-zinc-800">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+</div>
+<div class="flex-1 space-y-1">
+<div class="bg-white dark:bg-zinc-900 border border-border-light dark:border-border-dark p-4 rounded-2xl rounded-tl-none shadow-sm text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
+                        I've analyzed the mood board. For the "Modern Loft" aesthetic, I recommend looking at industrial flooring. I've sent the top technical match to your <b>Project Insights</b> panel on the right.
+                    </div>
+<span class="text-[10px] text-zinc-400 px-1 uppercase font-bold">10:23 AM</span>
+</div>
+</div>
+<div class="flex gap-4 flex-row-reverse max-w-2xl ml-auto">
+<img class="flex-shrink-0 w-8 h-8 rounded-lg shadow-md ring-1 ring-border-light dark:ring-border-dark object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAquQgHUy4FvLo6vQZN8vBfZf0edVPZonmbW1-eNG4GZlAvaeS_03kMwmE2x7ejTZvPFVOxa4bKIdmjwYkUThtO9VMRQnx5QFV1EnTo4BlILXgSESnoUQS5FCNys7h7yG1-wL6oa5so-2ZDcclKzKqv6pv4V0-uVYnQeYaqXAJ66agbsbfhoPiACiv7FmHkypIETtpUsAEPk0da-Vimkv_Z33vwBFC3j_XXavaRTY2pQwASCirMmQCG2xU4w8Am77uaFECkZhjUHgwq"/>
+<div class="flex-1 space-y-1 text-right">
+<div class="bg-primary text-zinc-950 font-semibold p-4 rounded-2xl rounded-tr-none shadow-md text-sm leading-relaxed inline-block text-left border-b-2 border-black/10">
+                        Thanks. Let me review the specs in the command center.
+                    </div>
+<div>
+<span class="text-[10px] text-zinc-400 px-1 uppercase font-bold">10:25 AM</span>
+</div>
+</div>
+</div>
+<div class="flex gap-4 max-w-2xl">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center text-primary opacity-50">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+</div>
+<div class="flex items-center gap-1.5 h-10 px-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-full border border-border-light dark:border-border-dark">
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce"></span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-6 left-0 right-0 flex justify-center px-6">
+<div class="w-full max-w-2xl bg-white/90 dark:bg-zinc-900/95 backdrop-blur-md border border-border-light dark:border-border-dark rounded-2xl shadow-2xl p-2 flex items-end gap-2">
+<div class="flex gap-1 pb-1">
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">mic</span>
+</button>
+</div>
+<textarea class="flex-1 bg-transparent border-0 focus:ring-0 text-zinc-800 dark:text-zinc-200 placeholder-zinc-500 text-sm py-3 resize-none max-h-32" placeholder="Type a message or command..." rows="1"></textarea>
+<button class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-zinc-950 hover:bg-yellow-400 transition-colors shadow-lg shadow-primary/20 mb-0.5">
+<span class="material-symbols-outlined font-bold">send</span>
+</button>
+</div>
+</div>
+</main>
+<aside class="w-[400px] flex-shrink-0 flex flex-col bg-zinc-50 dark:bg-zinc-900/30 z-20">
+<header class="h-16 flex items-center justify-between px-6 border-b border-border-light dark:border-border-dark bg-white dark:bg-zinc-950/50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">insights</span>
+<h2 class="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-wider">Project Insights</h2>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-500">
+<span class="material-symbols-outlined text-lg">history</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar">
+<div class="grid grid-cols-2 gap-3">
+<div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-border-dark shadow-sm">
+<p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Budget Used</p>
+<p class="text-xl font-display font-bold text-zinc-900 dark:text-white">42%</p>
+</div>
+<div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-border-dark shadow-sm">
+<p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Timeline</p>
+<p class="text-xl font-display font-bold text-zinc-900 dark:text-white">Day 14</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest">Active Material Review</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">NEW MATCH</span>
+</div>
+<div class="bg-white dark:bg-zinc-900 border-2 border-primary rounded-2xl overflow-hidden shadow-xl ring-4 ring-primary/5">
+<div class="relative h-44 bg-zinc-200">
+<img alt="Polished Concrete Texture" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASdMbREZIyzIXuRSvDQjz90CrGMo1g5QQgdCfOa2gxaHVNONL7g_QPHy4z67nSLAzyMMExj-Q6-fHaBtOBAGegR1tEIqdako7HVLmshEiuE8eeuD0ZZ21GI4OtPW-6PI-ahT_r_1in5uDnuZma5IET4z3eRyJRumnpPDVce02f8d3jvlzGrIx2Zsg1krLl7bYZIk8HEeu0B6t6MWc8Y9lWRFvqc0DQecjTlptpclf9UuO7Rc7h3wQH2m7Kj7vWUil6woF4pZn2y40D"/>
+<div class="absolute top-3 right-3 bg-zinc-900/80 text-white text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-md border border-white/10">
+                            98% MATCH
+                        </div>
+</div>
+<div class="p-5 space-y-4">
+<div>
+<h4 class="text-lg font-bold text-zinc-900 dark:text-white">Polished Concrete</h4>
+<p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Architectural Grade • Micro-topping Finish</p>
+</div>
+<div class="grid grid-cols-2 gap-4 py-4 border-y border-zinc-100 dark:border-zinc-800">
+<div>
+<p class="text-[10px] font-bold text-zinc-400 uppercase tracking-tighter">Unit Price</p>
+<p class="text-sm font-bold text-zinc-900 dark:text-white">$12.50 /sqft</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-zinc-400 uppercase tracking-tighter">Durability</p>
+<div class="flex gap-0.5 mt-0.5">
+<span class="w-2.5 h-1.5 bg-primary rounded-full"></span>
+<span class="w-2.5 h-1.5 bg-primary rounded-full"></span>
+<span class="w-2.5 h-1.5 bg-primary rounded-full"></span>
+<span class="w-2.5 h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-full"></span>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<button class="w-full py-3 bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 rounded-xl text-sm font-bold hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+                                Approve Selection
+                            </button>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-2.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-xl text-[11px] font-bold uppercase tracking-wider hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+                                    Compare
+                                </button>
+<button class="py-2.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-xl text-[11px] font-bold uppercase tracking-wider hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+                                    Samples
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-2 space-y-4">
+<h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest">Next Steps</h3>
+<div class="space-y-2">
+<div class="flex items-center gap-3 p-3 bg-white dark:bg-zinc-900/50 border border-border-light dark:border-border-dark rounded-xl hover:border-primary/40 cursor-pointer group transition-all">
+<div class="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">pending_actions</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-zinc-900 dark:text-white">Finalize Sub-flooring</p>
+<p class="text-[10px] text-zinc-500">Awaiting specs from GC</p>
+</div>
+<span class="material-symbols-outlined text-zinc-300 group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-white dark:bg-zinc-900/50 border border-border-light dark:border-border-dark rounded-xl hover:border-primary/40 cursor-pointer group transition-all opacity-60">
+<div class="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">local_shipping</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-zinc-400">Logistics Planning</p>
+<p class="text-[10px] text-zinc-500 italic">Unlocks after approval</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-border-light dark:border-border-dark bg-white dark:bg-zinc-950/50">
+<button class="w-full flex items-center justify-between px-4 py-3 bg-zinc-100 dark:bg-zinc-800 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-primary hover:text-zinc-950 transition-all">
+<span class="text-xs font-bold uppercase tracking-widest">Export Project Report</span>
+<span class="material-symbols-outlined">description</span>
+</button>
+</div>
+</aside>
+<button class="fixed top-4 right-[420px] z-50 p-2 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 rounded-full shadow-lg border border-border-light dark:border-border-dark hover:scale-110 transition-transform" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-sm">dark_mode</span>
+</button>
+
+</body></html>

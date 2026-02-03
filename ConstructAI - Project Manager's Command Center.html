@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<!-- saved from url=(0137)file:///C:/Users/ramad/AppData/Local/Temp/0f068059-5719-4d82-8dae-a7197006f7f4_stitch_ai_interior_design_chat_dashboard.zip.7f4/code.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ConstructAI - Project Manager's Command Center</title>
+<link href="https://fonts.googleapis.com/" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect">
+<link href="./ConstructAI - Project Manager&#39;s Command Center_files/css2" rel="stylesheet">
+<link href="./ConstructAI - Project Manager&#39;s Command Center_files/css2(1)" rel="stylesheet">
+<link href="./ConstructAI - Project Manager&#39;s Command Center_files/css2(2)" rel="stylesheet">
+<script src="./ConstructAI - Project Manager&#39;s Command Center_files/saved_resource"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#ffb204",
+                        "background-light": "#ffffff",
+                        "background-dark": "#09090b",
+                        "surface-light": "#f3f4f6",
+                        "surface-dark": "#18181b",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#27272a",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+<style type="text/tailwindcss">
+        .bg-grid-pattern {
+            background-size: 20px 20px;
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+        }
+        .dark .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        :root {
+            --primary-color: #ffb204;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Inter, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}[type='text'],input:where(:not([type])),[type='email'],[type='url'],[type='password'],[type='number'],[type='date'],[type='datetime-local'],[type='month'],[type='search'],[type='tel'],[type='time'],[type='week'],[multiple],textarea,select{-webkit-appearance:none;appearance:none;background-color:#fff;border-color:#6b7280;border-width:1px;border-radius:0px;padding-top:0.5rem;padding-right:0.75rem;padding-bottom:0.5rem;padding-left:0.75rem;font-size:1rem;line-height:1.5rem;--tw-shadow:0 0 #0000;}[type='text']:focus, input:where(:not([type])):focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus{outline:2px solid transparent;outline-offset:2px;--tw-ring-inset:var(--tw-empty,/*!*/ /*!*/);--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:#2563eb;--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);border-color:#2563eb}input::placeholder,textarea::placeholder{color:#6b7280;opacity:1}::-webkit-datetime-edit-fields-wrapper{padding:0}::-webkit-date-and-time-value{min-height:1.5em;text-align:inherit}::-webkit-datetime-edit{display:inline-flex}::-webkit-datetime-edit,::-webkit-datetime-edit-year-field,::-webkit-datetime-edit-month-field,::-webkit-datetime-edit-day-field,::-webkit-datetime-edit-hour-field,::-webkit-datetime-edit-minute-field,::-webkit-datetime-edit-second-field,::-webkit-datetime-edit-millisecond-field,::-webkit-datetime-edit-meridiem-field{padding-top:0;padding-bottom:0}select{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");background-position:right 0.5rem center;background-repeat:no-repeat;background-size:1.5em 1.5em;padding-right:2.5rem;print-color-adjust:exact}[multiple],[size]:where(select:not([size="1"])){background-image:initial;background-position:initial;background-repeat:unset;background-size:initial;padding-right:0.75rem;print-color-adjust:unset}[type='checkbox'],[type='radio']{-webkit-appearance:none;appearance:none;padding:0;print-color-adjust:exact;display:inline-block;vertical-align:middle;background-origin:border-box;-webkit-user-select:none;user-select:none;flex-shrink:0;height:1rem;width:1rem;color:#2563eb;background-color:#fff;border-color:#6b7280;border-width:1px;--tw-shadow:0 0 #0000}[type='checkbox']{border-radius:0px}[type='radio']{border-radius:100%}[type='checkbox']:focus,[type='radio']:focus{outline:2px solid transparent;outline-offset:2px;--tw-ring-inset:var(--tw-empty,/*!*/ /*!*/);--tw-ring-offset-width:2px;--tw-ring-offset-color:#fff;--tw-ring-color:#2563eb;--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)}[type='checkbox']:checked,[type='radio']:checked{border-color:transparent;background-color:currentColor;background-size:100% 100%;background-position:center;background-repeat:no-repeat}[type='checkbox']:checked{background-image:url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");}@media (forced-colors: active) {[type='checkbox']:checked{-webkit-appearance:auto;appearance:auto}}[type='radio']:checked{background-image:url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");}@media (forced-colors: active) {[type='radio']:checked{-webkit-appearance:auto;appearance:auto}}[type='checkbox']:checked:hover,[type='checkbox']:checked:focus,[type='radio']:checked:hover,[type='radio']:checked:focus{border-color:transparent;background-color:currentColor}[type='checkbox']:indeterminate{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'%3e%3cpath stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 8h8'/%3e%3c/svg%3e");border-color:transparent;background-color:currentColor;background-size:100% 100%;background-position:center;background-repeat:no-repeat;}@media (forced-colors: active) {[type='checkbox']:indeterminate{-webkit-appearance:auto;appearance:auto}}[type='checkbox']:indeterminate:hover,[type='checkbox']:indeterminate:focus{border-color:transparent;background-color:currentColor}[type='file']{background:unset;border-color:inherit;border-width:0;border-radius:0;padding:0;font-size:unset;line-height:inherit}[type='file']:focus{outline:1px solid ButtonText;outline:1px auto -webkit-focus-ring-color}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.bottom-6{bottom:1.5rem}.left-0{left:0px}.right-0{right:0px}.right-3{right:0.75rem}.right-\[420px\]{right:420px}.top-3{top:0.75rem}.top-4{top:1rem}.z-10{z-index:10}.z-20{z-index:20}.z-30{z-index:30}.z-50{z-index:50}.mb-0\.5{margin-bottom:0.125rem}.mb-1{margin-bottom:0.25rem}.mb-3{margin-bottom:0.75rem}.ml-auto{margin-left:auto}.mt-0\.5{margin-top:0.125rem}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.h-1\.5{height:0.375rem}.h-10{height:2.5rem}.h-16{height:4rem}.h-2{height:0.5rem}.h-44{height:11rem}.h-8{height:2rem}.h-9{height:2.25rem}.h-full{height:100%}.h-screen{height:100vh}.max-h-32{max-height:8rem}.w-1\.5{width:0.375rem}.w-10{width:2.5rem}.w-2{width:0.5rem}.w-2\.5{width:0.625rem}.w-64{width:16rem}.w-8{width:2rem}.w-9{width:2.25rem}.w-\[400px\]{width:400px}.w-full{width:100%}.min-w-0{min-width:0px}.max-w-2xl{max-width:42rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}@keyframes bounce{0%, 100%{transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)}50%{transform:none;animation-timing-function:cubic-bezier(0,0,0.2,1)}}.animate-bounce{animation:bounce 1s infinite}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.cursor-pointer{cursor:pointer}.resize-none{resize:none}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-row-reverse{flex-direction:row-reverse}.flex-col{flex-direction:column}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-0\.5{gap:0.125rem}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-r-lg{border-top-right-radius:0.5rem;border-bottom-right-radius:0.5rem}.rounded-tl-none{border-top-left-radius:0px}.rounded-tr-none{border-top-right-radius:0px}.border{border-width:1px}.border-0{border-width:0px}.border-2{border-width:2px}.border-y{border-top-width:1px;border-bottom-width:1px}.border-b{border-bottom-width:1px}.border-b-2{border-bottom-width:2px}.border-l-2{border-left-width:2px}.border-r{border-right-width:1px}.border-t{border-top-width:1px}.border-black\/10{border-color:rgb(0 0 0 / 0.1)}.border-border-light{--tw-border-opacity:1;border-color:rgb(229 231 235 / var(--tw-border-opacity, 1))}.border-primary{--tw-border-opacity:1;border-color:rgb(255 178 4 / var(--tw-border-opacity, 1))}.border-primary\/20{border-color:rgb(255 178 4 / 0.2)}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.border-zinc-100{--tw-border-opacity:1;border-color:rgb(244 244 245 / var(--tw-border-opacity, 1))}.border-zinc-800{--tw-border-opacity:1;border-color:rgb(39 39 42 / var(--tw-border-opacity, 1))}.border-zinc-900{--tw-border-opacity:1;border-color:rgb(24 24 27 / var(--tw-border-opacity, 1))}.bg-background-light{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-orange-100{--tw-bg-opacity:1;background-color:rgb(255 237 213 / var(--tw-bg-opacity, 1))}.bg-primary{--tw-bg-opacity:1;background-color:rgb(255 178 4 / var(--tw-bg-opacity, 1))}.bg-primary\/10{background-color:rgb(255 178 4 / 0.1)}.bg-transparent{background-color:transparent}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/80{background-color:rgb(255 255 255 / 0.8)}.bg-white\/90{background-color:rgb(255 255 255 / 0.9)}.bg-zinc-100{--tw-bg-opacity:1;background-color:rgb(244 244 245 / var(--tw-bg-opacity, 1))}.bg-zinc-200{--tw-bg-opacity:1;background-color:rgb(228 228 231 / var(--tw-bg-opacity, 1))}.bg-zinc-400{--tw-bg-opacity:1;background-color:rgb(161 161 170 / var(--tw-bg-opacity, 1))}.bg-zinc-50{--tw-bg-opacity:1;background-color:rgb(250 250 250 / var(--tw-bg-opacity, 1))}.bg-zinc-600{--tw-bg-opacity:1;background-color:rgb(82 82 91 / var(--tw-bg-opacity, 1))}.bg-zinc-900{--tw-bg-opacity:1;background-color:rgb(24 24 27 / var(--tw-bg-opacity, 1))}.bg-zinc-900\/80{background-color:rgb(24 24 27 / 0.8)}.bg-zinc-950{--tw-bg-opacity:1;background-color:rgb(9 9 11 / var(--tw-bg-opacity, 1))}.object-cover{object-fit:cover}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-1{padding-bottom:0.25rem}.pb-32{padding-bottom:8rem}.pt-2{padding-top:0.5rem}.text-left{text-align:left}.text-right{text-align:right}.font-display{font-family:Space Grotesk, sans-serif}.font-sans{font-family:Inter, sans-serif}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[20px\]{font-size:20px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-relaxed{line-height:1.625}.tracking-tight{letter-spacing:-0.025em}.tracking-tighter{letter-spacing:-0.05em}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.text-orange-600{--tw-text-opacity:1;color:rgb(234 88 12 / var(--tw-text-opacity, 1))}.text-primary{--tw-text-opacity:1;color:rgb(255 178 4 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-zinc-300{--tw-text-opacity:1;color:rgb(212 212 216 / var(--tw-text-opacity, 1))}.text-zinc-400{--tw-text-opacity:1;color:rgb(161 161 170 / var(--tw-text-opacity, 1))}.text-zinc-500{--tw-text-opacity:1;color:rgb(113 113 122 / var(--tw-text-opacity, 1))}.text-zinc-700{--tw-text-opacity:1;color:rgb(63 63 70 / var(--tw-text-opacity, 1))}.text-zinc-800{--tw-text-opacity:1;color:rgb(39 39 42 / var(--tw-text-opacity, 1))}.text-zinc-900{--tw-text-opacity:1;color:rgb(24 24 27 / var(--tw-text-opacity, 1))}.text-zinc-950{--tw-text-opacity:1;color:rgb(9 9 11 / var(--tw-text-opacity, 1))}.placeholder-zinc-500::placeholder{--tw-placeholder-opacity:1;color:rgb(113 113 122 / var(--tw-placeholder-opacity, 1))}.opacity-50{opacity:0.5}.opacity-60{opacity:0.6}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-primary\/20{--tw-shadow-color:rgb(255 178 4 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.ring-4{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.ring-border-light{--tw-ring-opacity:1;--tw-ring-color:rgb(229 231 235 / var(--tw-ring-opacity, 1))}.ring-primary\/5{--tw-ring-color:rgb(255 178 4 / 0.05)}.ring-zinc-800{--tw-ring-opacity:1;--tw-ring-color:rgb(39 39 42 / var(--tw-ring-opacity, 1))}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.\[animation-delay\:0\.2s\]{animation-delay:0.2s}.\[animation-delay\:0\.4s\]{animation-delay:0.4s}
+        .bg-grid-pattern {
+            background-size: 20px 20px;
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+        }
+        .dark .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        :root {
+            --primary-color: #ffb204;
+        }
+        .hover\:scale-110:hover{--tw-scale-x:1.1;--tw-scale-y:1.1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}
+        .hover\:border-primary\/40:hover{border-color:rgb(255 178 4 / 0.4)}
+        .hover\:bg-primary:hover{--tw-bg-opacity:1;background-color:rgb(255 178 4 / var(--tw-bg-opacity, 1))}
+        .hover\:bg-yellow-400:hover{--tw-bg-opacity:1;background-color:rgb(250 204 21 / var(--tw-bg-opacity, 1))}
+        .hover\:bg-zinc-100:hover{--tw-bg-opacity:1;background-color:rgb(244 244 245 / var(--tw-bg-opacity, 1))}
+        .hover\:bg-zinc-200:hover{--tw-bg-opacity:1;background-color:rgb(228 228 231 / var(--tw-bg-opacity, 1))}
+        .hover\:bg-zinc-800:hover{--tw-bg-opacity:1;background-color:rgb(39 39 42 / var(--tw-bg-opacity, 1))}
+        .hover\:bg-zinc-900:hover{--tw-bg-opacity:1;background-color:rgb(24 24 27 / var(--tw-bg-opacity, 1))}
+        .hover\:text-primary:hover{--tw-text-opacity:1;color:rgb(255 178 4 / var(--tw-text-opacity, 1))}
+        .hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}
+        .hover\:text-zinc-950:hover{--tw-text-opacity:1;color:rgb(9 9 11 / var(--tw-text-opacity, 1))}
+        .focus\:ring-0:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}
+        .group:hover .group-hover\:text-primary{--tw-text-opacity:1;color:rgb(255 178 4 / var(--tw-text-opacity, 1))}
+        .dark\:border-border-dark:is(.dark *){--tw-border-opacity:1;border-color:rgb(39 39 42 / var(--tw-border-opacity, 1))}
+        .dark\:border-zinc-800:is(.dark *){--tw-border-opacity:1;border-color:rgb(39 39 42 / var(--tw-border-opacity, 1))}
+        .dark\:bg-background-dark:is(.dark *){--tw-bg-opacity:1;background-color:rgb(9 9 11 / var(--tw-bg-opacity, 1))}
+        .dark\:bg-orange-900\/30:is(.dark *){background-color:rgb(124 45 18 / 0.3)}
+        .dark\:bg-white:is(.dark *){--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}
+        .dark\:bg-zinc-700:is(.dark *){--tw-bg-opacity:1;background-color:rgb(63 63 70 / var(--tw-bg-opacity, 1))}
+        .dark\:bg-zinc-800:is(.dark *){--tw-bg-opacity:1;background-color:rgb(39 39 42 / var(--tw-bg-opacity, 1))}
+        .dark\:bg-zinc-900:is(.dark *){--tw-bg-opacity:1;background-color:rgb(24 24 27 / var(--tw-bg-opacity, 1))}
+        .dark\:bg-zinc-900\/30:is(.dark *){background-color:rgb(24 24 27 / 0.3)}
+        .dark\:bg-zinc-900\/50:is(.dark *){background-color:rgb(24 24 27 / 0.5)}
+        .dark\:bg-zinc-900\/95:is(.dark *){background-color:rgb(24 24 27 / 0.95)}
+        .dark\:bg-zinc-950:is(.dark *){--tw-bg-opacity:1;background-color:rgb(9 9 11 / var(--tw-bg-opacity, 1))}
+        .dark\:bg-zinc-950\/50:is(.dark *){background-color:rgb(9 9 11 / 0.5)}
+        .dark\:bg-zinc-950\/80:is(.dark *){background-color:rgb(9 9 11 / 0.8)}
+        .dark\:text-orange-400:is(.dark *){--tw-text-opacity:1;color:rgb(251 146 60 / var(--tw-text-opacity, 1))}
+        .dark\:text-slate-200:is(.dark *){--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}
+        .dark\:text-white:is(.dark *){--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}
+        .dark\:text-zinc-200:is(.dark *){--tw-text-opacity:1;color:rgb(228 228 231 / var(--tw-text-opacity, 1))}
+        .dark\:text-zinc-300:is(.dark *){--tw-text-opacity:1;color:rgb(212 212 216 / var(--tw-text-opacity, 1))}
+        .dark\:text-zinc-400:is(.dark *){--tw-text-opacity:1;color:rgb(161 161 170 / var(--tw-text-opacity, 1))}
+        .dark\:text-zinc-950:is(.dark *){--tw-text-opacity:1;color:rgb(9 9 11 / var(--tw-text-opacity, 1))}
+        .dark\:ring-border-dark:is(.dark *){--tw-ring-opacity:1;--tw-ring-color:rgb(39 39 42 / var(--tw-ring-opacity, 1))}
+        .dark\:hover\:bg-zinc-100:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(244 244 245 / var(--tw-bg-opacity, 1))}
+        .dark\:hover\:bg-zinc-700:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(63 63 70 / var(--tw-bg-opacity, 1))}
+        .dark\:hover\:bg-zinc-900:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(24 24 27 / var(--tw-bg-opacity, 1))}
+        @media (min-width: 768px){.md\:hidden{display:none}}
+    </style></head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 h-screen w-full flex overflow-hidden font-sans transition-colors duration-300">
+<aside class="w-64 bg-zinc-950 flex-shrink-0 flex flex-col border-r border-zinc-800 z-30">
+<div class="h-16 flex items-center px-6 border-b border-zinc-800">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-zinc-900 font-bold">
+<span class="material-symbols-outlined text-xl">architecture</span>
+</div>
+<span class="text-white font-display font-bold text-lg tracking-tight">ConstructAI</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-6 px-4 space-y-8 no-scrollbar">
+<div>
+<h3 class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 px-2">Workspace</h3>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-primary bg-zinc-900 rounded-lg transition-colors" href="file:///C:/Users/ramad/AppData/Local/Temp/0f068059-5719-4d82-8dae-a7197006f7f4_stitch_ai_interior_design_chat_dashboard.zip.7f4/code.html#">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+<span class="text-sm font-medium">Assistant</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-lg transition-colors" href="file:///C:/Users/ramad/AppData/Local/Temp/0f068059-5719-4d82-8dae-a7197006f7f4_stitch_ai_interior_design_chat_dashboard.zip.7f4/code.html#">
+<span class="material-symbols-outlined text-[20px]">floor</span>
+<span class="text-sm font-medium">Floor Plans</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-lg transition-colors" href="file:///C:/Users/ramad/AppData/Local/Temp/0f068059-5719-4d82-8dae-a7197006f7f4_stitch_ai_interior_design_chat_dashboard.zip.7f4/code.html#">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<span class="text-sm font-medium">Materials</span>
+</a>
+</nav>
+</div>
+<div>
+<div class="flex items-center justify-between mb-3 px-2">
+<h3 class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Active Projects</h3>
+<button class="text-zinc-500 hover:text-primary">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-white bg-zinc-900 border-l-2 border-primary rounded-r-lg transition-colors" href="file:///C:/Users/ramad/AppData/Local/Temp/0f068059-5719-4d82-8dae-a7197006f7f4_stitch_ai_interior_design_chat_dashboard.zip.7f4/code.html#">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-sm font-medium truncate">Modern Loft Reno</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-lg transition-colors" href="file:///C:/Users/ramad/AppData/Local/Temp/0f068059-5719-4d82-8dae-a7197006f7f4_stitch_ai_interior_design_chat_dashboard.zip.7f4/code.html#">
+<span class="w-2 h-2 rounded-full bg-zinc-600"></span>
+<span class="text-sm font-medium truncate">Downtown Office</span>
+</a>
+</nav>
+</div>
+</div>
+<div class="p-4 border-t border-zinc-900 bg-zinc-950">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-900 cursor-pointer transition-colors">
+<img alt="User" class="w-8 h-8 rounded-full" src="./ConstructAI - Project Manager&#39;s Command Center_files/unnamed.png">
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-white truncate">Alex Designer</p>
+<p class="text-[10px] text-zinc-500 uppercase font-bold tracking-tighter">Pro Plan</p>
+</div>
+<span class="material-symbols-outlined text-zinc-500 text-lg">settings</span>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col relative bg-white dark:bg-zinc-950 border-r border-border-light dark:border-border-dark">
+<header class="h-16 flex items-center justify-between px-6 border-b border-border-light dark:border-border-dark bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm z-10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-zinc-400 md:hidden">menu</span>
+<div>
+<h1 class="text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+                        Project Assistant
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+</h1>
+<p class="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">Live Session</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-500 transition-colors">
+<span class="material-symbols-outlined text-xl">search</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-6 space-y-6 bg-grid-pattern no-scrollbar pb-32">
+<div class="flex items-center justify-center">
+<span class="bg-zinc-100 dark:bg-zinc-900 text-zinc-500 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-border-light dark:border-border-dark">Today</span>
+</div>
+<div class="flex gap-4 max-w-2xl">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center text-primary shadow-lg ring-1 ring-zinc-800">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+</div>
+<div class="flex-1 space-y-1">
+<div class="bg-white dark:bg-zinc-900 border border-border-light dark:border-border-dark p-4 rounded-2xl rounded-tl-none shadow-sm text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
+                        I've analyzed the mood board. For the "Modern Loft" aesthetic, I recommend looking at industrial flooring. I've sent the top technical match to your <b>Project Insights</b> panel on the right.
+                    </div>
+<span class="text-[10px] text-zinc-400 px-1 uppercase font-bold">10:23 AM</span>
+</div>
+</div>
+<div class="flex gap-4 flex-row-reverse max-w-2xl ml-auto">
+<img class="flex-shrink-0 w-8 h-8 rounded-lg shadow-md ring-1 ring-border-light dark:ring-border-dark object-cover" src="./ConstructAI - Project Manager&#39;s Command Center_files/unnamed(1).png">
+<div class="flex-1 space-y-1 text-right">
+<div class="bg-primary text-zinc-950 font-semibold p-4 rounded-2xl rounded-tr-none shadow-md text-sm leading-relaxed inline-block text-left border-b-2 border-black/10">
+                        Thanks. Let me review the specs in the command center.
+                    </div>
+<div>
+<span class="text-[10px] text-zinc-400 px-1 uppercase font-bold">10:25 AM</span>
+</div>
+</div>
+</div>
+<div class="flex gap-4 max-w-2xl">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center text-primary opacity-50">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+</div>
+<div class="flex items-center gap-1.5 h-10 px-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-full border border-border-light dark:border-border-dark">
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce"></span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-6 left-0 right-0 flex justify-center px-6">
+<div class="w-full max-w-2xl bg-white/90 dark:bg-zinc-900/95 backdrop-blur-md border border-border-light dark:border-border-dark rounded-2xl shadow-2xl p-2 flex items-end gap-2">
+<div class="flex gap-1 pb-1">
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">mic</span>
+</button>
+</div>
+<textarea class="flex-1 bg-transparent border-0 focus:ring-0 text-zinc-800 dark:text-zinc-200 placeholder-zinc-500 text-sm py-3 resize-none max-h-32" placeholder="Type a message or command..." rows="1"></textarea>
+<button class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-zinc-950 hover:bg-yellow-400 transition-colors shadow-lg shadow-primary/20 mb-0.5">
+<span class="material-symbols-outlined font-bold">send</span>
+</button>
+</div>
+</div>
+</main>
+<aside class="w-[400px] flex-shrink-0 flex flex-col bg-zinc-50 dark:bg-zinc-900/30 z-20">
+<header class="h-16 flex items-center justify-between px-6 border-b border-border-light dark:border-border-dark bg-white dark:bg-zinc-950/50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">insights</span>
+<h2 class="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-wider">Project Insights</h2>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-500">
+<span class="material-symbols-outlined text-lg">history</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar">
+<div class="grid grid-cols-2 gap-3">
+<div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-border-dark shadow-sm">
+<p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Budget Used</p>
+<p class="text-xl font-display font-bold text-zinc-900 dark:text-white">42%</p>
+</div>
+<div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-border-dark shadow-sm">
+<p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Timeline</p>
+<p class="text-xl font-display font-bold text-zinc-900 dark:text-white">Day 14</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest">Active Material Review</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">NEW MATCH</span>
+</div>
+<div class="bg-white dark:bg-zinc-900 border-2 border-primary rounded-2xl overflow-hidden shadow-xl ring-4 ring-primary/5">
+<div class="relative h-44 bg-zinc-200">
+<img alt="Polished Concrete Texture" class="w-full h-full object-cover" src="./ConstructAI - Project Manager&#39;s Command Center_files/unnamed(2).png">
+<div class="absolute top-3 right-3 bg-zinc-900/80 text-white text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-md border border-white/10">
+                            98% MATCH
+                        </div>
+</div>
+<div class="p-5 space-y-4">
+<div>
+<h4 class="text-lg font-bold text-zinc-900 dark:text-white">Polished Concrete</h4>
+<p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Architectural Grade • Micro-topping Finish</p>
+</div>
+<div class="grid grid-cols-2 gap-4 py-4 border-y border-zinc-100 dark:border-zinc-800">
+<div>
+<p class="text-[10px] font-bold text-zinc-400 uppercase tracking-tighter">Unit Price</p>
+<p class="text-sm font-bold text-zinc-900 dark:text-white">$12.50 /sqft</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-zinc-400 uppercase tracking-tighter">Durability</p>
+<div class="flex gap-0.5 mt-0.5">
+<span class="w-2.5 h-1.5 bg-primary rounded-full"></span>
+<span class="w-2.5 h-1.5 bg-primary rounded-full"></span>
+<span class="w-2.5 h-1.5 bg-primary rounded-full"></span>
+<span class="w-2.5 h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-full"></span>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<button class="w-full py-3 bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 rounded-xl text-sm font-bold hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+                                Approve Selection
+                            </button>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-2.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-xl text-[11px] font-bold uppercase tracking-wider hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+                                    Compare
+                                </button>
+<button class="py-2.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-xl text-[11px] font-bold uppercase tracking-wider hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+                                    Samples
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-2 space-y-4">
+<h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest">Next Steps</h3>
+<div class="space-y-2">
+<div class="flex items-center gap-3 p-3 bg-white dark:bg-zinc-900/50 border border-border-light dark:border-border-dark rounded-xl hover:border-primary/40 cursor-pointer group transition-all">
+<div class="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">pending_actions</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-zinc-900 dark:text-white">Finalize Sub-flooring</p>
+<p class="text-[10px] text-zinc-500">Awaiting specs from GC</p>
+</div>
+<span class="material-symbols-outlined text-zinc-300 group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-white dark:bg-zinc-900/50 border border-border-light dark:border-border-dark rounded-xl hover:border-primary/40 cursor-pointer group transition-all opacity-60">
+<div class="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">local_shipping</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-zinc-400">Logistics Planning</p>
+<p class="text-[10px] text-zinc-500 italic">Unlocks after approval</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-border-light dark:border-border-dark bg-white dark:bg-zinc-950/50">
+<button class="w-full flex items-center justify-between px-4 py-3 bg-zinc-100 dark:bg-zinc-800 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-primary hover:text-zinc-950 transition-all">
+<span class="text-xs font-bold uppercase tracking-widest">Export Project Report</span>
+<span class="material-symbols-outlined">description</span>
+</button>
+</div>
+</aside>
+<button class="fixed top-4 right-[420px] z-50 p-2 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 rounded-full shadow-lg border border-border-light dark:border-border-dark hover:scale-110 transition-transform" onclick="document.documentElement.classList.toggle(&#39;dark&#39;)">
+<span class="material-symbols-outlined text-sm">dark_mode</span>
+</button>
+
+</body></html>

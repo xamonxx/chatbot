@@ -1,217 +1,243 @@
 /**
  * =====================================================
- * HOME PAGE - DARK MODE ONLY
+ * HALAMAN UTAMA - CONSTRUCT AI THEME
  * =====================================================
- * Arsitektur Layout Mobile:
- * - Header: Fixed Top, 56px height
- * - Content: Scrollable, top-[56px] bottom-[80px + safe-area]
- * - Navbar: Fixed Bottom, 80px + safe-area
+ * Deskripsi: Halaman utama aplikasi dengan layout
+ *            Sidebar + Main Content yang responsif
  * 
- * AI Chat Mode: Fullscreen fixed overlay
+ * Fitur:
+ * - Navigasi tab untuk berbagai section
+ * - Sidebar gelap dengan menu navigasi
+ * - Konten utama dengan background terang
+ * - Responsif untuk mobile dan desktop
+ * 
+ * Optimasi Performa:
+ * - Lazy loading komponen berat
+ * - Minimalisir re-render dengan state management
+ * - CSS yang efisien untuk animasi smooth
  * =====================================================
  */
 
 'use client';
 
-import { useState, useEffect } from 'react';
-import Header from './components/Header';
+// === IMPORT DEPENDENCIES ===
+import { useState, useEffect, lazy, Suspense, memo } from 'react';
+import { Sparkles } from 'lucide-react';
+
+// === IMPORT KOMPONEN ===
+// Komponen utama yang selalu dimuat
 import TabNavigation from './components/TabNavigation';
-import PriceTable from './components/PriceTable';
-import RulesPanel from './components/RulesPanel';
-import AIAssistant from './components/AIAssistant';
-// pricingData sekarang diakses langsung di komponen masing-masing
 
-// Konstanta Layout - Single Source of Truth
-const HEADER_HEIGHT = 56; // px
-const NAVBAR_HEIGHT = 80; // px (excluding safe-area)
+// Lazy loading untuk komponen berat (optimasi performa mobile)
+const PriceTable = lazy(() => import('./components/PriceTable'));
+const RulesPanel = lazy(() => import('./components/RulesPanel'));
+const AIAssistant = lazy(() => import('./components/AIAssistant'));
 
+// === KOMPONEN LOADING ===
+// Ditampilkan saat lazy component sedang dimuat
+const LoadingSpinner = memo(function LoadingSpinner() {
+  return (
+    <div className="flex items-center justify-center h-full">
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-8 h-8 border-3 border-amber-500 border-t-transparent rounded-full animate-spin" />
+        <span className="text-sm text-gray-500">Memuat...</span>
+      </div>
+    </div>
+  );
+});
+
+// === KOMPONEN UTAMA ===
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<string>('ai_assistant');
-  const [scrolled, setScrolled] = useState(false);
+  // --- STATE MANAGEMENT ---
+  // State untuk menu mobile (buka/tutup)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Efek scroll untuk Header Glassmorphism
+  // State untuk tab yang aktif (default: ai_consultant)
+  const [activeTab, setActiveTab] = useState('ai_consultant');
+
+  // State untuk status mounting (client-side)
+  const [isMounted, setIsMounted] = useState(false);
+
+  // --- EFEK SAMPING ---
+  // Menandai komponen sudah di-mount di client
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    setIsMounted(true);
   }, []);
 
-  // AI Chat = Fullscreen mode, hide main scroll
-  const isAIChat = activeTab === 'ai_assistant';
+  // --- FUNGSI HANDLER ---
+  /**
+   * Menangani perpindahan tab dari navigasi
+   * @param tabId - ID tab yang dipilih
+   */
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+    // Tutup menu mobile setelah memilih tab
+    setMobileMenuOpen(false);
+  };
 
+  /**
+   * Menangani klik overlay untuk menutup menu mobile
+   */
+  const handleOverlayClick = () => {
+    setMobileMenuOpen(false);
+  };
+
+  // --- RENDER KOMPONEN ---
   return (
-    <div className={`
-      min-h-screen bg-[#0B1120] text-slate-100 
-      font-sans transition-colors duration-300
-      ${isAIChat ? 'overflow-hidden h-screen md:overflow-auto md:h-auto' : ''}
-    `}>
+    <div className="flex h-screen overflow-hidden bg-gray-50">
 
       {/* =====================================================
-          MOBILE HEADER - Fixed Top
-          Height: 56px | z-index: 50
+          OVERLAY MOBILE - Muncul saat menu mobile terbuka
          ===================================================== */}
-      <header className={`
-        md:hidden fixed top-0 left-0 right-0 z-50 
-        h-[56px] flex items-center justify-between px-4
-        transition-all duration-300
-        ${scrolled
-          ? 'bg-slate-900/95 backdrop-blur-xl shadow-sm border-b border-slate-800/50'
-          : 'bg-[#0B1120]'
-        }
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm"
+          onClick={handleOverlayClick}
+        />
+      )}
+
+      {/* =====================================================
+          SIDEBAR - Navigasi utama aplikasi
+          - Desktop: Selalu terlihat di kiri
+          - Mobile: Slide in dari kiri saat menu terbuka
+         ===================================================== */}
+      <div className={`
+        fixed md:relative inset-y-0 left-0 z-50 w-[280px] 
+        bg-[#0A0A0A] transform transition-transform duration-300 ease-out
+        ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        flex flex-col h-full
       `}>
-        {/* Logo & Brand */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
-            <span className="text-white font-bold text-lg">H</span>
-          </div>
-          <div>
-            <h1 className="font-bold text-base leading-none tracking-tight text-white">
-              Home Putra
-            </h1>
-            <p className="text-[10px] text-slate-400 font-medium tracking-wider uppercase">
-              Interior & Decor
-            </p>
-          </div>
-        </div>
 
-        {/* Status Badge */}
-        <div className="px-2.5 py-1 rounded-full bg-emerald-900/30 border border-emerald-800 flex items-center gap-1.5">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span className="text-[10px] font-bold text-emerald-400">ONLINE</span>
-        </div>
-      </header>
-
-      {/* =====================================================
-          DESKTOP LAYOUT
-         ===================================================== */}
-      <div className="hidden md:block">
-        <div className="max-w-7xl mx-auto p-8">
-          <Header />
-          <div className="mt-8">
-            <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-          </div>
-
-          <div className="mt-6 bg-slate-800 rounded-3xl shadow-2xl border border-slate-700 overflow-hidden">
-            <div key={activeTab} className="animate-fade-in-up">
-              {activeTab === 'kitchen' && (
-                <div className="p-8">
-                  <PriceTable />
-                </div>
-              )}
-              {activeTab === 'wallpanel' && (
-                <div className="p-8">
-                  <PriceTable />
-                </div>
-              )}
-              {activeTab === 'rules' && (
-                <div className="p-8">
-                  <RulesPanel />
-                </div>
-              )}
-              {activeTab === 'guide' && (
-                <div className="p-8">
-                  <div className="text-center py-12">
-                    <h2 className="text-2xl font-bold mb-4 text-white">Panduan Fitur</h2>
-                    <p className="text-slate-400">Gunakan AI Chat untuk konsultasi desain dan estimasi harga.</p>
-                  </div>
-                </div>
-              )}
-              {activeTab === 'ai_assistant' && (
-                <div className="h-[700px]">
-                  <AIAssistant />
-                </div>
-              )}
+        {/* --- Header Sidebar: Logo dan Nama Perusahaan --- */}
+        <div className="p-6 border-b border-[#1A1A1A]">
+          <div className="flex items-center gap-3">
+            {/* Logo dengan animasi pulse */}
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#F59E0B] to-[#D97706] flex items-center justify-center shadow-lg shadow-amber-500/20">
+              <span className="text-white font-bold text-lg">C</span>
+            </div>
+            <div>
+              <h1 className="font-bold text-white tracking-tight">
+                Construct <span className="text-[#F59E0B]">AI</span>
+              </h1>
+              <p className="text-[10px] text-gray-500 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                System Online
+              </p>
             </div>
           </div>
-
-          <footer className="text-center py-8 text-slate-500 text-sm">
-            <p>© 2026 Home Putra Interior. Crafted with ❤️ & AI.</p>
-          </footer>
         </div>
+
+        {/* --- Menu Navigasi Tab --- */}
+        <TabNavigation activeTab={activeTab} onTabChange={handleTabChange} />
       </div>
 
       {/* =====================================================
-          MOBILE CONTENT AREA
-          Top: 56px (header) | Bottom: 80px + safe-area (navbar)
+          KONTEN UTAMA - Area konten yang dapat di-scroll
          ===================================================== */}
-      {!isAIChat && (
-        <main className="
-          md:hidden 
-          fixed top-[56px] left-0 right-0 
-          bottom-[calc(80px+env(safe-area-inset-bottom,0px))]
-          overflow-y-auto overscroll-contain
-          bg-[#0B1120]
-        ">
-          <div key={activeTab} className="animate-fade-in-up p-4">
-            {activeTab === 'kitchen' && (
-              <>
-                <div className="mb-4">
-                  <h2 className="text-xl font-bold text-white">Kitchen Set</h2>
-                  <p className="text-slate-400 text-sm">Daftar harga pemasangan terbaru</p>
-                </div>
-                <PriceTable />
-              </>
-            )}
-            {activeTab === 'wallpanel' && (
-              <>
-                <div className="mb-4">
-                  <h2 className="text-xl font-bold text-white">Wallpanel</h2>
-                  <p className="text-slate-400 text-sm">Dekorasi dinding aesthetic</p>
-                </div>
-                <PriceTable />
-              </>
-            )}
-            {activeTab === 'rules' && (
-              <>
-                <div className="mb-4">
-                  <h2 className="text-xl font-bold text-white">Ketentuan</h2>
-                  <p className="text-slate-400 text-sm">Syarat & ketentuan layanan</p>
-                </div>
-                <RulesPanel />
-              </>
-            )}
-            {activeTab === 'guide' && (
-              <div className="p-6 bg-slate-800 rounded-2xl border border-slate-700 shadow-lg">
-                <h2 className="text-lg font-bold mb-4 text-white">Panduan Fitur</h2>
-                <div className="space-y-3 text-slate-300 text-sm">
-                  <p>Selamat datang di Aplikasi Pintar Home Putra Interior!</p>
-                  <ul className="list-disc pl-5 space-y-2">
-                    <li><b>AI Chat:</b> Konsultasi desain dan hitung estimasi harga instan.</li>
-                    <li><b>Kitchen:</b> Cek daftar harga paket Kitchen Set terbaru.</li>
-                    <li><b>Wallpanel:</b> Katalog harga pemasangan Wallpanel.</li>
-                    <li><b>Syarat:</b> Informasi biaya survey dan kebijakan.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-          </div>
-        </main>
-      )}
+      <main className="flex-1 bg-white h-full flex flex-col relative z-0 overflow-hidden">
 
-      {/* =====================================================
-          MOBILE AI CHAT - Fullscreen Overlay
-          Ends above navbar (80px + safe-area)
-         ===================================================== */}
-      {isAIChat && (
-        <div
-          className="md:hidden fixed top-[56px] left-0 right-0 z-40"
-          style={{ bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))' }}
-        >
-          <AIAssistant />
+        {/* --- Header Desktop: Judul halaman di tengah --- */}
+        <header className="hidden md:flex h-16 border-b border-gray-100 items-center justify-center px-8 bg-white/80 backdrop-blur-md shrink-0 z-20">
+          <h2 className="text-xl font-bold text-gray-900 capitalize">
+            {activeTab.replace(/_/g, ' ')}
+          </h2>
+        </header>
+
+        {/* --- Header Mobile: Hamburger + Judul + Status --- */}
+        <header className="md:hidden flex h-[60px] items-center justify-between px-4 border-b border-gray-100 shrink-0 bg-white/90 backdrop-blur-md z-30">
+          {/* Tombol Hamburger Menu */}
+          <button
+            onClick={() => setMobileMenuOpen(true)}
+            className="p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-lg active:scale-95 transition-transform"
+            aria-label="Buka menu"
+          >
+            <div className="space-y-1.5">
+              <span className="block w-6 h-0.5 bg-gray-800" />
+              <span className="block w-4 h-0.5 bg-gray-800" />
+              <span className="block w-5 h-0.5 bg-gray-800" />
+            </div>
+          </button>
+
+          {/* Judul Halaman */}
+          <h2 className="text-lg font-bold text-gray-900 capitalize">
+            {activeTab.replace(/_/g, ' ')}
+          </h2>
+
+          {/* Badge Status Online */}
+          <span className="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full">
+            ONLINE
+          </span>
+        </header>
+
+        {/* --- Konten Halaman Berdasarkan Tab Aktif --- */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+          {/* Hanya render jika sudah mounted (optimasi hydration) */}
+          {isMounted && (
+            <Suspense fallback={<LoadingSpinner />}>
+              {/* Tab: AI Konsultan */}
+              {activeTab === 'ai_consultant' && <AIAssistant />}
+
+              {/* Tab: Harga Dalam Kota */}
+              {activeTab === 'harga_dalam_kota' && (
+                <div className="p-4 md:p-8 h-full overflow-y-auto">
+                  <PriceTable location="dalam_kota" />
+                </div>
+              )}
+
+              {/* Tab: Harga Luar Kota */}
+              {activeTab === 'harga_luar_kota' && (
+                <div className="p-4 md:p-8 h-full overflow-y-auto">
+                  <PriceTable location="luar_kota" />
+                </div>
+              )}
+
+              {/* Tab: Aturan & FAQ */}
+              {activeTab === 'rules' && (
+                <div className="p-4 md:p-8 h-full overflow-y-auto">
+                  <RulesPanel />
+                </div>
+              )}
+
+              {/* Tab: Panduan Pengguna */}
+              {activeTab === 'guide' && (
+                <div className="p-6 md:p-8 max-w-4xl mx-auto">
+                  <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center">
+                        <Sparkles className="text-amber-500" size={24} />
+                      </div>
+                      <div>
+                        <h2 className="text-2xl font-bold text-gray-900">
+                          Panduan Penggunaan
+                        </h2>
+                        <p className="text-gray-500 text-sm">
+                          Cara menggunakan aplikasi ini
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Daftar langkah panduan */}
+                    <div className="space-y-4 text-gray-600">
+                      <p className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-bold shrink-0">1</span>
+                        <span>Pilih tab <strong>AI Konsultan</strong> untuk bertanya tentang harga material.</span>
+                      </p>
+                      <p className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-bold shrink-0">2</span>
+                        <span>Gunakan tab <strong>Harga Dalam/Luar Kota</strong> untuk melihat katalog lengkap.</span>
+                      </p>
+                      <p className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-bold shrink-0">3</span>
+                        <span>Baca <strong>Aturan & FAQ</strong> untuk memahami kebijakan harga dan pengiriman.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </Suspense>
+          )}
         </div>
-      )}
-
-      {/* =====================================================
-          MOBILE BOTTOM NAVIGATION
-          Height: 80px + safe-area | z-index: 50
-         ===================================================== */}
-      <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-
+      </main>
     </div>
   );
 }

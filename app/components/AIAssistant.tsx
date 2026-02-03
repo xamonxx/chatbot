@@ -1,9 +1,10 @@
 /**
  * =====================================================
- * AI-ASSISTANT.TSX - AI CONSULTANT MODERN UI
+ * AI-ASSISTANT.TSX - CONSTRUCT AI (IMAGE MATCH)
  * =====================================================
- * Design: Modern, User-Friendly, Dark Mode Support
- * Powered by: OpenRouter AI API
+ * Design Reference: Light Mode, Split View
+ * Left: Chat Interface
+ * Right: Project Insights Panel (Budget, Timeline, Specs)
  * =====================================================
  */
 
@@ -11,13 +12,16 @@
 
 import { useState, useRef, useEffect, FormEvent } from 'react';
 import {
-    MessageSquare, Calculator, Scale, FileText,
-    Send, User, Sparkles, Loader2, Bot, Copy,
-    ArrowRightLeft, CheckCircle2, AlertTriangle,
-    Zap, TrendingUp, ArrowRight, PieChart, ArrowLeft, Plus
+    Calculator, Scale, FileText,
+    Send, Sparkles, Loader2, Copy,
+    ArrowRightLeft, CheckCircle2,
+    TrendingUp, ArrowRight, ArrowLeft, Plus,
+    Paperclip, Mic, MoreHorizontal, History,
+    LayoutDashboard, CheckSquare, Clock, Wallet, Box
 } from 'lucide-react';
-import { pricingData, getAllMaterials, formatCurrency, categories, pricingMeta, importantNotes, deliveryFees } from '../lib/pricing-data';
+import { pricingData, getAllMaterials } from '../lib/pricing-data';
 import { chatWithAI } from '../actions/chat';
+import ProductCard from './ProductCard';
 
 // =====================================================
 // INTERFACES
@@ -27,106 +31,13 @@ interface ChatMessage {
     role: 'user' | 'model';
     text: string;
     latency?: number;
-}
-
-interface CalcData {
-    clientName: string;
-    region: 'dalam' | 'luar';
-    kitchenLength: number;
-    wallpanelType: string;
-    wallpanelArea: number;
-}
-
-interface CompareData {
-    item1: string;
-    item2: string;
+    timestamp?: string;
 }
 
 // =====================================================
-// SUB COMPONENTS
+// COMPONENTS
 // =====================================================
 
-/**
- * Mode Tab Button - Tombol navigasi mode AI
- */
-function ModeTab({
-    active, onClick, icon, label, description, color
-}: {
-    active: boolean;
-    onClick: () => void;
-    icon: React.ReactNode;
-    label: string;
-    description: string;
-    color: string;
-}) {
-    const colorClasses: Record<string, string> = {
-        amber: 'from-amber-500 to-orange-500 shadow-amber-500/30',
-        purple: 'from-purple-500 to-pink-500 shadow-purple-500/30',
-        blue: 'from-blue-500 to-cyan-500 shadow-blue-500/30',
-        green: 'from-green-500 to-emerald-500 shadow-green-500/30',
-    };
-
-    return (
-        <button
-            onClick={onClick}
-            className={`
-                shrink-0 relative group overflow-hidden
-                p-3 md:p-4 rounded-xl transition-all duration-300 text-left w-[140px] md:w-auto md:flex-1
-                border
-                ${active
-                    ? `bg-gradient-to-br ${colorClasses[color]} text-white border-transparent shadow-lg scale-[1.02] ring-2 ring-offset-2 ring-transparent dark:ring-offset-slate-900`
-                    : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
-                }
-            `}
-        >
-            <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${active ? 'bg-white/20' : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 group-hover:scale-110 transition-transform'}`}>
-                    {icon}
-                </div>
-                <div>
-                    <p className="font-bold text-sm md:text-base leading-tight">{label}</p>
-                    <p className={`text-[10px] md:text-xs mt-0.5 ${active ? 'text-white/90' : 'text-slate-400'}`}>
-                        {description}
-                    </p>
-                </div>
-            </div>
-
-            {/* Active Indicator Dot */}
-            {active && (
-                <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-white shadow-sm animate-pulse" />
-            )}
-        </button>
-    );
-}
-
-
-
-// Komponen Loading Bubble
-function LoadingBubble({ retryCount }: { retryCount: number }) {
-    return (
-        <div className="flex w-full justify-start mb-4 animate-fade-in-up">
-            <div className="bg-white dark:bg-slate-800 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col gap-2 min-w-[120px]">
-                <div className="flex items-center gap-2">
-                    <div className="flex gap-1">
-                        <span className="w-2 h-2 bg-amber-500 rounded-full animate-bounce"></span>
-                        <span className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }}></span>
-                        <span className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></span>
-                    </div>
-                    <span className="text-xs text-slate-500 font-medium ml-1">Ngetik...</span>
-                </div>
-                {retryCount > 0 && (
-                    <p className="text-[10px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded-md">
-                        Mencoba alternatif server ({retryCount})...
-                    </p>
-                )}
-            </div>
-        </div>
-    );
-}
-
-/**
- * Chat Bubble - Bubble pesan dengan styling modern
- */
 function ChatBubble({ message }: { message: ChatMessage }) {
     const isUser = message.role === 'user';
     const [copied, setCopied] = useState(false);
@@ -137,761 +48,383 @@ function ChatBubble({ message }: { message: ChatMessage }) {
         setTimeout(() => setCopied(false), 2000);
     };
 
+    // 1. Helper for Markdown Parsing (**bold** and *italic*)
+    const parseFormatting = (text: string) => {
+        // First split by bold (**text**)
+        const parts = text.split(/(\*\*.*?\*\*|\*[^*]+\*)/g);
+        return parts.map((part, index) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+                return <strong key={index} className="font-bold text-gray-900">{part.slice(2, -2)}</strong>;
+            }
+            if (part.startsWith('*') && part.endsWith('*') && !part.startsWith('**')) {
+                return <em key={index} className="italic text-amber-600 font-semibold">{part.slice(1, -1)}</em>;
+            }
+            return part;
+        });
+    };
+
+    // 2. Main Content Renderer (Product Cards + Text)
+    const renderContent = (fullText: string) => {
+        // Regex to find :::PRODUCT:{...}::: blocks (match any char including newlines)
+        const parts = fullText.split(/(:::PRODUCT:[\s\S]*?:::)/g);
+
+        return parts.map((part, index) => {
+            // Check if this part is a Product Block
+            if (part.startsWith(':::PRODUCT:') && part.endsWith(':::')) {
+                let jsonString = part.replace(':::PRODUCT:', '').replace(':::', '').trim();
+                // Clean markdown code blocks if present
+                jsonString = jsonString.replace(/^```json\s*/, '').replace(/^```\s*/, '').replace(/```$/, '');
+                return <ProductCard key={index} dataJSON={jsonString} />;
+            }
+
+            // Otherwise, render as text with formatting parsing
+            return <span key={index}>{parseFormatting(part)}</span>;
+        });
+    };
+
     return (
-        <div className={`flex w-full mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
+        <div className={`flex w-full mb-6 animate-in fade-in slide-in-from-bottom-2 duration-300 ${isUser ? 'justify-end' : 'justify-start items-start gap-4'}`}>
+
+            {/* AI Avatar */}
+            {!isUser && (
+                <div className="w-9 h-9 rounded-xl bg-[#121212] flex items-center justify-center shrink-0 mt-1 shadow-md border border-gray-800">
+                    <Sparkles size={18} className="text-[#FBBF24]" />
+                </div>
+            )}
+
             <div className={`
-                relative px-5 py-3.5 rounded-2xl shadow-sm md:shadow-md group transition-all duration-300
-                max-w-[85%] sm:max-w-[75%] md:max-w-[65%] lg:max-w-[55%]
+                relative px-4 py-3 rounded-2xl transition-all duration-300
+                max-w-[90%] md:max-w-[80%] lg:max-w-[70%]
                 ${isUser
-                    ? 'bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-tr-sm'
-                    : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-sm border border-slate-100 dark:border-slate-700'
+                    ? 'bg-[#FBBF24] text-gray-900 shadow-md rounded-tr-sm font-medium'
+                    : 'bg-[#F8F9FA] border border-gray-200/60 text-gray-800 shadow-sm rounded-tl-sm'
                 }
             `}>
-                <p className={`text-sm md:text-base leading-relaxed whitespace-pre-wrap ${isUser ? 'font-medium' : ''}`}>
-                    {message.text}
-                </p>
+                <div className="text-base md:text-[17px] leading-relaxed md:leading-loose whitespace-pre-wrap break-words font-normal tracking-wide text-gray-700">
+                    {renderContent(message.text)}
 
-                {/* Footer Info */}
-                <div className={`flex items-center gap-2 mt-2 ${isUser ? 'justify-end text-amber-100' : 'justify-between text-slate-400'}`}>
-
-                    {!isUser && (
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={handleCopy}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700"
-                                title="Copy text"
-                            >
-                                {copied ? <CheckCircle2 size={12} className="text-emerald-500" /> : <Copy size={12} />}
-                            </button>
-                            {message.latency && (
-                                <span className="text-[10px] opacity-70">
-                                    {message.latency}ms
-                                </span>
-                            )}
-                        </div>
-                    )}
-
-                    <span className="text-[10px] opacity-70">
-                        Just now
+                    {/* Inline Timestamp (WhatsApp Style) */}
+                    <span className={`inline-flex items-center gap-1 ml-2 align-bottom text-[10px] font-medium select-none ${isUser ? 'text-black/50' : 'text-gray-400'}`}>
+                        {message.timestamp || 'Baru saja'}
                     </span>
                 </div>
-            </div>
-        </div>
-    );
-}
 
-/**
- * Quick Prompt Button - Tombol prompt cepat
- */
-function QuickPromptButton({ onClick, label, icon }: { onClick: () => void; label: string; icon?: React.ReactNode }) {
-    return (
-        <button
-            type="button"
-            onClick={onClick}
-            className="shrink-0 px-4 py-2 rounded-full bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-sm font-medium hover:shadow-md hover:scale-105 transition-all flex items-center gap-2"
-        >
-            {icon}
-            {label}
-        </button>
-    );
-}
-
-/**
- * Input Field dengan label modern
- */
-function InputField({
-    label, value, onChange, placeholder, type = 'text', icon
-}: {
-    label: string;
-    value: string | number;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    placeholder?: string;
-    type?: string;
-    icon?: React.ReactNode;
-}) {
-    return (
-        <div className="space-y-2">
-            <label className="text-sm font-semibold text-slate-600 dark:text-slate-300 flex items-center gap-2">
-                {icon}
-                {label}
-            </label>
-            <input
-                type={type}
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder}
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all"
-            />
-        </div>
-    );
-}
-
-/**
- * Select Field dengan styling modern
- */
-function SelectField({
-    label, value, onChange, options, icon
-}: {
-    label: string;
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-    options: { value: string; label: string }[];
-    icon?: React.ReactNode;
-}) {
-    return (
-        <div className="space-y-2">
-            <label className="text-sm font-semibold text-slate-600 dark:text-slate-300 flex items-center gap-2">
-                {icon}
-                {label}
-            </label>
-            <select
-                value={value}
-                onChange={onChange}
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-white focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all"
-            >
-                {options.map(opt => (
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-            </select>
-        </div>
-    );
-}
-
-/**
- * Result Card - Kartu hasil AI
- */
-function ResultCard({
-    title, content, icon, onCopy, copied
-}: {
-    title: string;
-    content: string;
-    icon: React.ReactNode;
-    onCopy?: () => void;
-    copied?: boolean;
-}) {
-    return (
-        <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-2xl p-5 border border-amber-200 dark:border-amber-800">
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 shadow-lg">
-                        {icon}
-                    </div>
-                    <h3 className="font-bold text-amber-800 dark:text-amber-300">{title}</h3>
-                </div>
-                {onCopy && (
+                {/* Copy Button for AI (Hidden until hover) */}
+                {!isUser && (
                     <button
-                        onClick={onCopy}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 border border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 text-sm font-medium hover:bg-amber-50 dark:hover:bg-slate-600 transition-all"
+                        onClick={handleCopy}
+                        className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-all p-1.5 hover:bg-gray-100 rounded-md text-gray-400 hover:text-[#F59E0B]"
+                        title="Salin Teks"
                     >
-                        {copied ? <CheckCircle2 size={14} /> : <Copy size={14} />}
-                        {copied ? 'Copied!' : 'Copy'}
+                        {copied ? <CheckCircle2 size={13} className="text-green-500" /> : <Copy size={13} />}
                     </button>
                 )}
             </div>
-            <div className="prose prose-sm dark:prose-invert max-w-none">
-                <p className="text-slate-700 dark:text-slate-200 whitespace-pre-wrap leading-relaxed">{content}</p>
+        </div>
+    );
+}
+
+function LoadingBubble() {
+    return (
+        <div className="flex w-full justify-start items-start gap-3 mb-6 animate-enter">
+            <div className="w-8 h-8 rounded-lg bg-[#121212] flex items-center justify-center shrink-0 mt-1">
+                <Loader2 size={16} className="text-[#FBBF24] animate-spin" />
+            </div>
+            <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm px-6 py-4 shadow-sm">
+                <div className="flex gap-1.5">
+                    <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"></span>
+                    <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }}></span>
+                    <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></span>
+                </div>
             </div>
         </div>
     );
 }
 
 // =====================================================
-// MAIN COMPONENT
+// MAIN ASSISTANT
 // =====================================================
 
 export default function AIAssistant() {
-    // === STATE ===
-    const [aiMode, setAiMode] = useState<'chat' | 'calculator' | 'comparison' | 'proposal'>('chat');
-    const [chatInput, setChatInput] = useState('');
-    const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
-
-    const [calcData, setCalcData] = useState<CalcData>({
-        clientName: '',
-        region: 'luar',
-        kitchenLength: 0,
-        wallpanelType: 'Minimalis',
-        wallpanelArea: 0
-    });
-
-    const [compareData, setCompareData] = useState<CompareData>({
-        item1: '',
-        item2: ''
-    });
-
-    const [calcResult, setCalcResult] = useState('');
-    const [proposalResult, setProposalResult] = useState('');
-    const [compareResult, setCompareResult] = useState('');
+    // STATE
+    const [messages, setMessages] = useState<ChatMessage[]>([]);
+    const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [retryCount, setRetryCount] = useState(0);
-    const [copied, setCopied] = useState(false);
-    const [showMenu, setShowMenu] = useState(false);
 
+    // Auto-scroll
     const chatEndRef = useRef<HTMLDivElement>(null);
-    const apiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY || '';
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    // === EFFECTS ===
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [chatHistory]);
+    }, [messages, isLoading]);
 
-
-
-    // === API CALL (SERVER ACTION WITH RAG) ===
-    // === API CALL (SERVER ACTION WITH RAG) ===
-    const callAI = async (prompt: string): Promise<string> => {
-        try {
-            // Transform chat history for context
-            const history = chatHistory.map(msg => ({
-                role: msg.role,
-                text: msg.text
-            }));
-
-            // Call Server Action
-            const response = await chatWithAI(prompt, history);
-
-            if (response.error) {
-                console.error("AI Error:", response.error);
-                return "Maaf, terjadi kesalahan saat menghubungi AI: " + response.error;
+    // Auto-focus on Key Press
+    useEffect(() => {
+        const handleGlobalKeyDown = (e: KeyboardEvent) => {
+            // Ignore if already typing in an input/textarea
+            if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') {
+                return;
             }
 
-            return response.result || "Maaf, saya tidak mengerti.";
+            // Ignore special keys (Ctrl, Alt, Meta, arrows, etc.)
+            if (e.ctrlKey || e.altKey || e.metaKey || e.key.length > 1) {
+                return;
+            }
 
-        } catch (error) {
-            console.error("Call AI Error:", error);
-            return "Maaf, koneksi terputus. Silakan coba lagi.";
-        }
-    };
+            // Focus textarea and let the event continue so the char is typed
+            textareaRef.current?.focus();
+        };
 
-    // === HANDLERS ===
-    const handleSendMessage = async (e?: FormEvent) => {
+        window.addEventListener('keydown', handleGlobalKeyDown);
+
+        // Also focus on mount
+        setTimeout(() => textareaRef.current?.focus(), 100);
+
+        return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+    }, []);
+
+    const handleSendMessage = async (e?: FormEvent, overrideInput?: string) => {
         e?.preventDefault();
-        if (!chatInput.trim()) return;
+        const textToSend = overrideInput || input;
 
-        const userMessage = chatInput;
-        setChatHistory(prev => [...prev, { role: 'user', text: userMessage }]);
-        setChatInput('');
+        if (!textToSend.trim() || isLoading) return;
+
+        // 1. User Message
+        const userMsg: ChatMessage = {
+            role: 'user',
+            text: textToSend,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        setMessages(prev => [...prev, userMsg]);
+        setInput('');
+
+        // Reset height
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto'; // Or 'inherit'
+        }
+
         setIsLoading(true);
-        setRetryCount(0);
 
-        const startTime = Date.now();
-        // We just send the user message. The Server Action handles RAG and System Prompt.
-        const reply = await callAI(userMessage);
-        const endTime = Date.now();
-        const latency = endTime - startTime;
-
-        setChatHistory(prev => [...prev, { role: 'model', text: reply, latency }]);
-        setIsLoading(false);
-    };
-
-    const handleCalculate = async () => {
-        setIsLoading(true);
-        setRetryCount(0);
-        const prompt = `
-            Bertindaklah sebagai konsultan yang sedang menghitungkan budget klien.
-            Jangan berikan output tabel kaku. Berikan penjelasan naratif yang enak dibaca.
-            
-            DATA PROYEK:
-            - Lokasi: ${calcData.region === 'dalam' ? 'Dalam Kota (Bandung/Jatim)' : 'Luar Kota (Jabodetabek/Pantura)'}
-            - Kitchen Set: ${calcData.kitchenLength} meter
-            - Wallpanel: ${calcData.wallpanelType} seluas ${calcData.wallpanelArea} m²
-            
-            DATA HARGA: ${JSON.stringify(pricingData)}
-            
-            TUGAS:
-            1. Hitung total biaya secara rinci tapi santai.
-            2. Cek apakah kena Charge Minimum Order (Dalam Kota < 15jt, Luar Kota < 20jt).
-            3. Berikan kesimpulan total bersih.
-            
-            CONTOH OUTPUT:
-            "Oke Kak, saya hitungkan ya untuk proyek di [Lokasi]...
-            
-            Untuk Kitchen Set sepanjang X meter, biayanya sekitar Rp X.
-            Lalu untuk Wallpanel-nya totalnya Rp Y.
-            
-            Nah, karena total belanja Kakak masih di bawah Rp 20 juta, ada biaya tambahan (charge) sebesar Rp 1 juta ya Kak. 
-            
-            Saran saya: Daripada bayar charge cuma-cuma, mending uangnya dipakai buat nambah aksesoris atau cermin, jadi dapat barang dan bebas ongkir deh! 😊
-            
-            Total Estimasi Akhir: Rp Z"
-        `;
-        const result = await callAI(prompt);
-        setCalcResult(result);
-        setIsLoading(false);
-    };
-
-    const handleGenerateProposal = async () => {
-        setIsLoading(true);
-        setRetryCount(0);
-
-        // Define clear variables for the prompt
-        const clientName = calcData.clientName || 'Bapak/Ibu';
-        const lokasi = calcData.region === 'dalam' ? 'Dalam Kota (Bandung/Jatim)' : 'Luar Kota (Jabodetabek/Pantura)';
-        const kitchenLength = calcData.kitchenLength;
-        const wallpanelType = calcData.wallpanelType;
-        const wallpanelArea = calcData.wallpanelArea;
-
-        const prompt = `
-            TUGAS: Buatkan draft pesan WhatsApp (Copywriting) yang sopan, rapi, dan menarik untuk dikirim ke klien.
-            
-            ATURAN KETAT:
-            1. Jangan gunakan format Markdown tebal/miring. Gunakan format text biasa.
-            2. WAJIB mencantumkan SEMUA dimensi/ukuran yang diberikan klien di bawah ini.
-            3. JANGAN MENGARANG atau mengubah ukuran. Gunakan PERSIS seperti data di bawah.
-            
-            === DATA KLIEN (WAJIB DICANTUMKAN PERSIS) ===
-            - Nama Klien: ${clientName}
-            - Lokasi Proyek: ${lokasi}
-            - Kitchen Set: ${kitchenLength} meter
-            - Wallpanel ${wallpanelType}: ${wallpanelArea} m²
-            
-            === DATA HARGA REFERENSI ===
-            ${JSON.stringify(pricingData)}
-            
-            === FORMAT OUTPUT ===
-            1. Salam hangat dengan nama klien
-            2. Konfirmasi ulang spesifikasi proyek (WAJIB sebutkan: Kitchen ${kitchenLength}m, Wallpanel ${wallpanelArea}m²)
-            3. Rincian harga per item dengan kalkulasi yang jelas
-            4. Total estimasi akhir
-            5. Closing statement yang mengajak diskusi
-            6. Gunakan emoji WhatsApp yang pas (🏠 🍳 📐 💰)
-            
-            CONTOH OUTPUT YANG BENAR:
-            "Assalamualaikum ${clientName} 🏠\n\nTerima kasih atas minatnya di Home Putra Interior!\n\nBerdasarkan permintaan Kakak untuk proyek di ${lokasi}, berikut estimasi biayanya:\n\n📐 Kitchen Set: ${kitchenLength} meter x Rp X.XXX.XXX = Rp XX.XXX.XXX\n📐 Wallpanel ${wallpanelType}: ${wallpanelArea} m² x Rp X.XXX.XXX = Rp XX.XXX.XXX\n\n💰 Total Estimasi: Rp XX.XXX.XXX"
-        `;
-        const result = await callAI(prompt);
-        setProposalResult(result);
-        setIsLoading(false);
-    };
-
-    const handleCompare = async () => {
-        if (!compareData.item1 || !compareData.item2) return;
-        setIsLoading(true);
-        setRetryCount(0);
-        const prompt = `
-            Jelaskan perbandingan antara "${compareData.item1}" vs "${compareData.item2}" selayaknya kamu menjelaskan ke teman awam.
-            
-            DATA: ${JSON.stringify(pricingData)}
-            
-            JANGAN PAKAI TABEL. Gunakan poin-poin penjelasan santai.
-            Bahas aspek: Harga, Keawetan, dan Penampilan.
-            
-            Contoh gaya bicara:
-            "Kalau Kitchen Set Aluminium itu memang harganya lebih tinggi Kak, tapi dia juara banget soal keawetan, anti rayap selamanya.
-            Nah, kalau Multipleks harganya lebih hemat dan pilihan warnanya banyak banget, tapi tetap harus hati-hati sama lembab ya..."
-            
-            Berikan rekomendasi akhir: "Kalau budget masuk, saya sarankan ambil yang X karena..."
-        `;
-        const result = await callAI(prompt);
-        setCompareResult(result);
-        setIsLoading(false);
-    };
-
-    const copyToClipboard = async (text: string) => {
         try {
-            await navigator.clipboard.writeText(text);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        } catch (err) {
-            console.error('Copy failed:', err);
+            // 2. API Call
+            const response = await chatWithAI(textToSend); // Server Action
+            if (response.error) throw new Error(response.error);
+
+            // 3. AI Response
+            setMessages(prev => [...prev, {
+                role: 'model',
+                text: response.success || "No response.",
+                latency: response.latency,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            }]);
+        } catch (error) {
+            setMessages(prev => [...prev, {
+                role: 'model',
+                text: "⚠️ Connection error. Please try again.",
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            }]);
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    const materials = getAllMaterials();
+    const QuickActionBase = ({ icon: Icon, title, desc, prompt }: any) => (
+        <button
+            onClick={() => handleSendMessage(undefined, prompt)}
+            className="group p-3 md:p-4 bg-white border border-gray-200 hover:border-[#F59E0B] hover:shadow-md rounded-xl text-left transition-all duration-200 h-full flex flex-col justify-between"
+        >
+            <div className="flex items-center gap-2 md:gap-3 mb-1.5 md:mb-2">
+                <div className="p-1.5 md:p-2 bg-amber-50 text-amber-600 rounded-lg group-hover:scale-110 transition-transform shrinking-0">
+                    <Icon size={16} className="md:w-[18px] md:h-[18px]" />
+                </div>
+                <span className="font-bold text-gray-900 text-xs md:text-sm line-clamp-1">{title}</span>
+            </div>
+            <p className="text-[10px] md:text-xs text-gray-400 group-hover:text-gray-500 transition-colors line-clamp-2 leading-relaxed">{desc}</p>
+        </button>
+    );
 
-    // === RENDER ===
     return (
-        // Container Utama: h-full untuk mengisi parent
-        <div className="relative h-full w-full flex flex-col bg-slate-900 overflow-hidden md:rounded-2xl md:border md:border-slate-700">
+        <div className="flex h-full w-full bg-white relative">
 
-            {/* Mode Selection Removed - Moved to + Menu */}
+            {/* =====================================================
+                LEFT COLUMN: CHAT INTERFACE
+               ===================================================== */}
+            <div className="flex-1 flex flex-col relative min-w-0">
 
-            {/* Content Area - Full height, hidden overflow */}
-            <div className="flex-1 overflow-hidden min-h-0 relative">
 
-                {/* MODE: CHAT */}
-                {aiMode === 'chat' && (
-                    <div className="absolute inset-0 flex flex-col bg-gradient-to-br from-slate-800 to-slate-950">
 
-                        {/* === WALLPAPER EFFECT DEWA === */}
-                        {/* Pattern Plus Signs Putih (Premium Dark Look) */}
-                        <div className="absolute inset-0 opacity-[0.05] pointer-events-none z-0"
-                            style={{
-                                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                                backgroundSize: '60px 60px'
-                            }}
-                        />
+                {/* Chat Area */}
+                <div className="flex-1 overflow-y-auto px-4 md:px-8 py-6 pb-24 md:pb-6 bg-[#FFFFFF] relative custom-scrollbar">
+                    {/* Grid Background Pattern */}
+                    <div className="absolute inset-0 bg-grid-pattern opacity-[0.6] pointer-events-none"></div>
 
-                        {/* Messages Area - Scrollable dengan padding untuk input */}
-                        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-5 scroll-smooth relative z-10 pb-72 overscroll-contain touch-pan-y chat-scrollbar">
+                    {messages.length === 0 ? (
+                        // === WELCOME HERO SECTION ===
+                        <div className="relative z-10 flex flex-col items-center justify-center h-full pb-10 px-4 animate-enter">
 
-                            {/* Welcome Screen - Gemini Style */}
-                            {chatHistory.length === 0 && (
-                                <div className="flex flex-col items-center justify-center min-h-[300px] md:min-h-[400px] px-6 py-12 animate-fade-in-up">
+                            {/* Logo / Icon */}
+                            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-[#F59E0B] to-[#D97706] flex items-center justify-center shadow-lg shadow-amber-500/20 mb-3 md:mb-5 transform rotate-3 hover:rotate-0 transition-transform duration-500 cursor-pointer">
+                                <Sparkles size={20} className="text-white md:w-6 md:h-6" />
+                            </div>
 
-                                    {/* Greeting with Icon */}
-                                    <div className="flex items-center gap-2 mb-6">
-                                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 flex items-center justify-center shadow-lg">
-                                            <Sparkles size={18} className="text-white" />
-                                        </div>
-                                        <span className="text-slate-400 text-lg font-medium">Halo, Selamat datang!</span>
-                                    </div>
+                            {/* Text Content */}
+                            <div className="text-center space-y-1 md:space-y-2 max-w-lg mb-6 md:mb-8">
+                                <h1 className="text-lg md:text-2xl font-extrabold text-gray-900 tracking-tight">
+                                    Halo, Selamat Datang!
+                                </h1>
+                                <p className="text-gray-500 text-xs md:text-sm leading-relaxed px-4">
+                                    Saya <span className="font-bold text-gray-800">Asisten Interior</span>. Siap bantu estimasi harga & konsultasi.
+                                </p>
+                            </div>
 
-                                    {/* Hero Text - Large Gradient */}
-                                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center leading-tight md:leading-snug max-w-3xl">
-                                        <span className="bg-gradient-to-r from-slate-200 via-slate-300 to-slate-400 bg-clip-text text-transparent">
-                                            Saya siap membantu Anda dengan{' '}
-                                        </span>
-                                        <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">
-                                            estimasi harga, perbandingan material,
-                                        </span>
-                                        <span className="bg-gradient-to-r from-slate-200 via-slate-300 to-slate-400 bg-clip-text text-transparent">
-                                            {' '}dan banyak lagi.
-                                        </span>
-                                    </h1>
+                            {/* Quick Actions Grid */}
+                            <div className="grid grid-cols-2 gap-2 md:gap-3 w-full max-w-xl">
+                                <QuickActionBase
+                                    icon={Calculator}
+                                    title="Estimasi Harga"
+                                    desc="Hitung biaya Kitchen Set & Furniture"
+                                    prompt="Bantu saya hitung estimasi harga untuk Kitchen Set dan Flooring."
+                                />
+                                <QuickActionBase
+                                    icon={Scale}
+                                    title="Bandingkan Material"
+                                    desc="Lihat perbandingan HPL, Duco, dll"
+                                    prompt="Bandingkan kelebihan dan kekurangan HPL vs Duco."
+                                />
+                                <QuickActionBase
+                                    icon={FileText}
+                                    title="Buat Penawaran"
+                                    desc="Draft proposal untuk klien"
+                                    prompt="Buatkan draft penawaran harga untuk klien renovasi rumah."
+                                />
+                                <QuickActionBase
+                                    icon={TrendingUp}
+                                    title="Tren Desain"
+                                    desc="Lihat apa yang populer saat ini"
+                                    prompt="Apa tren desain interior yang sedang populer saat ini?"
+                                />
+                            </div>
+                        </div>
+                    ) : (
+                        // === CHAT MESSAGES ===
+                        <div className="relative z-10 max-w-5xl mx-auto space-y-6">
+                            {/* Date Divider */}
+                            <div className="flex justify-center mb-8">
+                                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-gray-200">
+                                    Hari Ini
+                                </span>
+                            </div>
 
-                                    {/* Subtitle */}
-                                    <p className="mt-6 text-slate-500 text-center text-sm md:text-base max-w-md">
-                                        Virtual Assistant Home Putra Interior — Siap konsultasi 24/7 😊
-                                    </p>
-
-                                </div>
-                            )}
-
-                            {chatHistory.map((msg, idx) => (
-                                <ChatBubble key={idx} message={msg} />
+                            {messages.map((msg, idx) => (
+                                <ChatBubble
+                                    key={idx}
+                                    message={msg}
+                                />
                             ))}
 
-                            {isLoading && <LoadingBubble retryCount={retryCount} />}
+                            {isLoading && <LoadingBubble />}
                             <div ref={chatEndRef} />
                         </div>
+                    )}
+                </div>
 
-                        {/* Input Area - Absolute positioned at bottom with mobile keyboard spacing */}
-                        <div className="absolute bottom-0 left-0 right-0 z-30 p-4 pt-6 pb-10 md:pb-4 flex flex-col gap-3">
+                {/* Input Area */}
+                <div className="fixed bottom-0 left-0 right-0 md:static p-3 md:p-6 bg-transparent md:bg-white border-none md:border-t md:border-gray-100 z-20 shrink-0">
+                    <div className="max-w-3xl mx-auto">
+                        <form
+                            onSubmit={(e) => handleSendMessage(e)}
+                            className={`
+                                relative bg-white border border-gray-200 shadow-sm transition-all duration-300 ease-in-out overflow-hidden
+                                ${(input.length > 140) ? 'rounded-3xl' : 'rounded-[24px] md:rounded-[28px] px-1.5 py-1 md:px-2 flex items-end gap-1 md:gap-2'}
+                                focus-within:ring-2 focus-within:ring-[#F59E0B]/50 focus-within:border-[#F59E0B]
+                            `}
+                        >
+                            {/* === CONDITIONAL LAYOUT === */}
 
-                            {/* Gradient Fade Background - Extended untuk cover quick prompts */}
-                            <div className="absolute inset-x-0 bottom-0 top-[-80px] bg-gradient-to-t from-slate-900 via-slate-900/98 to-transparent -z-10 pointer-events-none" />
+                            {/* MODE 1: COMPACT (Short Text) - Icons Inline */}
+                            {!(input.length > 140) && (
+                                <button type="button" className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors shrink-0 m-1 md:m-1 mb-1.5">
+                                    <Plus size={20} className="md:w-6 md:h-6" />
+                                </button>
+                            )}
 
-                            {/* QUICK PROMPTS (MELAYANG DI ATAS INPUT) */}
-                            <div className="flex gap-2 overflow-x-auto py-2 no-scrollbar px-1">
-                                <QuickPromptButton
-                                    onClick={() => setAiMode('proposal')}
-                                    label="Proposal"
-                                    icon={<FileText size={13} />}
-                                />
-                                <QuickPromptButton
-                                    onClick={() => setAiMode('calculator')}
-                                    label="Calculator"
-                                    icon={<Calculator size={13} />}
-                                />
-                                <QuickPromptButton
-                                    onClick={() => setAiMode('comparison')}
-                                    label="Battle"
-                                    icon={<Scale size={13} />}
-                                />
-                                <div className="w-px h-6 bg-slate-600/50 mx-1 shrink-0 self-center"></div>
-                                <QuickPromptButton
-                                    onClick={() => setChatInput("Berapa estimasi harga kitchen set leter L ukuran 3x2 meter?")}
-                                    label="Kitchen Leter L"
-                                    icon={<Zap size={13} />}
-                                />
-                                <QuickPromptButton
-                                    onClick={() => setChatInput("Apa bedanya bahan plywood vs PVC board?")}
-                                    label="Beda Bahan"
-                                    icon={<AlertTriangle size={13} />}
-                                />
-                                <QuickPromptButton
-                                    onClick={() => setChatInput("Hitung biaya wallpanel kisi-kisi ukuran 3x3 meter")}
-                                    label="Hitung Wallpanel"
-                                    icon={<TrendingUp size={13} />}
-                                />
-                            </div>
+                            {/* TEXTAREA (Shared but styled differently) */}
+                            <textarea
+                                ref={textareaRef}
+                                value={input}
+                                onChange={(e) => {
+                                    setInput(e.target.value);
+                                    // Auto-resize logic
+                                    e.target.style.height = 'auto';
+                                    e.target.style.height = `${Math.min(e.target.scrollHeight, 240)}px`;
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault();
+                                        handleSendMessage(e);
+                                    }
+                                }}
+                                placeholder={input.length === 0 ? "Ketik pesan Anda..." : ""}
+                                rows={1}
+                                className={`
+                                    bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 text-sm md:text-base font-medium focus:ring-0 resize-none custom-scrollbar
+                                    ${(input.length > 140)
+                                        ? 'w-full px-4 pt-4 pb-14 min-h-[84px] max-h-60' // Box Mode
+                                        : 'flex-1 py-3 px-0 min-h-[44px] md:min-h-[52px] leading-[20px] md:leading-[24px]' // Pill Mode (Flexible)
+                                    }
+                                `}
+                            />
 
-                            <form
-                                onSubmit={handleSendMessage}
-                                className="flex items-center gap-2 bg-white dark:bg-slate-800 p-2 pl-3 rounded-[32px] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-700 relative z-20"
-                            >
-                                {/* PLUS MENU POPUP */}
-                                {showMenu && (
-                                    <div className="absolute bottom-16 left-2 w-64 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-fade-in-up z-50 origin-bottom-left">
-                                        <div className="p-2 space-y-1">
-                                            <button type="button" onClick={() => { setAiMode('calculator'); setShowMenu(false); }} className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all text-left group">
-                                                <div className="p-2 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400 group-hover:scale-110 transition-transform"><Calculator size={18} /></div>
-                                                <div>
-                                                    <p className="text-sm font-bold text-slate-700 dark:text-slate-200">Calculator</p>
-                                                    <p className="text-[10px] text-slate-500">Hitung budget kitchen</p>
-                                                </div>
-                                            </button>
-                                            <button type="button" onClick={() => { setAiMode('comparison'); setShowMenu(false); }} className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all text-left group">
-                                                <div className="p-2 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 group-hover:scale-110 transition-transform"><Scale size={18} /></div>
-                                                <div>
-                                                    <p className="text-sm font-bold text-slate-700 dark:text-slate-200">Comparison</p>
-                                                    <p className="text-[10px] text-slate-500">Bandingkan material</p>
-                                                </div>
-                                            </button>
-                                            <button type="button" onClick={() => { setAiMode('proposal'); setShowMenu(false); }} className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all text-left group">
-                                                <div className="p-2 rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 group-hover:scale-110 transition-transform"><FileText size={18} /></div>
-                                                <div>
-                                                    <p className="text-sm font-bold text-slate-700 dark:text-slate-200">Proposal</p>
-                                                    <p className="text-[10px] text-slate-500">Buat penawaran WA</p>
-                                                </div>
-                                            </button>
-                                        </div>
+                            {/* MODE 1: RIGHT ACTIONS (Inline - Short Text) */}
+                            {!(input.length > 140) && (
+                                <div className="flex items-center gap-1 pr-1 mb-1.5">
+                                    <button
+                                        type="submit"
+                                        disabled={!input.trim() || isLoading}
+                                        className={`
+                                            w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-200 shadow-sm
+                                            ${input.trim()
+                                                ? 'bg-[#F59E0B] text-black hover:bg-[#D97706] hover:scale-105 shadow-md'
+                                                : 'bg-gray-100 text-gray-300 cursor-not-allowed'
+                                            }
+                                        `}
+                                    >
+                                        <ArrowRight size={18} className="md:w-5 md:h-5" strokeWidth={2.5} />
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* MODE 2: BOX TOOLBAR (Long Text) */}
+                            {(input.length > 140) && (
+                                <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center bg-white/90 backdrop-blur-sm py-1 z-10 rounded-xl px-1 animate-in fade-in zoom-in duration-200">
+                                    {/* Left: Attachments */}
+                                    <div className="flex gap-1">
+                                        <button type="button" className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                                            <Plus size={20} />
+                                        </button>
                                     </div>
-                                )}
 
-                                {/* Tombol Plus (Toggle Menu) */}
-                                <button
-                                    type="button"
-                                    onClick={() => setShowMenu(!showMenu)}
-                                    className={`p-2 rounded-full transition-all duration-300 shrink-0 ${showMenu ? 'bg-slate-200 dark:bg-slate-600 rotate-45' : 'bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600'}`}
-                                >
-                                    <Plus size={20} className={showMenu ? 'text-slate-800 dark:text-white' : 'text-slate-500 dark:text-slate-400'} />
-                                </button>
-
-                                <input
-                                    id="chat-input"
-                                    data-testid="chat-input"
-                                    aria-label="Chat message input"
-                                    type="text"
-                                    value={chatInput}
-                                    onChange={(e) => setChatInput(e.target.value)}
-                                    placeholder="Tanyakan apa saja..."
-                                    className="flex-1 bg-transparent border-none text-base text-slate-800 dark:text-white placeholder:text-slate-400 focus:ring-0 focus:outline-none min-h-[44px]"
-                                    disabled={isLoading}
-                                    autoComplete="off"
-                                />
-
-                                <button
-                                    id="send-button"
-                                    data-testid="send-button"
-                                    aria-label="Send message"
-                                    type="submit"
-                                    disabled={isLoading || !chatInput.trim()}
-                                    className={`
-                                        h-10 w-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-300
-                                        ${chatInput.trim()
-                                            ? 'bg-amber-500 text-white shadow-md transform scale-100'
-                                            : 'bg-slate-300 dark:bg-slate-700 text-slate-500 dark:text-slate-500 opacity-50'
-                                        }
-                                    `}
-                                >
-                                    {isLoading ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} className="ml-0.5" />}
-                                </button>
-                            </form>
-
-                            <p className="text-[10px] text-center text-slate-400 dark:text-slate-600 font-medium opacity-70">
-                                AI Consultant Home Putra Interior
-                            </p>
-                        </div>
+                                    {/* Right: Actions */}
+                                    <div className="flex items-center gap-2">
+                                        <button type="button" className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                                            <Mic size={20} />
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            disabled={!input.trim() || isLoading}
+                                            className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#F59E0B] text-black shadow-sm hover:bg-[#D97706] hover:scale-105 transition-all"
+                                        >
+                                            <ArrowRight size={18} strokeWidth={2.5} />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </form>
                     </div>
-                )}
+                </div>
+            </div>
 
-                {/* MODE: CALCULATOR */}
-                {
-                    aiMode === 'calculator' && (
-                        <div className="p-4 md:p-6 overflow-y-auto h-full bg-slate-50 dark:bg-slate-900 space-y-6 pb-24">
-                            <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 space-y-4">
-                                <div className="flex items-center gap-2">
-                                    <button onClick={() => setAiMode('chat')} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500">
-                                        <ArrowLeft size={20} />
-                                    </button>
-                                    <h3 className="font-bold text-lg text-slate-800 dark:text-white flex items-center gap-2">
-                                        <Calculator size={20} className="text-purple-500" />
-                                        Smart Budget Calculator
-                                    </h3>
-                                </div>
-
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <SelectField
-                                        label="Lokasi Proyek"
-                                        value={calcData.region}
-                                        onChange={(e) => setCalcData({ ...calcData, region: e.target.value as 'dalam' | 'luar' })}
-                                        options={[
-                                            { value: 'dalam', label: '📍 Dalam Kota (Bandung/Jatim)' },
-                                            { value: 'luar', label: '🚚 Luar Kota (Jabodetabek/Pantura)' }
-                                        ]}
-                                    />
-                                    <InputField
-                                        label="Panjang Kitchen Set"
-                                        type="number"
-                                        value={calcData.kitchenLength || ''}
-                                        onChange={(e) => setCalcData({ ...calcData, kitchenLength: Number(e.target.value) })}
-                                        placeholder="Contoh: 3"
-                                    />
-                                    <SelectField
-                                        label="Tipe Wallpanel"
-                                        value={calcData.wallpanelType}
-                                        onChange={(e) => setCalcData({ ...calcData, wallpanelType: e.target.value })}
-                                        options={[
-                                            { value: 'Minimalis', label: 'Wallpanel Minimalis' },
-                                            { value: 'Semi Klasik', label: 'Wallpanel Semi Klasik' },
-                                            { value: 'Klasik', label: 'Wallpanel Klasik' },
-                                            { value: 'WPC', label: 'WPC Panel' }
-                                        ]}
-                                    />
-                                    <InputField
-                                        label="Luas Wallpanel (m²)"
-                                        type="number"
-                                        value={calcData.wallpanelArea || ''}
-                                        onChange={(e) => setCalcData({ ...calcData, wallpanelArea: Number(e.target.value) })}
-                                        placeholder="Contoh: 5"
-                                    />
-                                </div>
-
-                                <button
-                                    onClick={handleCalculate}
-                                    disabled={isLoading}
-                                    className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold shadow-lg shadow-purple-500/30 hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 transition-all flex items-center justify-center gap-2"
-                                >
-                                    {isLoading ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
-                                    {isLoading ? 'Menghitung...' : 'Hitung dengan AI'}
-                                </button>
-                            </div>
-
-                            {calcResult && (
-                                <ResultCard
-                                    title="Hasil Kalkulasi"
-                                    content={calcResult}
-                                    icon={<TrendingUp size={18} className="text-white" />}
-                                />
-                            )}
-                        </div>
-                    )
-                }
-
-                {/* MODE: COMPARISON */}
-                {
-                    aiMode === 'comparison' && (
-                        <div className="p-4 md:p-6 overflow-y-auto h-full bg-slate-50 dark:bg-slate-900 space-y-6 pb-24">
-                            <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 space-y-4">
-                                <div className="flex items-center gap-2">
-                                    <button onClick={() => setAiMode('chat')} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500">
-                                        <ArrowLeft size={20} />
-                                    </button>
-                                    <h3 className="font-bold text-lg text-slate-800 dark:text-white flex items-center gap-2">
-                                        <Scale size={20} className="text-blue-500" />
-                                        Material Battle
-                                    </h3>
-                                </div>
-
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <SelectField
-                                        label="Material 1"
-                                        value={compareData.item1}
-                                        onChange={(e) => setCompareData({ ...compareData, item1: e.target.value })}
-                                        options={[
-                                            { value: '', label: 'Pilih material...' },
-                                            ...materials.map(m => ({ value: m, label: m }))
-                                        ]}
-                                    />
-                                    <SelectField
-                                        label="Material 2"
-                                        value={compareData.item2}
-                                        onChange={(e) => setCompareData({ ...compareData, item2: e.target.value })}
-                                        options={[
-                                            { value: '', label: 'Pilih material...' },
-                                            ...materials.map(m => ({ value: m, label: m }))
-                                        ]}
-                                    />
-                                </div>
-
-                                <button
-                                    id="compare-button"
-                                    data-testid="compare-button"
-                                    onClick={handleCompare}
-                                    disabled={isLoading || !compareData.item1 || !compareData.item2}
-                                    className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold shadow-lg shadow-blue-500/30 hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 transition-all flex items-center justify-center gap-2"
-                                >
-                                    {isLoading ? <Loader2 size={18} className="animate-spin" /> : <ArrowRightLeft size={18} />}
-                                    {isLoading ? 'Membandingkan...' : 'Bandingkan Sekarang'}
-                                </button>
-                            </div>
-
-                            {compareResult && (
-                                <div id="comparison-results" data-testid="comparison-results">
-                                    <ResultCard
-                                        title="Hasil Perbandingan"
-                                        content={compareResult}
-                                        icon={<Scale size={18} className="text-white" />}
-                                    />
-                                </div>
-                            )}
-                        </div>
-                    )
-                }
-
-                {/* MODE: PROPOSAL */}
-                {
-                    aiMode === 'proposal' && (
-                        <div className="p-4 md:p-6 overflow-y-auto h-full bg-slate-50 dark:bg-slate-900 space-y-6 pb-24">
-                            <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 space-y-4">
-                                <div className="flex items-center gap-2">
-                                    <button onClick={() => setAiMode('chat')} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500">
-                                        <ArrowLeft size={20} />
-                                    </button>
-                                    <h3 className="font-bold text-lg text-slate-800 dark:text-white flex items-center gap-2">
-                                        <FileText size={20} className="text-green-500" />
-                                        WhatsApp Proposal Generator
-                                    </h3>
-                                </div>
-
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <InputField
-                                        label="Nama Klien"
-                                        value={calcData.clientName}
-                                        onChange={(e) => setCalcData({ ...calcData, clientName: e.target.value })}
-                                        placeholder="Bapak/Ibu..."
-                                    />
-                                    <SelectField
-                                        label="Lokasi"
-                                        value={calcData.region}
-                                        onChange={(e) => setCalcData({ ...calcData, region: e.target.value as 'dalam' | 'luar' })}
-                                        options={[
-                                            { value: 'dalam', label: '📍 Dalam Kota' },
-                                            { value: 'luar', label: '🚚 Luar Kota' }
-                                        ]}
-                                    />
-                                    <InputField
-                                        label="Panjang Kitchen (m)"
-                                        type="number"
-                                        value={calcData.kitchenLength || ''}
-                                        onChange={(e) => setCalcData({ ...calcData, kitchenLength: Number(e.target.value) })}
-                                        placeholder="3"
-                                    />
-                                    <InputField
-                                        label="Luas Wallpanel (m²)"
-                                        type="number"
-                                        value={calcData.wallpanelArea || ''}
-                                        onChange={(e) => setCalcData({ ...calcData, wallpanelArea: Number(e.target.value) })}
-                                        placeholder="5"
-                                    />
-                                </div>
-
-                                <button
-                                    onClick={handleGenerateProposal}
-                                    disabled={isLoading}
-                                    className="w-full py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold shadow-lg shadow-green-500/30 hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 transition-all flex items-center justify-center gap-2"
-                                >
-                                    {isLoading ? <Loader2 size={18} className="animate-spin" /> : <FileText size={18} />}
-                                    {isLoading ? 'Generating...' : 'Generate Proposal'}
-                                </button>
-                            </div>
-
-                            {proposalResult && (
-                                <div id="proposal-results" data-testid="proposal-results">
-                                    <ResultCard
-                                        title="Proposal WhatsApp"
-                                        content={proposalResult}
-                                        icon={<FileText size={18} className="text-white" />}
-                                        onCopy={() => copyToClipboard(proposalResult)}
-                                        copied={copied}
-                                    />
-                                </div>
-                            )}
-                        </div>
-                    )
-                }
-            </div >
-        </div >
+        </div>
     );
 }

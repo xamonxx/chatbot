@@ -202,7 +202,7 @@
             "8. Lampu LED Strip / Downlight",
             "9. Rak Sendok"
           ],
-          "note": "Terdapat perbedaan harga: Brosur Luar Kota mencantumkan 4.0jt, JSON Dalam Kota mencantumkan 4.5jt"
+          "note": "Harga berbeda antara Dalam Kota (Rp 4.5jt) dan Luar Kota (Rp 4.0jt)"
         },
         {
           "id": "KS-DUCO-002",
@@ -418,25 +418,109 @@
       ],
       "kayu_based": {
         "minimalis": [
-          { "material": "Blockboard", "pricing": { "luar_kota": 2300000, "dalam_kota": 2100000 }, "unit": "meter_lari" },
-          { "material": "Multipleks", "pricing": { "luar_kota": 2500000, "dalam_kota": 2500000 }, "unit": "meter_lari" }
+          {
+            "material": "Blockboard",
+            "pricing": {
+              "luar_kota": 2300000,
+              "dalam_kota": 2100000
+            },
+            "unit": "meter_lari"
+          },
+          {
+            "material": "Multipleks",
+            "pricing": {
+              "luar_kota": 2500000,
+              "dalam_kota": 2500000
+            },
+            "unit": "meter_lari"
+          }
         ],
         "semi_klasik": [
-          { "material": "Blockboard", "pricing": { "luar_kota": 2700000, "dalam_kota": 2500000 }, "unit": "meter_lari" },
-          { "material": "Multipleks", "pricing": { "luar_kota": 2700000, "dalam_kota": 2700000 }, "unit": "meter_lari" }
+          {
+            "material": "Blockboard",
+            "pricing": {
+              "luar_kota": 2700000,
+              "dalam_kota": 2500000
+            },
+            "unit": "meter_lari"
+          },
+          {
+            "material": "Multipleks",
+            "pricing": {
+              "luar_kota": 2700000,
+              "dalam_kota": 2700000
+            },
+            "unit": "meter_lari"
+          }
         ],
         "klasik": [
-          { "material": "Blockboard", "pricing": { "luar_kota": 2700000, "dalam_kota": 2500000 }, "unit": "meter_lari" },
-          { "material": "Multipleks", "pricing": { "luar_kota": 2700000, "dalam_kota": 2700000 }, "unit": "meter_lari" }
+          {
+            "material": "Blockboard",
+            "pricing": {
+              "luar_kota": 2700000,
+              "dalam_kota": 2500000
+            },
+            "unit": "meter_lari"
+          },
+          {
+            "material": "Multipleks",
+            "pricing": {
+              "luar_kota": 2700000,
+              "dalam_kota": 2700000
+            },
+            "unit": "meter_lari"
+          }
         ]
       },
       "components": [
-        { "item": "Topi Bar Blockboard", "pricing": { "luar_kota": 1350000, "dalam_kota": 1250000 }, "unit": "meter_lari" },
-        { "item": "Topi Bar Multipleks", "pricing": { "luar_kota": 1450000, "dalam_kota": 1450000 }, "unit": "meter_lari" },
-        { "item": "Rak Terbuka Blockboard", "pricing": { "luar_kota": 2100000, "dalam_kota": 2000000 }, "unit": "meter_lari" },
-        { "item": "Rak Terbuka Multipleks", "pricing": { "luar_kota": 2300000, "dalam_kota": 2300000 }, "unit": "meter_lari" },
-        { "item": "Box Elektronik Blockboard", "pricing": { "luar_kota": 2300000, "dalam_kota": 2100000 }, "unit": "meter_lari" },
-        { "item": "Box Elektronik Multipleks", "pricing": { "luar_kota": 2600000, "dalam_kota": 2500000 }, "unit": "meter_lari" }
+        {
+          "item": "Topi Bar Blockboard",
+          "pricing": {
+            "luar_kota": 1350000,
+            "dalam_kota": 1250000
+          },
+          "unit": "meter_lari"
+        },
+        {
+          "item": "Topi Bar Multipleks",
+          "pricing": {
+            "luar_kota": 1450000,
+            "dalam_kota": 1450000
+          },
+          "unit": "meter_lari"
+        },
+        {
+          "item": "Rak Terbuka Blockboard",
+          "pricing": {
+            "luar_kota": 2100000,
+            "dalam_kota": 2000000
+          },
+          "unit": "meter_lari"
+        },
+        {
+          "item": "Rak Terbuka Multipleks",
+          "pricing": {
+            "luar_kota": 2300000,
+            "dalam_kota": 2300000
+          },
+          "unit": "meter_lari"
+        },
+        {
+          "item": "Box Elektronik Blockboard",
+          "pricing": {
+            "luar_kota": 2300000,
+            "dalam_kota": 2100000
+          },
+          "unit": "meter_lari"
+        },
+        {
+          "item": "Box Elektronik Multipleks",
+          "pricing": {
+            "luar_kota": 2600000,
+            "dalam_kota": 2500000
+          },
+          "unit": "meter_lari"
+        }
       ]
     },
     "wardrobe": {
@@ -478,19 +562,82 @@
         }
       ],
       "blockboard": [
-        { "type": "Minimalis", "pricing": { "luar_kota": 2400000, "dalam_kota": 2300000 }, "unit": "m2" },
-        { "type": "Semi Klasik", "pricing": { "luar_kota": 2800000, "dalam_kota": 2700000 }, "unit": "m2" },
-        { "type": "Klasik", "pricing": { "luar_kota": 3050000, "dalam_kota": 2950000 }, "unit": "m2" }
+        {
+          "type": "Minimalis",
+          "pricing": {
+            "luar_kota": 2400000,
+            "dalam_kota": 2300000
+          },
+          "unit": "m2"
+        },
+        {
+          "type": "Semi Klasik",
+          "pricing": {
+            "luar_kota": 2800000,
+            "dalam_kota": 2700000
+          },
+          "unit": "m2"
+        },
+        {
+          "type": "Klasik",
+          "pricing": {
+            "luar_kota": 3050000,
+            "dalam_kota": 2950000
+          },
+          "unit": "m2"
+        }
       ],
       "multipleks": [
-        { "type": "Minimalis", "pricing": { "luar_kota": 2600000, "dalam_kota": 2500000 }, "unit": "m2" },
-        { "type": "Semi Klasik", "pricing": { "luar_kota": 2850000, "dalam_kota": 2750000 }, "unit": "m2" },
-        { "type": "Klasik", "pricing": { "luar_kota": 3100000, "dalam_kota": 3000000 }, "unit": "m2" }
+        {
+          "type": "Minimalis",
+          "pricing": {
+            "luar_kota": 2600000,
+            "dalam_kota": 2500000
+          },
+          "unit": "m2"
+        },
+        {
+          "type": "Semi Klasik",
+          "pricing": {
+            "luar_kota": 2850000,
+            "dalam_kota": 2750000
+          },
+          "unit": "m2"
+        },
+        {
+          "type": "Klasik",
+          "pricing": {
+            "luar_kota": 3100000,
+            "dalam_kota": 3000000
+          },
+          "unit": "m2"
+        }
       ],
       "duco": [
-        { "type": "Minimalis", "pricing": { "luar_kota": 4800000, "dalam_kota": 4800000 }, "unit": "m2" },
-        { "type": "Semi Klasik", "pricing": { "luar_kota": 5300000, "dalam_kota": 5300000 }, "unit": "m2" },
-        { "type": "Klasik", "pricing": { "luar_kota": 6300000, "dalam_kota": 6300000 }, "unit": "m2" }
+        {
+          "type": "Minimalis",
+          "pricing": {
+            "luar_kota": 4800000,
+            "dalam_kota": 4800000
+          },
+          "unit": "m2"
+        },
+        {
+          "type": "Semi Klasik",
+          "pricing": {
+            "luar_kota": 5300000,
+            "dalam_kota": 5300000
+          },
+          "unit": "m2"
+        },
+        {
+          "type": "Klasik",
+          "pricing": {
+            "luar_kota": 6300000,
+            "dalam_kota": 6300000
+          },
+          "unit": "m2"
+        }
       ]
     },
     "under_stairs": {
@@ -499,7 +646,10 @@
           "id": "LBT-AL-001",
           "category": "Bawah Tangga Alumunium",
           "type": "Premium (Visible Frame)",
-          "pricing": { "luar_kota": 6000000, "dalam_kota": 6000000 },
+          "pricing": {
+            "luar_kota": 6000000,
+            "dalam_kota": 6000000
+          },
           "unit": "meter_lari",
           "features_detail": [
             "1. Alumunium ACP 4mm",
@@ -514,7 +664,10 @@
           "id": "LBT-AL-002",
           "category": "Bawah Tangga Alumunium",
           "type": "Premium (Frameless)",
-          "pricing": { "luar_kota": 6000000, "dalam_kota": 6000000 },
+          "pricing": {
+            "luar_kota": 6000000,
+            "dalam_kota": 6000000
+          },
           "unit": "meter_lari",
           "features_detail": [
             "1. Alumunium ACP 4mm",
@@ -527,26 +680,64 @@
         }
       ],
       "wood_based": [
-        { "type": "Blockboard Minimalis", "pricing": { "luar_kota": 2400000, "dalam_kota": 2300000 }, "unit": "meter_lari" },
-        { "type": "Multipleks Minimalis", "pricing": { "luar_kota": 2600000, "dalam_kota": 2500000 }, "unit": "meter_lari" }
+        {
+          "type": "Blockboard Minimalis",
+          "pricing": {
+            "luar_kota": 2400000,
+            "dalam_kota": 2300000
+          },
+          "unit": "meter_lari"
+        },
+        {
+          "type": "Multipleks Minimalis",
+          "pricing": {
+            "luar_kota": 2600000,
+            "dalam_kota": 2500000
+          },
+          "unit": "meter_lari"
+        }
       ]
     },
     "civil_works": {
       "pengecatan": {
-        "jasa_saja": { "luar_kota": 90000, "dalam_kota": 90000 },
-        "jasa_borong": { "luar_kota": 125000, "dalam_kota": 125000 }
+        "jasa_saja": {
+          "luar_kota": 90000,
+          "dalam_kota": 90000
+        },
+        "jasa_borong": {
+          "luar_kota": 125000,
+          "dalam_kota": 125000
+        }
       },
       "titik": {
-        "air": { "luar_kota": 450000, "dalam_kota": 450000 },
-        "listrik": { "luar_kota": 650000, "dalam_kota": 650000 }
+        "air": {
+          "luar_kota": 450000,
+          "dalam_kota": 450000
+        },
+        "listrik": {
+          "luar_kota": 650000,
+          "dalam_kota": 650000
+        }
       },
       "backsplash": {
-        "bevel_biasa": { "luar_kota": 1050000, "dalam_kota": 1050000 },
-        "mozaic": { "luar_kota": 1500000, "dalam_kota": 1500000 }
+        "bevel_biasa": {
+          "luar_kota": 1050000,
+          "dalam_kota": 1050000
+        },
+        "mozaic": {
+          "luar_kota": 1500000,
+          "dalam_kota": 1500000
+        }
       },
       "coran": {
-        "finish_acian": { "luar_kota": 1900000, "dalam_kota": 1900000 },
-        "finish_keramik": { "luar_kota": 2400000, "dalam_kota": 2400000 }
+        "finish_acian": {
+          "luar_kota": 1900000,
+          "dalam_kota": 1900000
+        },
+        "finish_keramik": {
+          "luar_kota": 2400000,
+          "dalam_kota": 2400000
+        }
       }
     }
   },

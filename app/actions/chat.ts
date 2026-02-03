@@ -24,9 +24,13 @@ export async function chatWithAI(userMessage: string, history: { role: string, t
     }
 
     try {
+        const startTime = Date.now();
         // === LANGKAH 1: RAG (Pencarian Data) ===
-        // Mencari 5 potongan informasi termirip dari database TiDB
-        const ragContext = await searchPricing(userMessage, 5);
+        // Cari data hanya jika pesan cukup panjang (> 3 karakter) untuk menghindari pencarian sampah pada balasan singkat "Ya", "Tidak", "1", "2"
+        let ragContext = "";
+        if (userMessage.length > 3) {
+            ragContext = await searchPricing(userMessage, 5);
+        }
 
         // === LANGKAH 2: MEMUAT ATURAN AI (Persona) ===
         // Membaca file teks yang berisi gaya bicara dan aturan standar
@@ -45,7 +49,8 @@ ${baseRules}
 
 ATURAN PENTING:
 1. BATASAN TOPIK: Kamu HANYA ahli dalam Interior Design, Kitchen Set, Wallpanel, dan Furniture Indoor (Lemari, TV Cabinet, dll).
-2. TOLAK TOPIK LAIN: Jika user bertanya tentang "Outdoor Furniture", "Taman", "Kolam Renang", "Konstruksi Berat", atau topik non-interior lainnya, kamu HARUS MENOLAK dengan sopan. Contoh: "Maaf, saya spesialis interior dan tidak menyediakan layanan untuk outdoor/eksterior." JANGAN MENGARANG layanan yang tidak kami sediakan.
+2. KONTEKS PERCAKAPAN: Jika user hanya membalas singkat (contoh: "1", "2", "Ya", "Oke", "Lanjut"), JANGAN dianggap off-topic. LIHAT RIWAYAT CHAT sebelumnya untuk mengerti konteksnya (misalnya user memilih opsi yang baru saja kamu tawarkan).
+3. TOLAK TOPIK LAIN: Jika user bertanya tentang "Outdoor Furniture", "Taman", "Kolam Renang", "Konstruksi Berat", atau topik non-interior lainnya, kamu HARUS MENOLAK dengan sopan. Contoh: "Maaf, saya spesialis interior dan tidak menyediakan layanan untuk outdoor/eksterior." JANGAN MENGARANG layanan yang tidak kami sediakan.
 
 KONTEKS DATABASE (Gunakan informasi ini sebagai acuan utama):
 ${ragContext ? ragContext : 'Tidak ada data spesifik dari database, gunakan pengetahuan umum interior standard.'}
@@ -88,8 +93,14 @@ REFERENSI TAMBAHAN:
             throw new Error(`Groq API Error (${response.status}): ${errorText}`);
         }
 
+        const endTime = Date.now();
+        const latency = endTime - startTime;
+
         const data = await response.json();
-        return { result: data.choices[0]?.message?.content || 'Maaf, saya tidak mengerti.' };
+        return {
+            success: data.choices[0]?.message?.content || 'Maaf, saya tidak mengerti.',
+            latency: latency
+        };
 
     } catch (error: any) {
         console.error('AI Chat Error:', error);

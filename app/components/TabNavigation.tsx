@@ -1,127 +1,150 @@
 /**
  * =====================================================
- * TAB-NAVIGATION.TSX - MOBILE-FIRST BOTTOM NAV
+ * TAB NAVIGATION - Komponen Menu Navigasi Sidebar
  * =====================================================
- * Layout Constants:
- * - Height: 80px (inner content)
- * - Safe-area: env(safe-area-inset-bottom)
- * - Z-index: 50
- * Mode: DARK MODE ONLY
+ * Deskripsi: Menu navigasi dengan ikon untuk berpindah
+ *            antar section dalam aplikasi
+ * 
+ * Fitur:
+ * - Ikon visual untuk setiap menu
+ * - Highlight aktif dengan animasi smooth
+ * - Label deskripsi untuk setiap menu
+ * - Responsif untuk mobile dan desktop
+ * 
+ * Props:
+ * - activeTab: Tab yang sedang aktif
+ * - onTabChange: Callback saat tab berubah
  * =====================================================
  */
 
 'use client';
 
-import { Dispatch, SetStateAction } from 'react';
-import { ChefHat, LayoutDashboard, FileText, Bot, Info } from 'lucide-react';
+// === IMPORT DEPENDENCIES ===
+import { memo } from 'react';
+import {
+    Bot,           // Ikon untuk AI Assistant
+    MapPin,        // Ikon untuk Harga Dalam Kota
+    MapPinOff,     // Ikon untuk Harga Luar Kota
+    ScrollText,    // Ikon untuk Aturan & FAQ
+    HelpCircle     // Ikon untuk Panduan
+} from 'lucide-react';
 
+// === TIPE DATA ===
 interface TabNavigationProps {
-    activeTab: string;
-    setActiveTab: Dispatch<SetStateAction<string>>;
+    activeTab: string;                    // ID tab yang sedang aktif
+    onTabChange: (tabId: string) => void; // Fungsi callback perubahan tab
 }
 
-export default function TabNavigation({ activeTab, setActiveTab }: TabNavigationProps) {
+// === DATA MENU ===
+// Daftar menu navigasi dengan ikon dan label
+const menuItems = [
+    {
+        id: 'ai_consultant',
+        label: 'AI Konsultan',
+        icon: Bot,
+        description: 'Chat & Estimasi Harga'
+    },
+    {
+        id: 'harga_dalam_kota',
+        label: 'Harga Dalam Kota',
+        icon: MapPin,
+        description: 'Bandung & Sekitarnya'
+    },
+    {
+        id: 'harga_luar_kota',
+        label: 'Harga Luar Kota',
+        icon: MapPinOff,
+        description: 'Luar Jawa Barat'
+    },
+    {
+        id: 'rules',
+        label: 'Aturan & FAQ',
+        icon: ScrollText,
+        description: 'Syarat Ketentuan'
+    },
+    {
+        id: 'guide',
+        label: 'Panduan',
+        icon: HelpCircle,
+        description: 'Cara Penggunaan'
+    },
+];
 
-    const tabs = [
-        { id: 'kitchen', label: 'Kitchen', icon: ChefHat },
-        { id: 'wallpanel', label: 'Panel', icon: LayoutDashboard },
-        { id: 'ai_assistant', label: 'AI Chat', icon: Bot, isMain: true },
-        { id: 'rules', label: 'Syarat', icon: FileText },
-        { id: 'guide', label: 'Guide', icon: Info },
-    ];
-
+// === KOMPONEN UTAMA ===
+// Menggunakan memo untuk mencegah re-render yang tidak perlu
+const TabNavigation = memo(function TabNavigation({
+    activeTab,
+    onTabChange
+}: TabNavigationProps) {
     return (
-        <>
-            {/* =====================================================
-                DESKTOP TOP NAVIGATION
-               ===================================================== */}
-            <nav className="hidden md:flex justify-center mb-8">
-                <div className="inline-flex gap-2 p-1.5 bg-slate-800 rounded-2xl shadow-sm border border-slate-700">
-                    {tabs.map((tab) => {
-                        const Icon = tab.icon;
-                        const isActive = activeTab === tab.id;
+        <nav className="flex-1 py-4 overflow-y-auto">
+            {/* --- Label Section Menu --- */}
+            <p className="px-5 mb-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider">
+                Menu
+            </p>
 
-                        return (
-                            <button
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`
-                                    flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm
-                                    transition-all duration-300
-                                    ${isActive
-                                        ? tab.isMain
-                                            ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/25'
-                                            : 'bg-slate-600 text-white shadow-lg'
-                                        : 'text-slate-400 hover:bg-slate-700'
-                                    }
-                                `}
-                            >
-                                <Icon size={18} />
-                                <span>{tab.label}</span>
-                            </button>
-                        );
-                    })}
-                </div>
-            </nav>
+            {/* --- Daftar Menu Items --- */}
+            <div className="space-y-1 px-3">
+                {menuItems.map((item) => {
+                    // Cek apakah menu ini sedang aktif
+                    const isActive = activeTab === item.id;
+                    // Ambil komponen ikon
+                    const IconComponent = item.icon;
 
-            {/* =====================================================
-                MOBILE BOTTOM NAVIGATION
-                Fixed bottom, 80px height + safe-area padding
-               ===================================================== */}
-            <nav className="
-                md:hidden fixed bottom-0 left-0 right-0 z-50
-                bg-slate-900/95 backdrop-blur-xl
-                border-t border-slate-700/80
-                shadow-[0_-4px_20px_rgba(0,0,0,0.3)]
-            ">
-                {/* Safe Area Padded Container */}
-                <div
-                    className="h-[80px] flex items-center justify-around px-2"
-                    style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
-                >
-                    {tabs.map((tab) => {
-                        const Icon = tab.icon;
-                        const isActive = activeTab === tab.id;
-                        const isMain = tab.isMain;
-
-                        return (
-                            <button
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
-                                className="flex flex-col items-center justify-center flex-1 h-full relative"
-                            >
-                                {/* Icon Container */}
-                                <div
-                                    className={`
-                                        flex items-center justify-center rounded-2xl transition-all duration-300
-                                        ${isActive
-                                            ? isMain
-                                                ? 'w-14 h-14 -mt-6 bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-xl shadow-amber-500/30'
-                                                : 'w-11 h-11 -mt-2 bg-slate-600 text-white shadow-lg'
-                                            : 'w-10 h-10 bg-transparent text-slate-500'
-                                        }
-                                    `}
-                                >
-                                    <Icon size={isActive && isMain ? 26 : 20} strokeWidth={isActive ? 2.5 : 2} />
-                                </div>
-
-                                {/* Label */}
+                    return (
+                        <button
+                            key={item.id}
+                            onClick={() => onTabChange(item.id)}
+                            className={`
+                w-full flex items-center gap-3 px-4 py-3 rounded-xl
+                transition-all duration-200 ease-out
+                group relative overflow-hidden
+                ${isActive
+                                    ? 'bg-gradient-to-r from-[#F59E0B]/20 to-[#F59E0B]/5 text-white'
+                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                }
+              `}
+                            aria-current={isActive ? 'page' : undefined}
+                        >
+                            {/* Indikator Aktif di Kiri */}
+                            {isActive && (
                                 <span
-                                    className={`
-                                        text-[10px] font-semibold mt-1 transition-all duration-300
-                                        ${isActive
-                                            ? 'text-white opacity-100'
-                                            : 'text-slate-500 opacity-0 h-0'
-                                        }
-                                    `}
-                                >
-                                    {tab.label}
+                                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-[#F59E0B] rounded-r-full"
+                                    aria-hidden="true"
+                                />
+                            )}
+
+                            {/* Container Ikon */}
+                            <span className={`
+                w-9 h-9 rounded-lg flex items-center justify-center shrink-0
+                transition-all duration-200
+                ${isActive
+                                    ? 'bg-[#F59E0B]/20 text-[#F59E0B]'
+                                    : 'bg-white/5 text-gray-500 group-hover:bg-white/10 group-hover:text-gray-300'
+                                }
+              `}>
+                                <IconComponent size={18} />
+                            </span>
+
+                            {/* Label dan Deskripsi */}
+                            <div className="text-left min-w-0">
+                                <span className={`
+                  block text-sm font-medium truncate
+                  ${isActive ? 'text-white' : ''}
+                `}>
+                                    {item.label}
                                 </span>
-                            </button>
-                        );
-                    })}
-                </div>
-            </nav>
-        </>
+                                <span className="block text-[10px] text-gray-500 truncate">
+                                    {item.description}
+                                </span>
+                            </div>
+                        </button>
+                    );
+                })}
+            </div>
+        </nav>
     );
-}
+});
+
+// === EXPORT ===
+export default TabNavigation;

@@ -1,8 +1,8 @@
 /**
  * =====================================================
- * RULES-PANEL.TSX - KOMPONEN PANEL ATURAN MODERN
+ * RULES-PANEL.TSX - CONSTRUCT AI THEME
  * =====================================================
- * Redesign: Card-based, Modern, Dark Mode Only
+ * Theme: Light Mode, Clean & Informative
  * =====================================================
  */
 
@@ -13,8 +13,6 @@ import {
     AlertCircle, CheckCircle, Lightbulb, Info, Wallet, TrendingUp, Shield, FileText, MapPin, Truck
 } from 'lucide-react';
 
-// Tidak perlu props lagi - data diambil langsung dari pricing-data.ts
-
 /**
  * Card untuk setiap rule
  */
@@ -24,91 +22,79 @@ function RuleCard({ rule, index }: { rule: RuleItem; index: number }) {
     return (
         <div
             className={`
-                group relative overflow-hidden rounded-2xl border transition-all duration-300
-                hover:scale-[1.01] hover:shadow-xl
+                group relative overflow-hidden rounded-xl border transition-all duration-300 bg-white
+                hover:shadow-lg hover:-translate-y-1
                 ${hasCharge
-                    ? 'bg-gradient-to-br from-red-900/30 to-orange-900/20 border-red-700/50 hover:border-red-500/50'
-                    : 'bg-gradient-to-br from-emerald-900/30 to-green-900/20 border-emerald-700/50 hover:border-emerald-500/50'
+                    ? 'border-red-100 hover:border-red-200'
+                    : 'border-emerald-100 hover:border-emerald-200'
                 }
             `}
-            style={{ animationDelay: `${index * 50}ms` }}
         >
-            {/* Background pattern */}
-            <div className="absolute inset-0 opacity-[0.03]" style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-            }} />
-
-            <div className="relative p-5">
+            <div className="relative p-6">
                 {/* Header */}
-                <div className="flex items-start gap-3 mb-4">
+                <div className="flex items-start gap-4 mb-4">
                     <div className={`
-                        shrink-0 p-2.5 rounded-xl shadow-lg
+                        shrink-0 p-3 rounded-xl shadow-sm border
                         ${hasCharge
-                            ? 'bg-gradient-to-br from-red-500 to-orange-500'
-                            : 'bg-gradient-to-br from-emerald-500 to-green-500'
+                            ? 'bg-red-50 text-red-500 border-red-100'
+                            : 'bg-emerald-50 text-emerald-500 border-emerald-100'
                         }
                     `}>
                         {hasCharge
-                            ? <AlertCircle size={20} className="text-white" />
-                            : <CheckCircle size={20} className="text-white" />
+                            ? <AlertCircle size={24} />
+                            : <CheckCircle size={24} />
                         }
                     </div>
 
                     <div className="flex-1">
-                        <h3 className={`font-bold text-lg ${hasCharge ? 'text-red-400' : 'text-emerald-400'}`}>
-                            {rule.title}
-                        </h3>
-                        <p className="text-sm text-slate-400 mt-1 leading-relaxed">
+                        <div className="flex items-center justify-between">
+                            <h3 className={`font-bold text-lg ${hasCharge ? 'text-red-700' : 'text-emerald-700'}`}>
+                                {rule.title}
+                            </h3>
+                            {/* Impact Badge */}
+                            <div className={`
+                                inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
+                                ${hasCharge
+                                    ? 'bg-red-50 text-red-600 border border-red-100'
+                                    : 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                                }
+                            `}>
+                                {rule.impact}
+                            </div>
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1 leading-relaxed">
                             {rule.detail}
                         </p>
                     </div>
                 </div>
 
-                {/* Impact Badge */}
-                <div className={`
-                    inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold mb-4
-                    ${hasCharge
-                        ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-                        : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    }
-                `}>
-                    {hasCharge ? <AlertCircle size={12} /> : <Shield size={12} />}
-                    {rule.impact}
-                </div>
-
                 {/* Price Grid */}
-                <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-700/50">
+                <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-50">
                     {/* Dalam Kota */}
-                    <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50">
-                        <div className="flex items-center gap-2 text-slate-400 text-xs font-medium mb-2">
-                            <MapPin size={12} className="text-emerald-400" />
-                            Dalam Kota
+                    <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                        <div className="flex items-center gap-2 text-gray-400 text-xs font-bold uppercase mb-1">
+                            <MapPin size={12} />
+                            Center City
                         </div>
                         <span className={`
-                            font-mono font-bold text-base px-3 py-1.5 rounded-lg inline-block
-                            ${rule.costIn > 0
-                                ? 'bg-red-500/20 text-red-400'
-                                : 'bg-emerald-500/20 text-emerald-400'
-                            }
+                            font-mono font-bold text-sm
+                            ${rule.costIn > 0 ? 'text-red-600' : 'text-emerald-600'}
                         `}>
-                            {rule.costIn > 0 ? formatCurrency(rule.costIn) : '✓ GRATIS'}
+                            {rule.costIn > 0 ? formatCurrency(rule.costIn) : 'FREE'}
                         </span>
                     </div>
 
                     {/* Luar Kota */}
-                    <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50">
-                        <div className="flex items-center gap-2 text-slate-400 text-xs font-medium mb-2">
-                            <Truck size={12} className="text-amber-400" />
-                            Luar Kota
+                    <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                        <div className="flex items-center gap-2 text-gray-400 text-xs font-bold uppercase mb-1">
+                            <Truck size={12} />
+                            Outskirts
                         </div>
                         <span className={`
-                            font-mono font-bold text-base px-3 py-1.5 rounded-lg inline-block
-                            ${rule.costOut > 0
-                                ? 'bg-red-500/20 text-red-400'
-                                : 'bg-emerald-500/20 text-emerald-400'
-                            }
+                            font-mono font-bold text-sm
+                            ${rule.costOut > 0 ? 'text-red-600' : 'text-emerald-600'}
                         `}>
-                            {rule.costOut > 0 ? formatCurrency(rule.costOut) : '✓ GRATIS'}
+                            {rule.costOut > 0 ? formatCurrency(rule.costOut) : 'FREE'}
                         </span>
                     </div>
                 </div>
@@ -117,151 +103,73 @@ function RuleCard({ rule, index }: { rule: RuleItem; index: number }) {
     );
 }
 
-/**
- * Main Component
- */
 export default function RulesPanel() {
     return (
-        <div className="space-y-6">
+        <div className="space-y-8 animate-enter pb-20">
 
-            {/* Section Header */}
-            <div className="flex items-center gap-4 pb-4 border-b border-slate-700/50">
-                <div className="p-3 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg">
-                    <FileText size={24} className="text-white" />
+            {/* Header */}
+            <div className="neo-card p-8 bg-white border border-gray-200 shadow-sm relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <FileText size={120} className="text-gray-900" />
                 </div>
-                <div>
-                    <h2 className="text-xl font-bold text-white">
-                        Syarat & Ketentuan
-                    </h2>
-                    <p className="text-sm text-slate-400">
-                        {rules.length} ketentuan • Pahami sebelum order
+                <div className="relative z-10">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">Policy & Guidelines</h2>
+                    <p className="text-gray-500 max-w-xl">
+                        Transparent pricing rules and operational guidelines for your interior projects.
                     </p>
                 </div>
             </div>
 
-            {/* Info Banner */}
-            <div className="flex items-start gap-3 p-4 bg-amber-900/20 rounded-xl border border-amber-700/50">
-                <Info size={20} className="text-amber-400 shrink-0 mt-0.5" />
-                <p className="text-sm text-slate-300">
-                    <strong className="text-amber-400">Penting:</strong> Biaya charge berlaku jika total order di bawah minimum. Pastikan cek sebelum finalisasi order.
-                </p>
+            {/* Delivery Fees Section */}
+            <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <Truck className="text-[#F59E0B]" /> Delivery Standards
+                </h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                    {deliveryFees.map((fee, idx) => (
+                        <div key={idx} className="bg-white border border-gray-200 p-5 rounded-xl shadow-sm flex flex-col justify-between hover:border-[#F59E0B] transition-colors group">
+                            <div>
+                                <h4 className="font-bold text-gray-800 text-lg group-hover:text-[#F59E0B] transition-colors">{fee.area}</h4>
+                                <p className="text-sm text-gray-400 mt-1">{fee.condition}</p>
+                            </div>
+                            <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
+                                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Base Fee</span>
+                                <span className="font-mono font-bold text-gray-900 text-lg">
+                                    {formatCurrency(fee.fee)}
+                                </span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            {/* Rules Grid */}
-            <div className="grid gap-4 md:grid-cols-2">
+            {/* Main Rules Grid */}
+            <div className="grid md:grid-cols-2 gap-6">
                 {rules.map((rule, idx) => (
                     <RuleCard key={idx} rule={rule} index={idx} />
                 ))}
             </div>
 
-            {/* Tips Box */}
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700">
-                {/* Background pattern */}
-                <div className="absolute inset-0 opacity-5" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-                }} />
-
-                {/* Decorative blurs */}
-                <div className="absolute -top-10 -right-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl" />
-                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl" />
-
-                <div className="relative p-6">
-                    {/* Tips Header */}
-                    <div className="flex items-center gap-4 mb-6">
-                        <div className="p-3 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 shadow-xl">
-                            <Lightbulb size={24} className="text-white" />
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-xl text-amber-400">💡 Tips Bebas Charge</h3>
-                            <p className="text-slate-400 text-sm">Strategi hemat untuk mengoptimalkan budget</p>
-                        </div>
-                    </div>
-
-                    {/* Tips List */}
-                    <div className="space-y-3">
-                        <div className="flex gap-3 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
-                            <div className="shrink-0 w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center font-bold text-amber-400">1</div>
-                            <div>
-                                <p className="font-medium text-white">Bundling Order</p>
-                                <p className="text-sm text-slate-400 mt-1">
-                                    Gabungkan beberapa item dalam satu order agar total mencapai minimum.
-                                </p>
+            {/* Tips Section */}
+            <div className="bg-amber-50 border border-amber-100 rounded-2xl p-6">
+                <h3 className="text-lg font-bold text-amber-900 mb-4 flex items-center gap-2">
+                    <Lightbulb size={20} className="text-amber-500" />
+                    Pro Tips
+                </h3>
+                <div className="grid gap-3">
+                    {importantNotes.map((note, idx) => (
+                        <div key={idx} className="flex gap-3 items-start bg-white/50 p-3 rounded-xl border border-amber-100/50">
+                            <div className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center shrink-0 mt-0.5 text-amber-600 font-bold text-xs">
+                                {idx + 1}
                             </div>
+                            <p className="text-amber-800 text-sm leading-relaxed font-medium">
+                                {note}
+                            </p>
                         </div>
-
-                        <div className="flex gap-3 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
-                            <div className="shrink-0 w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center font-bold text-amber-400">2</div>
-                            <div>
-                                <p className="font-medium text-white">Tambah Item Kecil</p>
-                                <p className="text-sm text-slate-400 mt-1">
-                                    Lebih hemat tambah WPC Panel 2m² (<span className="text-amber-400">Rp 1.9jt</span>) daripada bayar charge <span className="text-red-400">Rp 1jt</span>.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-3 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
-                            <div className="shrink-0 w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center font-bold text-amber-400">3</div>
-                            <div>
-                                <p className="font-medium text-white">Gunakan AI Consultant</p>
-                                <p className="text-sm text-slate-400 mt-1">
-                                    Manfaatkan fitur <span className="text-amber-400 font-medium">Smart Calculator</span> untuk rekomendasi optimasi.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Savings Badge */}
-                    <div className="mt-6 p-4 bg-emerald-900/20 rounded-xl flex items-center gap-4 border border-emerald-700/50">
-                        <div className="p-2 bg-emerald-500/20 rounded-lg">
-                            <Wallet size={24} className="text-emerald-400" />
-                        </div>
-                        <div className="flex-1">
-                            <p className="font-bold text-emerald-400">Hemat Sampai Rp 1.000.000</p>
-                            <p className="text-sm text-slate-400">Dengan strategi yang tepat! 🎯</p>
-                        </div>
-                        <TrendingUp size={24} className="text-emerald-400" />
-                    </div>
+                    ))}
                 </div>
             </div>
 
-            {/* FAQ Section */}
-            <div className="bg-slate-800/30 rounded-2xl border border-slate-700/50 p-6">
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2.5 rounded-xl bg-blue-500/10">
-                        <Info size={24} className="text-blue-400" />
-                    </div>
-                    <h3 className="font-bold text-xl text-white">Pertanyaan Umum (FAQ)</h3>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                    <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-                        <h4 className="font-bold text-slate-200 text-sm mb-2">Apakah survey lokasi gratis?</h4>
-                        <p className="text-sm text-slate-400">Ya, GRATIS biaya survey dan konsultasi desain 3D untuk wilayah Bandung dan sekitarnya (Dalam Kota).</p>
-                    </div>
-                    <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-                        <h4 className="font-bold text-slate-200 text-sm mb-2">Berapa lama proses produksi?</h4>
-                        <p className="text-sm text-slate-400">Estimasi pengerjaan standar adalah 14-21 hari kerja, tergantung kompleksitas desain dan antrian produksi.</p>
-                    </div>
-                    <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-                        <h4 className="font-bold text-slate-200 text-sm mb-2">Apakah bisa custom model?</h4>
-                        <p className="text-sm text-slate-400">Tentu! Semua produk kami custom-made. Anda bisa request model, warna, dan material sesuai keinginan.</p>
-                    </div>
-                    <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-                        <h4 className="font-bold text-slate-200 text-sm mb-2">Bagaimana sistem pembayarannya?</h4>
-                        <p className="text-sm text-slate-400">DP 50% saat deal, 40% progres terpasang, dan 10% pelunasan setelah selesai (Retensi garansi).</p>
-                    </div>
-                </div>
-            </div>
-
-            {/* CTA Footer */}
-            <div className="text-center p-6 bg-gradient-to-r from-slate-800/50 to-slate-800/30 rounded-2xl border border-slate-700/50">
-                <p className="text-slate-400 text-sm mb-2">
-                    Masih bingung dengan ketentuan?
-                </p>
-                <p className="text-white font-medium">
-                    Tanyakan ke <span className="text-amber-400 font-bold">AI Chat</span> untuk penjelasan detail! 💬
-                </p>
-            </div>
         </div>
     );
 }
