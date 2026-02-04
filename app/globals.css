@@ -28,12 +28,12 @@
 
   /* Layout Colors */
   --sidebar-bg: #121212;
-  --sidebar-fg: #FFFFFF;
+  --sidebar-fg: #fffffff0;
   --sidebar-border: #262626;
 
   --background: #FFFFFF;
   /* Light Main Background */
-  --surface: #FFFFFF;
+  --surface: #fffffff0;
   --surface-highlight: #F9FAFB;
   --surface-hover: #F3F4F6;
 

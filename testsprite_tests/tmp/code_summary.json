@@ -1,86 +1,68 @@
 {
     "tech_stack": [
         "TypeScript",
-        "Next.js 16 (App Router)",
-        "React 19",
-        "TiDB Serverless (MySQL-Compatible + Vector Search)",
-        "Xenova/transformers (Local Embedding)",
-        "Groq API (Llama 3.1-8b-instant LLM)",
-        "Tailwind CSS 4"
+        "Next.js 16.1.5",
+        "React",
+        "TailwindCSS",
+        "TiDB Cloud (MySQL)",
+        "OpenRouter API",
+        "@xenova/transformers (RAG)"
     ],
     "features": [
         {
-            "name": "AI Chat API",
-            "description": "REST API endpoint for AI chat with RAG support, response caching, and bilingual responses. Supports comparison, proposal, and price queries with specialized handling.",
+            "name": "Chat API",
+            "description": "AI chat endpoint for customer inquiries, material comparison, and quotation generation",
             "files": [
-                "app/api/chat/route.ts",
-                "app/lib/rag.ts",
-                "app/lib/tidb.ts"
+                "app/api/chat/route.ts"
             ],
             "api_doc": {
                 "openapi": "3.0.0",
-                "info": {
-                    "title": "AI Chat API",
-                    "version": "1.0.0"
-                },
                 "paths": {
                     "/api/chat": {
                         "post": {
-                            "summary": "Send message to AI assistant",
+                            "summary": "Send message to AI chat",
                             "requestBody": {
                                 "content": {
                                     "application/json": {
                                         "schema": {
                                             "type": "object",
                                             "properties": {
+                                                "messages": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "role": {
+                                                                "type": "string"
+                                                            },
+                                                            "content": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                },
                                                 "query": {
                                                     "type": "string"
                                                 },
-                                                "history": {
-                                                    "type": "array"
-                                                },
-                                                "cache": {
-                                                    "type": "boolean",
-                                                    "default": true
+                                                "message": {
+                                                    "type": "string"
                                                 }
-                                            },
-                                            "required": [
-                                                "query"
-                                            ]
+                                            }
                                         }
                                     }
                                 }
                             },
                             "responses": {
                                 "200": {
-                                    "description": "Success",
-                                    "content": {
-                                        "application/json": {
-                                            "schema": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "success": {
-                                                        "type": "boolean"
-                                                    },
-                                                    "answer": {
-                                                        "type": "string"
-                                                    },
-                                                    "price": {
-                                                        "type": "string"
-                                                    },
-                                                    "quotation": {
-                                                        "type": "string"
-                                                    },
-                                                    "comparison": {
-                                                        "type": "string"
-                                                    },
-                                                    "responseTimeMs": {
-                                                        "type": "integer"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                                    "description": "Successful response with AI answer, proposal, and comparison data"
+                                }
+                            }
+                        },
+                        "get": {
+                            "summary": "Health check endpoint",
+                            "responses": {
+                                "200": {
+                                    "description": "Status OK"
                                 }
                             }
                         }
@@ -90,54 +72,32 @@
         },
         {
             "name": "Pricing Catalog API",
-            "description": "REST API for accessing the full pricing catalog with filtering and category support.",
+            "description": "Get and filter complete product pricing catalog",
             "files": [
-                "app/api/pricing-catalog/route.ts",
-                "app/lib/pricing-data.ts"
+                "app/api/pricing-catalog/route.ts"
             ],
             "api_doc": {
                 "openapi": "3.0.0",
-                "info": {
-                    "title": "Pricing Catalog API",
-                    "version": "1.0.0"
-                },
                 "paths": {
                     "/api/pricing-catalog": {
                         "get": {
-                            "summary": "Get full pricing catalog",
-                            "parameters": [
-                                {
-                                    "name": "category",
-                                    "in": "query",
-                                    "schema": {
-                                        "type": "integer"
-                                    }
-                                },
-                                {
-                                    "name": "limit",
-                                    "in": "query",
-                                    "schema": {
-                                        "type": "integer"
-                                    }
-                                }
-                            ],
+                            "summary": "Get complete pricing catalog",
                             "responses": {
                                 "200": {
-                                    "description": "Success",
-                                    "content": {
-                                        "application/json": {
-                                            "schema": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "success": {
-                                                        "type": "boolean"
-                                                    },
-                                                    "categories": {
-                                                        "type": "array"
-                                                    },
-                                                    "totalItems": {
-                                                        "type": "integer"
-                                                    }
+                                    "description": "Returns categories with kitchen sets, wardrobes, wallpanels"
+                                }
+                            }
+                        },
+                        "post": {
+                            "summary": "Filter catalog by category",
+                            "requestBody": {
+                                "content": {
+                                    "application/json": {
+                                        "schema": {
+                                            "type": "object",
+                                            "properties": {
+                                                "category": {
+                                                    "type": "string"
                                                 }
                                             }
                                         }
@@ -150,73 +110,65 @@
             }
         },
         {
-            "name": "Pricing Search API",
-            "description": "REST API for searching and filtering pricing items by keyword, category, and price range.",
+            "name": "Pricing Catalog Search API",
+            "description": "Search and filter products with various criteria",
             "files": [
-                "app/api/pricing-catalog/search/route.ts",
-                "app/lib/pricing-data.ts"
+                "app/api/pricing-catalog/search/route.ts"
             ],
             "api_doc": {
                 "openapi": "3.0.0",
-                "info": {
-                    "title": "Pricing Search API",
-                    "version": "1.0.0"
-                },
                 "paths": {
                     "/api/pricing-catalog/search": {
-                        "get": {
-                            "summary": "Search pricing catalog",
-                            "parameters": [
-                                {
-                                    "name": "q",
-                                    "in": "query",
-                                    "schema": {
-                                        "type": "string"
-                                    }
-                                },
-                                {
-                                    "name": "category",
-                                    "in": "query",
-                                    "schema": {
-                                        "type": "integer"
-                                    }
-                                },
-                                {
-                                    "name": "minPrice",
-                                    "in": "query",
-                                    "schema": {
-                                        "type": "integer"
-                                    }
-                                },
-                                {
-                                    "name": "maxPrice",
-                                    "in": "query",
-                                    "schema": {
-                                        "type": "integer"
-                                    }
-                                }
-                            ],
-                            "responses": {
-                                "200": {
-                                    "description": "Success",
-                                    "content": {
-                                        "application/json": {
-                                            "schema": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "success": {
-                                                        "type": "boolean"
-                                                    },
-                                                    "results": {
-                                                        "type": "array"
-                                                    },
-                                                    "totalResults": {
-                                                        "type": "integer"
+                        "post": {
+                            "summary": "Search products with filters",
+                            "requestBody": {
+                                "content": {
+                                    "application/json": {
+                                        "schema": {
+                                            "type": "object",
+                                            "properties": {
+                                                "query": {
+                                                    "type": "string"
+                                                },
+                                                "searchTerm": {
+                                                    "type": "string"
+                                                },
+                                                "category": {
+                                                    "type": "string"
+                                                },
+                                                "filters": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "priceRange": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "min": {
+                                                                    "type": "number"
+                                                                },
+                                                                "max": {
+                                                                    "type": "number"
+                                                                }
+                                                            }
+                                                        },
+                                                        "material": {
+                                                            "type": "array"
+                                                        },
+                                                        "color": {
+                                                            "type": "array"
+                                                        },
+                                                        "availability": {
+                                                            "type": "string"
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
                                     }
+                                }
+                            },
+                            "responses": {
+                                "200": {
+                                    "description": "Filtered products with data, items, results arrays"
                                 }
                             }
                         }
@@ -225,52 +177,42 @@
             }
         },
         {
-            "name": "Rules and Guidelines API",
-            "description": "REST API for accessing business rules, policies, delivery fees, and operational guidelines.",
+            "name": "Proposal Generator API",
+            "description": "Generate quotation/proposal documents",
             "files": [
-                "app/api/rules/route.ts",
-                "app/lib/pricing-data.ts"
+                "app/api/proposal/generate/route.ts"
             ],
             "api_doc": {
                 "openapi": "3.0.0",
-                "info": {
-                    "title": "Rules API",
-                    "version": "1.0.0"
-                },
+                "paths": {
+                    "/api/proposal/generate": {
+                        "post": {
+                            "summary": "Generate proposal from chat context",
+                            "responses": {
+                                "200": {
+                                    "description": "Generated proposal text"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "Rules API",
+            "description": "Get operational rules and guidelines",
+            "files": [
+                "app/api/rules/route.ts"
+            ],
+            "api_doc": {
+                "openapi": "3.0.0",
                 "paths": {
                     "/api/rules": {
                         "get": {
-                            "summary": "Get business rules and guidelines",
+                            "summary": "Get all business rules",
                             "responses": {
                                 "200": {
-                                    "description": "Success",
-                                    "content": {
-                                        "application/json": {
-                                            "schema": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "success": {
-                                                        "type": "boolean"
-                                                    },
-                                                    "rules": {
-                                                        "type": "array"
-                                                    },
-                                                    "policies": {
-                                                        "type": "array"
-                                                    },
-                                                    "guidelines": {
-                                                        "type": "array"
-                                                    },
-                                                    "operationalPolicies": {
-                                                        "type": "array"
-                                                    },
-                                                    "deliveryFees": {
-                                                        "type": "array"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                                    "description": "Array of rule items"
                                 }
                             }
                         }
@@ -280,17 +222,12 @@
         },
         {
             "name": "Admin Run Script API",
-            "description": "Admin API for running RAG setup scripts. Supports GET and POST.",
+            "description": "Run administrative scripts like RAG ingestion",
             "files": [
-                "app/api/admin/run-script/route.ts",
-                "scripts/setup-rag.ts"
+                "app/api/admin/run-script/route.ts"
             ],
             "api_doc": {
                 "openapi": "3.0.0",
-                "info": {
-                    "title": "Admin Script API",
-                    "version": "1.0.0"
-                },
                 "paths": {
                     "/api/admin/run-script": {
                         "post": {
@@ -301,7 +238,7 @@
                                         "schema": {
                                             "type": "object",
                                             "properties": {
-                                                "scriptName": {
+                                                "script": {
                                                     "type": "string",
                                                     "enum": [
                                                         "setup-rag"
@@ -314,7 +251,10 @@
                             },
                             "responses": {
                                 "200": {
-                                    "description": "Success"
+                                    "description": "Script execution result"
+                                },
+                                "400": {
+                                    "description": "Invalid script or production restriction"
                                 }
                             }
                         }

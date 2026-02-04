@@ -22,6 +22,7 @@ import {
 import { pricingData, getAllMaterials } from '../lib/pricing-data';
 import { chatWithAI } from '../actions/chat';
 import ProductCard from './ProductCard';
+import WACard from './WACard';
 
 // =====================================================
 // INTERFACES
@@ -65,8 +66,8 @@ function ChatBubble({ message }: { message: ChatMessage }) {
 
     // 2. Main Content Renderer (Product Cards + Text)
     const renderContent = (fullText: string) => {
-        // Regex to find :::PRODUCT:{...}::: blocks (match any char including newlines)
-        const parts = fullText.split(/(:::PRODUCT:[\s\S]*?:::)/g);
+        // Regex to find :::PRODUCT:{...}::: OR :::WA_CARD:{...}::: blocks
+        const parts = fullText.split(/((?::::PRODUCT:[\s\S]*?:::)|(?::::WA_CARD:[\s\S]*?:::))/g);
 
         return parts.map((part, index) => {
             // Check if this part is a Product Block
@@ -75,6 +76,12 @@ function ChatBubble({ message }: { message: ChatMessage }) {
                 // Clean markdown code blocks if present
                 jsonString = jsonString.replace(/^```json\s*/, '').replace(/^```\s*/, '').replace(/```$/, '');
                 return <ProductCard key={index} dataJSON={jsonString} />;
+            }
+
+            // Check if this part is a WA Card Block
+            if (part.startsWith(':::WA_CARD:') && part.endsWith(':::')) {
+                let jsonString = part.replace(':::WA_CARD:', '').replace(':::', '').trim();
+                return <WACard key={index} dataJSON={jsonString} />;
             }
 
             // Otherwise, render as text with formatting parsing
@@ -207,8 +214,8 @@ export default function AIAssistant() {
         setIsLoading(true);
 
         try {
-            // 2. API Call
-            const response = await chatWithAI(textToSend); // Server Action
+            // 2. API Call - KIRIM HISTORY untuk konteks percakapan
+            const response = await chatWithAI(textToSend, messages); // Server Action
             if (response.error) throw new Error(response.error);
 
             // 3. AI Response
@@ -218,10 +225,12 @@ export default function AIAssistant() {
                 latency: response.latency,
                 timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             }]);
-        } catch (error) {
+        } catch (error: any) {
+            console.error("Chat Error:", error);
             setMessages(prev => [...prev, {
                 role: 'model',
-                text: "⚠️ Connection error. Please try again.",
+                // Tampilkan pesan error asli jika ada, atau fallback ke pesan generic
+                text: `⚠️ Error: ${error.message || "Connection error. Please try again."}`,
                 timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             }]);
         } finally {

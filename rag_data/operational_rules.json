@@ -1,60 +1,170 @@
 {
-    "shipping_policy": [
-        {
-            "id": "SHIP-001",
-            "region": "Dalam Kota (Bandung & Sekitarnya)",
-            "condition": "Project Value < Rp 15.000.000",
-            "fee": 500000,
-            "currency": "IDR",
-            "description": "Biaya ongkos kirim dan akomodasi pemasangan untuk proyek kecil di dalam kota."
+    "document_title": "Operational Rules & Policies",
+    "version": "2.0",
+    "last_updated": "2025-05-01",
+    "pricing_source": "master_price_list_2025",
+    "zones": {
+        "dalam_kota": {
+            "name": "Dalam Kota (Bandung & Sekitarnya)",
+            "coverage": [
+                "Bandung",
+                "Cimahi",
+                "Soreang",
+                "Banjaran",
+                "Majalaya",
+                "Ciparay",
+                "Cileunyi",
+                "Jatinangor",
+                "Sumedang",
+                "Garut",
+                "Tasikmalaya",
+                "Lembang",
+                "Ciwidey",
+                "Pangalengan"
+            ],
+            "shipping_rules": {
+                "threshold": 15000000,
+                "fee_below_threshold": 500000,
+                "fee_above_threshold": 0,
+                "description": "Project < Rp 15.000.000 dikenakan ongkir Rp 500.000"
+            },
+            "benefits": [
+                "Gratis Survey & Konsultasi Desain 3D",
+                "Gratis pemasangan",
+                "Garansi 12 bulan"
+            ]
         },
-        {
-            "id": "SHIP-002",
-            "region": "Dalam Kota (Bandung & Sekitarnya)",
-            "condition": "Project Value >= Rp 15.000.000",
-            "fee": 0,
-            "currency": "IDR",
-            "description": "Gratis ongkos kirim (Free Ongkir) untuk proyek standar/besar di dalam kota."
-        },
-        {
-            "id": "SHIP-003",
-            "region": "Luar Kota (Jabodetabek, Pantura, Jatim, Jateng)",
-            "condition": "Project Value < Rp 20.000.000",
-            "fee": 1000000,
-            "currency": "IDR",
-            "description": "Biaya charge luar kota untuk proyek di bawah minimum order."
-        },
-        {
-            "id": "SHIP-004",
-            "region": "Luar Kota (Jabodetabek, Pantura, Jatim, Jateng)",
-            "condition": "Project Value >= Rp 20.000.000",
-            "fee": 0,
-            "currency": "IDR",
-            "description": "Gratis ongkos kirim (Free Ongkir) untuk proyek standar/besar di luar kota."
-        },
-        {
-            "id": "SHIP-005",
-            "category": "Kanopi & Pagar",
-            "region": "Dalam Kota",
-            "fee": 500000,
-            "description": "Flat rate ongkir untuk produk Kanopi/Pagar di dalam kota."
-        },
-        {
-            "id": "SHIP-006",
-            "category": "Kanopi & Pagar",
-            "region": "Luar Kota",
-            "fee": 1500000,
-            "description": "Flat rate ongkir untuk produk Kanopi/Pagar di luar kota."
+        "luar_kota": {
+            "name": "Luar Kota (Jabodetabek, Pantura, Jateng, Jatim)",
+            "coverage": {
+                "jabodetabek": [
+                    "Jakarta",
+                    "Bogor",
+                    "Depok",
+                    "Tangerang",
+                    "Bekasi",
+                    "Bintaro",
+                    "BSD",
+                    "Serpong"
+                ],
+                "pantura": [
+                    "Cirebon",
+                    "Indramayu",
+                    "Subang",
+                    "Majalengka",
+                    "Kuningan",
+                    "Karawang",
+                    "Purwakarta"
+                ],
+                "jateng": [
+                    "Semarang",
+                    "Solo",
+                    "Yogyakarta",
+                    "Pekalongan",
+                    "Tegal",
+                    "Purwokerto"
+                ],
+                "jatim": [
+                    "Surabaya",
+                    "Malang",
+                    "Sidoarjo",
+                    "Gresik",
+                    "Mojokerto"
+                ]
+            },
+            "shipping_rules": {
+                "threshold": 20000000,
+                "fee_below_threshold": 1000000,
+                "fee_above_threshold": 0,
+                "description": "Project < Rp 20.000.000 dikenakan ongkir Rp 1.000.000"
+            },
+            "benefits": [
+                "Survey dengan perjanjian terlebih dahulu",
+                "Konsultasi via video call tersedia",
+                "Garansi 12 bulan"
+            ]
         }
-    ],
-    "faq_rules": [
-        {
-            "question": "Apakah ada biaya survey?",
-            "answer": "Gratis Survey dan Konsultasi Desain 3D untuk area yang terjangkau, namun biasanya survey dilakukan setelah ada estimasi harga awal yang disetujui."
+    },
+    "estimation_rules": {
+        "price_range_tolerance": 0.1,
+        "default_material": "Multipleks HPL",
+        "unit_mapping": {
+            "kitchen_set": "meter_lari",
+            "minibar": "meter_lari",
+            "wardrobe": "m2",
+            "backdrop": "m2",
+            "bawah_tangga": "meter_lari"
         },
-        {
-            "question": "Bagaimana sistem pembayaran?",
-            "answer": "Biasanya DP 50% saat deal, sisanya pelunasan setelah instalasi selesai (atau sesuai termin di SPK)."
+        "escalation_threshold": 50000000,
+        "notes": [
+            "Harga merupakan estimasi awal",
+            "Harga final ditentukan setelah survei lokasi",
+            "Harga belum termasuk pekerjaan sipil kecuali disebutkan"
+        ]
+    },
+    "project_rules": {
+        "minimum_accessories": {
+            "threshold": 10000000,
+            "excluded_if_below": [
+                "Rak Piring",
+                "Rak Bumbu",
+                "Rak Sendok"
+            ]
+        },
+        "industrial_kitchen": {
+            "note": "Harga Industrial = Harga Kabinet + Harga Rangka Besi (dihitung terpisah)"
+        },
+        "wardrobe_standard": {
+            "depth": "60cm",
+            "note": "Harga dihitung dengan kedalaman standard 60cm"
+        },
+        "headboard_standard": {
+            "height": "70cm"
         }
-    ]
+    },
+    "payment_terms": {
+        "dp_percentage": 50,
+        "dp_timing": "Sebelum produksi dimulai",
+        "final_payment": "Saat instalasi selesai",
+        "methods": [
+            "Transfer Bank",
+            "Cash"
+        ]
+    },
+    "production_timeline": {
+        "standard": "14-21 hari kerja",
+        "complex": "21-30 hari kerja",
+        "factors": [
+            "Kompleksitas desain",
+            "Ketersediaan material",
+            "Antrian produksi"
+        ]
+    },
+    "warranty": {
+        "duration": "12 bulan",
+        "coverage": [
+            "Kerusakan material",
+            "Kerusakan akibat produksi"
+        ],
+        "exclusions": [
+            "Kerusakan akibat pemakaian tidak wajar",
+            "Bencana alam",
+            "Modifikasi oleh pihak lain"
+        ]
+    },
+    "lead_capture": {
+        "required_fields": [
+            "user_name",
+            "phone_number",
+            "location",
+            "product_interest"
+        ],
+        "optional_fields": [
+            "material_preference",
+            "quantity",
+            "budget_range"
+        ],
+        "privacy_note": "Minta konfirmasi eksplisit sebelum menyimpan data pribadi (UU PDP)",
+        "escalation_note": "Lead dengan estimasi > Rp 50.000.000 di-escalate ke Sales Manager"
+    }
 }
